@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "World Wide Wishlist",
+    "description": "Saves any product from any website to one unified wishlist.",
+    "version": "0.1",
+    "author": "Jan Plewa",
+
+    "action": {
+        "default_icon": "images/zi.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": ["storage", "activeTab"]
+}
