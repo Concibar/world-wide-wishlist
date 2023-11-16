@@ -8,11 +8,12 @@ document.addEventListener('DOMContentLoaded', function() { // this waits for the
 
   wishConnectionCheck();
 
+  chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
+    document.getElementById('wish-name').innerText = tabs[0].title;
+  });
+
   // Makes the button insert some html into the popup
   var checkPageButton = document.getElementById('checkPage');
   checkPageButton.addEventListener('click', function() {
-    chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
-      document.getElementById('title-insert').innerText = tabs[0].title;
-    });
   }, false);
 }, false);
