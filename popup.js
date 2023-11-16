@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() { // this waits for the
   //     window.open(url, 'blank');
   // }, false);
 
+  wishConnectionCheck();
+
   // Makes the button insert some html into the popup
   var checkPageButton = document.getElementById('checkPage');
   checkPageButton.addEventListener('click', function() {
