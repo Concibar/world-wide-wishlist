@@ -10,7 +10,6 @@ Currently WIP. I want to make a unified wishlist chrome extension to which I can
 
 # 2:
 - Make Button open mywishlist.html
-- Get the title of the current tab and display it in the popup.html
 - Get the URL of the current tab and display it in the popup.html
 
 # 3:
@@ -25,3 +24,6 @@ Currently WIP. I want to make a unified wishlist chrome extension to which I can
 
 # 1: DONE implement a button that can be clicked and performs an action
 - How do I get a button as a chrome extension that will open a thing and close said thing?
+
+# 2:
+- Get the title of the current tab and display it in the popup.html
