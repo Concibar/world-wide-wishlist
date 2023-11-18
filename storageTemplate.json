@@ -1,0 +1,49 @@
+{
+  "next_id_Tracker": {
+    "wishes_id": 1,
+    "wishlists_id": 1
+  },
+
+  "settings": {
+    "default_currency": "€",
+    "default_wishlist": 0
+  },
+
+  "wishlists": [
+    {
+      "id": 0,
+      "name": "Christmas 2020",
+      "privacy?": 1,
+      "wishes": [0,1,2,3]
+    }
+  ],
+
+  "0": {
+      "id": 0,
+      "name": "foowish",
+      "url": "http://www.website.foo",
+      "image": "ASCII base64 encoded string",
+      "price_in_cents": 1354,
+      "currency": 1,
+      "quantity": 1,
+      "note": "this might be a good gift for my favorite contributor :)",
+      "Date": "2020.12.17"
+  }
+}
+
+{
+  "inhabitants": [
+    {
+      "name": "John",
+      "city_id": 0
+    },
+    {
+      "name": "Anne",
+      "city_id": 0
+    },
+    {
+      "name": "Mark",
+      "city_id": 1
+    },
+  ]
+}

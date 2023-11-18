@@ -9,5 +9,12 @@
         "default_icon": "images/zi.png",
         "default_popup": "popup.html"
     },
-    "permissions": ["storage", "activeTab"]
+
+    "permissions": [
+      "storage",
+      "unlimitedStorage",
+      "activeTab"
+    ],
+
+    "web_accessible_resources": ["mywishlist.html"]
 }
