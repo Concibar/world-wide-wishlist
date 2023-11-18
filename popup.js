@@ -1,19 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() { // this waits for the popup.html to fully load
-  // Makes the button open it's link in a new Tab
-  // var checkPageButton = document.getElementById('checkPage');
-  // checkPageButton.addEventListener('click', function() {
-  //     var url = checkPageButton.getAttribute('href');
-  //     window.open(url, 'blank');
-  // }, false);
+  // Makes the button open the wishlist page link in a new Tab
+  var checkPageButton = document.getElementById('wishlists-button');
+  checkPageButton.addEventListener('click', function() {
+      window.open("mywishlist.html", 'blank');
+  }, false);
 
-  wishConnectionCheck();
+  wishConnectionCallback();
 
+  // Scrapes active tab for title
   chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
     document.getElementById('wish-name').innerText = tabs[0].title;
   });
+  var saveButton = document.getElementById('save-button');
 
-  // Makes the button insert some html into the popup
-  var checkPageButton = document.getElementById('checkPage');
-  checkPageButton.addEventListener('click', function() {
+  saveButton.addEventListener('click', function() {
+    //To-Do: call the wish model to safe the wish
+    chrome.storage.local.set({'test': document.getElementById('wish-name').innerText});
+    console.log("I saved the thing");
   }, false);
+
+  var readButton = document.getElementById('read-button');
+  readButton.addEventListener('click', function() {
+    var testResult = chrome.storage.local.get('test', function(result) {
+      console.log(result.test);
+    })
+  }, false);
+
 }, false);
