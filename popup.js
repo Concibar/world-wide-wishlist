@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() { // this waits for the popup.html to fully load
-  // Makes the button open the wishlist page link in a new Tab
+
+  // Opens the wishlist page link in a new Tab
   var checkPageButton = document.getElementById('wishlists-button');
   checkPageButton.addEventListener('click', function() {
-      window.open("mywishlist.html", 'blank');
+    chrome.tabs.create({url: chrome.runtime.getURL('mywishlist.html')});
   }, false);
 
   wishConnectionCallback();
