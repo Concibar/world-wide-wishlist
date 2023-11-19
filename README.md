@@ -5,7 +5,7 @@ Currently WIP. I want to make a unified wishlist chrome extension to which I can
 - console Log stuff so I can make sure stuff works! -> how error handling?
 
 # Current Goal:
-- create Wish Class
+- fix web accessible ressources
 
 # Future:
 - Make Button open mywishlist.html

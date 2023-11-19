@@ -30,20 +30,3 @@
       "Date": "2020.12.17"
   }
 }
-
-{
-  "inhabitants": [
-    {
-      "name": "John",
-      "city_id": 0
-    },
-    {
-      "name": "Anne",
-      "city_id": 0
-    },
-    {
-      "name": "Mark",
-      "city_id": 1
-    },
-  ]
-}
