@@ -8,12 +8,16 @@ document.addEventListener('DOMContentLoaded', function() { // this waits for the
 
   wishConnectionCallback();
 
-  // Scrapes active tab for title
+  // Scrapes active tab for title and image
   chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
-    document.getElementById('wish-name').innerText = tabs[0].title;
+    // To-Do: check for tab validity here
+    var tab = tabs[0];
+    document.getElementById('wish-name').innerText = tab.title;
+    document.getElementById('product-img').src = tab.querySelector('img').src;
   });
-  var saveButton = document.getElementById('save-button');
 
+  // add Save Button
+  var saveButton = document.getElementById('save-button');
   saveButton.addEventListener('click', function() {
     //To-Do: call the wish model to safe the wish
     chrome.storage.local.set({'test': document.getElementById('wish-name').innerText});
