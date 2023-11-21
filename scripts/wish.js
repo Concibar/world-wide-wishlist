@@ -1,4 +1,4 @@
-function wishConnectionCallback() {
+function wishConnection() {
   console.log("wish Model reports for duty!");
 };
 
@@ -25,7 +25,7 @@ class Wish {
     console.log(`Wish Object created with name: ${this.wishName}`);
   };
 
-  // Todo: Create item method (based on data handed over from popup.js)
+  // Todo: Create item method (based on data handed over from controller.js)
   wishCreate(name) {
     chrome.storage.local.set({
       'name': name
