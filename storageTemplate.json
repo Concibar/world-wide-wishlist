@@ -18,7 +18,8 @@
     }
   ],
 
-  "0": {
+  "wishes": [
+    {
       "id": 0,
       "name": "foowish",
       "url": "http://www.website.foo",
@@ -28,22 +29,6 @@
       "quantity": 1,
       "note": "this might be a good gift for my favorite contributor :)",
       "Date": "2020.12.17"
-  }
-}
-
-{
-  "inhabitants": [
-    {
-      "name": "John",
-      "city_id": 0
-    },
-    {
-      "name": "Anne",
-      "city_id": 0
-    },
-    {
-      "name": "Mark",
-      "city_id": 1
-    },
+    }
   ]
 }

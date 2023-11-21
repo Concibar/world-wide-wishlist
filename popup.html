@@ -2,17 +2,25 @@
 <html>
   <head>
     <title>World Wide Wishlist Popup</title>
-    <script src="wish.js"></script>
-    <script src="popup.js"></script>
     <link href="popup.css" rel="stylesheet" type="text/css">
+    <script src="scripts/controller.js"></script>
+    <script src="scripts/popupView.js"></script>
+    <script src="scripts/scraper.js"></script>
+    <script src="scripts/wish.js"></script>
+    <script src="scripts/wishlist.js"></script>
   </head>
 
    <body>
       <h1>World Wide Wishlist</h1>
+      <h2>Title:</h2>
       <p id="wish-name"></p>
-      <a href="https://www.google.com" id="save-button" class="button button2">Save to Wishlist</a>
-      <a href="https://www.google.com" id="read-button" class="button button2">Read from Wishlist</a>
-      <a href="https://www.google.com" id="wishlists-button" class="button button2">Take me to my wishlists</a>
-
+      <h2>URL:</h2>
+      <p id="wish-url"></p>
+      <h2>Images:</h2>
+      <p id="paste-src"></p>
+      <img id="product-img" src="" alt="the scraped image of the product">
+      <button id="save-button" class="button button2">Save to Wishlist</button>
+      <button id="read-button" class="button button2">Read from Wishlist</button>
+      <button id="wishlists-button" class="button button2">Take me to my wishlists</button>
    </body>
 </html>
