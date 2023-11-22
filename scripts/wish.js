@@ -4,10 +4,10 @@ function wishConnection() {
 
 class Wish {
   constructor({
-    id = "new",
+    id,
     name,
     url,
-    image,
+    imageArray = ["images/whoopsie.png"],
     price_in_cents,
     currency = "default_currency",
     quantity = 1,
@@ -16,7 +16,7 @@ class Wish {
     this.id = id;
     this.name = name;
     this.url = url;
-    this.image = image;
+    this.image = imageArray;
     this.price_in_cents = price_in_cents;
     this.currency = currency;
     this.quantity = quantity;
