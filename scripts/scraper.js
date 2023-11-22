@@ -11,15 +11,12 @@ async function scrape() {
     func:grabImages
   });
 
-  let title = tab.title;
-  let url = tab.url;
-  let images = combineFrames(frames);
-
   let scraped = {
-    tilte:  title,
-    url: url,
-    images: images
-  }
+    name:  tab.title,
+    url: tab.url,
+    imageArray: combineFrames(frames),
+    price_in_cents: 0
+  };
   console.log(scraped)
   return scraped;
 };
@@ -40,3 +37,6 @@ function combineFrames(frames) {
   };
   return frames.map(frame => frame.result).reduce((r1, r2) => r1.concat(r2));
 };
+
+
+  // let originalImage = document.querySelector(`src=${scraped.images[0]}`);
