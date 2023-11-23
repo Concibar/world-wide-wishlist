@@ -5,12 +5,13 @@ document.addEventListener('DOMContentLoaded', async function() { // this waits f
   scraperConnection();
   wishConnection();
   wishlistConnection();
+  imageHandlerConnection();
 
   // Scrapes active tab for title and image
   let scraped = await scrape();
-  console.log(scraped)
-  display(scraped)
-
+  console.log(scraped);
+  display(scraped);
+  handleImage(11);
 
   // Save Button
   const saveButton = document.getElementById('save-button');
