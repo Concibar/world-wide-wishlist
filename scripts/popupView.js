@@ -7,7 +7,6 @@ function display(scraped) {
   document.getElementById('wish-url').innerText = scraped.url;
 
   let wishImages = document.getElementById('wish-img');
-  console.log(scraped.imageArray.length)
   for (i = 0; i<scraped.imageArray.length; i++){
     wishImages.insertAdjacentHTML("beforeend", `<img id="${i}" src="${scraped.imageArray[i]}"></img>`);
   }
