@@ -3,8 +3,10 @@
   <head>
     <title>World Wide Wishlist Popup</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="bulma.css">
-    <link rel="stylesheet" href="popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/bulma.css" type="text/css">
+    <link rel="stylesheet" href="/css/popup.css" type="text/css">
+    <link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/fontawesome/css/solid.css">
     <script src="scripts/controller.js"></script>
     <script src="scripts/popupView.js"></script>
     <script src="scripts/scraper.js"></script>
@@ -14,33 +16,102 @@
   </head>
 
   <body>
-    <h1 class="title">World Wide Wishlist</h1>
 
-    <div>
-      <h2 class="subtitle">Title:</h2>
-      <p id="wish-name"></p>
-    </div>
+    <nav class="level is-mobile p-3">
 
-    <div>
-      <h2>URL:</h2>
-      <p id="wish-url"></p>
-    </div>
+      <!-- Title -->
+      <div class="level-left">
+        <div class="level-item">
+          <p class="title">World Wide Wishlist</p>
+        </div>
+      </div>
 
-    <div>
-      <h2>Images:</h2>
-      <div id="wish-img"></div>
-    </div>
+      <!-- 3 Buttons -->
+      <div class="level-right">
 
-    <div>
-      <h2>Resized Image:</h2>
-      <canvas id="canvas"></canvas>
-      <img id="resized-img" src=""></img>
-    </div>
+        <!-- Wishlists -->
+        <div class="level-item">
+          <button class="button is-link is-light">
+            <span class="icon is-small">
+              <i class="fa-solid fa-gift"></i>
+            </span>
+          </button>
+        </div>
 
-    <div>
-      <button id="save-button" class="button button2">Save to Wishlist</button>
-      <button id="read-button" class="button button2">Read from Wishlist</button>
-      <button id="wishlists-button" class="button button2">Take me to my wishlists</button>
+        <!-- Settings -->
+        <div class="level-item">
+          <button class="button is-link is-light">
+            <span class="icon is-small">
+              <i class="fa-solid fa-gear"></i>
+            </span>
+          </button>
+        </div>
+
+        <!-- Exit -->
+        <div class="level-item">
+          <button class="button is-danger is-light">
+            <span class="icon is-small">
+              <i class="fas fa-times"></i>
+            </span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <div class="columns is-mobile p-3">
+
+      <!-- Left -->
+      <div class="column">
+        <!-- The Image Gallery -->
+        <div id="image-gallery" class="level is-mobile">
+          <div id="previous-image" class="level-item">
+            <span class="icon">
+              <i class="fa-solid fa-caret-left"></i>
+            </span>
+          </div>
+
+          <div class="level-item">
+            <figure class="image is-128x128">
+              <img src="https://bulma.io/images/placeholders/128x128.png">
+            </figure>
+          </div>
+
+          <div id="next-image" class="level-item">
+            <span class="icon">
+              <i class="fa-solid fa-caret-right"></i>
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Settings and My Wishlists -->
+      </div>
+
+      <!-- Right -->
+      <div class="column">
+        <!-- The Form -->
+        <div class="field is-horizontal is-mobile">
+          <div class="field-label is-normal">
+            <label class="label">Subject</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="input is-danger" type="text" placeholder="e.g. Partnership opportunity">
+              </div>
+              <p class="help is-danger">
+                This field is required
+              </p>
+            </div>
+          </div>
+        </div>
+        Name
+        Price+$
+        Quantity
+        Notes e.g. gift idea for Grandma
+        save to select default|haben wollen
+      </div>
     </div>
 
   </body>
