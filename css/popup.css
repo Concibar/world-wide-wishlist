@@ -1,0 +1,10 @@
+body{
+  min-width: 600px;
+}
+#image-gallery{
+  max-width: 200px;
+}
+
+#previous-image, #next-image{
+  height: 128px;
+}
