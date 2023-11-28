@@ -88,7 +88,7 @@
 
       <!-- Right and the Form-->
       <div class="is-flex-grow-1">
-        <form>
+        <form id="WishlistForm">
 
           <!-- Name -->
           <div class="field is-horizontal">
@@ -113,13 +113,15 @@
                   <div class="control is-expanded">
                     <input id="Wish-Price" name="Wish-Price" class="input" type="number" min="0">
                   </div>
-                  <div class="select control">
-                    <select>
-                      <option value="USD">$ USD</option>
-                      <option value="EUR">€ EUR</option>
-                      <option value="GBP">£ GBP</option>
-                      <option value="Add">+ NEW</option>
-                    </select>
+                  <div class="control">
+                    <span class="select">
+                      <select>
+                        <option value="USD">$ USD</option>
+                        <option value="EUR">€ EUR</option>
+                        <option value="GBP">£ GBP</option>
+                        <option value="Add">+ NEW</option>
+                      </select>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -157,19 +159,21 @@
               <div class="field">
                 <div class="field has-addons">
                   <p class="control">
-                    <button class="button is-link">
+                    <button form="WishlistForm" type="submit" class="button is-link">
                       <span class="icon is-small">
                         <i class="fa-solid fa-floppy-disk"></i>
                       </span>
                       <span>Save to:</span>
                     </button>
                   </p>
-                  <p class="select control">
-                    <select>
-                      <option value="default">default wishlist</option>
-                      <option value="UserWishlist2">christmas 2072</option>
-                      <option value="WishlistNew">add new list</option>
-                    </select>
+                  <p class="control">
+                    <span class="select">
+                      <select>
+                        <option value="default">default wishlist</option>
+                        <option value="UserWishlist2">christmas 2072</option>
+                        <option value="WishlistNew">add new list</option>
+                      </select>
+                    </span>
                   </p>
                 </div>
               </div>
