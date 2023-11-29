@@ -4,12 +4,11 @@ function imageHandlerConnection() {
 
 function handleImage(imageId) {
   let originalImage = document.getElementById(`${imageId}`);
-  let outputImage = document.getElementById("resized-img");
-
-  resizeImage(imageId)
+  resizeImage(imageId);
 
   //display image for testing:
-  outputImage.src = originalImage.src
+  // let outputImage = document.getElementById("resized-img");
+  // outputImage.src = originalImage.src
 };
 
 //resize the image and draw it to the canvas

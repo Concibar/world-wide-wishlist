@@ -2,6 +2,10 @@ function scraperConnection() {
   console.log("Scraper reports for duty!");
 };
 
+// To-Do: try to scrape for price and currency
+// To-Do: implement a scalable special scraper call for specific URLs (Amazon, Ali-Express, Etsy, Ebay)
+// To-Do: Try to filter images for more uesfull ones
+
 async function scrape() {
   let tabs = await chrome.tabs.query({ currentWindow: true, active: true });
   let tab = tabs[0];

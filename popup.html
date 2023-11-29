@@ -17,6 +17,7 @@
 
   <body>
 
+    <!-- Header Bar -->
     <nav class="level is-mobile p-3">
 
       <!-- Title -->
@@ -31,7 +32,7 @@
 
         <!-- Wishlists -->
         <div class="level-item">
-          <button class="button is-link is-light">
+          <button id="go-to-wishlists-button" class="button is-link is-light">
             <span class="icon is-small">
               <i class="fa-solid fa-gift"></i>
             </span>
@@ -40,7 +41,7 @@
 
         <!-- Settings -->
         <div class="level-item">
-          <button class="button is-link is-light">
+          <button id="settings-button" class="button is-link is-light">
             <span class="icon is-small">
               <i class="fa-solid fa-gear"></i>
             </span>
@@ -49,7 +50,7 @@
 
         <!-- Exit -->
         <div class="level-item">
-          <button class="button is-danger is-light">
+          <button id="escape-button" class="button is-danger is-light">
             <span class="icon is-small">
               <i class="fas fa-times"></i>
             </span>
@@ -59,21 +60,21 @@
       </div>
     </nav>
 
+    <!-- Content -->
     <div class="is-flex p-3">
 
       <!-- Left -->
       <div class="">
         <!-- The Image Gallery -->
-        <div id="image-gallery" class="level is-mobile mr-3">
-          <div id="previous-image" class="level-item m-0">
+        <div class="level is-mobile mr-3">
+          <div id="previous-image" class="level-item m-0 is-unselectable">
             <span class="icon">
               <i class="fa-solid fa-caret-left"></i>
             </span>
           </div>
 
           <div class="level-item m-0">
-            <figure class="image is-128x128">
-              <img src="https://bulma.io/images/placeholders/128x128.png">
+            <figure id="image-gallery" style="display:initial;" class="image is-128x128 is-flex">
             </figure>
           </div>
 
@@ -88,16 +89,16 @@
 
       <!-- Right and the Form-->
       <div class="is-flex-grow-1">
-        <form id="WishlistForm">
+        <form id="wish-form">
 
           <!-- Name -->
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label for="Wish-Name" class="label">Name</label>
+              <label for="wish-name" class="label">Name</label>
             </div>
             <div class="field-body">
               <div class="field control">
-                <input id="Wish-Name" name="Wish-Name" class="input" type="text" placeholder="Name of the Article">
+                <input id="wish-name" name="wish-name" class="input" type="text" placeholder="Name of the Article">
               </div>
             </div>
           </div>
@@ -159,7 +160,7 @@
               <div class="field">
                 <div class="field has-addons">
                   <p class="control">
-                    <button form="WishlistForm" type="submit" class="button is-link">
+                    <button type="button" id="save-wish" class="button is-link">
                       <span class="icon is-small">
                         <i class="fa-solid fa-floppy-disk"></i>
                       </span>
@@ -184,5 +185,6 @@
       </div>
     </div>
 
+    <canvas style="display: none;" id="canvas"></canvas>
   </body>
 </html>
