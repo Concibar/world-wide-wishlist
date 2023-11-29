@@ -7,32 +7,46 @@ document.addEventListener('DOMContentLoaded', async function() { // this waits f
   wishlistConnection();
   imageHandlerConnection();
 
-  // Scrapes active tab for title and image
+  // Scrapes active tab for title,url and images, tries price and currency
   let scraped = await scrape();
   console.log(scraped);
   display(scraped);
   handleImage(11);
 
-  // Save Button
-  const saveButton = document.getElementById('save-button');
-  saveButton.addEventListener('click', () => {
-    // To-Do: refactor to call the wish model to safe the wish
-    chrome.storage.local.set({'test': document.getElementById('wish-name').innerText});
-    console.log("I saved the thing");
-  }, false);
+  //Button Listeners
 
-  // Read Button
-  const readButton = document.getElementById('read-button');
+  // Prev-Next Gallery
+  const prev = document.getElementById('previous-image');
+  prev.addEventListener('click', displayPrev, false);
+  const next = document.getElementById('next-image');
+  next.addEventListener('click', displayNext, false);
+
+  // Save Button Submit Form
+  const saveButton = document.getElementById('save-wish');
+  saveButton.addEventListener('click', function() {
+    chrome.storage.local.set({'test': document.getElementById('wish-name').value});
+    console.log("I saved the thing");
+    console.log(document.getElementById('wish-name').value);
+  });
+
+  // Read Button (for testing only) Will become Exit later
+  const readButton = document.getElementById('escape-button');
   readButton.addEventListener('click', () => {
-    let testResult = chrome.storage.local.get('test', function(result) {
+    chrome.storage.local.get('test', function(result) {
       console.log(result.test);
     })
   }, false);
 
-  // Opens the wishlist page link in a new Tab
-  const checkPageButton = document.getElementById('wishlists-button');
-  checkPageButton.addEventListener('click', () => {
+  // Go-To-Wishlists
+  const WishlistsButton = document.getElementById('go-to-wishlists-button');
+  WishlistsButton.addEventListener('click', () => {
     chrome.tabs.create({url: chrome.runtime.getURL('mywishlist.html')});
+  }, false);
+
+  // Settings
+  const settingsButton = document.getElementById('settings-button');
+  settingsButton.addEventListener('click', () => {
+    chrome.tabs.create({url: chrome.runtime.getURL('settings.html')});
   }, false);
 
 }, false);
