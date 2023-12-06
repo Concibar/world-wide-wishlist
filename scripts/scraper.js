@@ -42,5 +42,4 @@ function combineFrames(frames) {
   return frames.map(frame => frame.result).reduce((r1, r2) => r1.concat(r2));
 };
 
-
   // let originalImage = document.querySelector(`src=${scraped.images[0]}`);
