@@ -5,9 +5,20 @@
   },
 
   "settings": {
-    "default_currency": "€",
-    "default_wishlist": 0
+    "default_currency": "EUR",
+    "default_wishlist_id": 0,
+    "active_currencies": [0,1,2]
   },
+
+  "currencies": [
+    {
+      "id": 0,
+      "name": "Euro",
+      "sign": "€",
+      "iso_4217": "EUR",
+      "active": 1
+    }
+  ],
 
   "wishlists": [
     {
@@ -15,19 +26,26 @@
       "name": "Christmas 2020",
       "privacy?": 1,
       "wishes": [0,1,2,3]
+    },
+    {
+      "id": 1,
+      "name": "default haben wollen",
+      "privacy?": 1,
+      "wishes": [4, 278, 279, 399]
     }
   ],
 
-  "wishes": [
+  "0": [
     {
       "id": 0,
+      "wishlistId": "0",
       "name": "foowish",
       "url": "http://www.website.foo",
       "image": "ASCII base64 encoded string",
-      "price_in_cents": 1354,
-      "currency": 1,
+      "priceInCents": 1354,
+      "currency": "EUR",
       "quantity": 1,
-      "note": "this might be a good gift for my favorite contributor :)",
+      "note": "this might be a good gift for my grandma :)",
       "Date": "2020.12.17"
     }
   ]
