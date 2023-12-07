@@ -1,5 +1,5 @@
 function wishConnection() {
-  console.log("wish Model reports for duty!");
+  console.log("wish.js is connected");
 };
 
 class Wish {
@@ -24,7 +24,7 @@ class Wish {
       this.quantity = quantity;
       this.note = note;
       this.date = date;
-    };
+  };
 
   async save() {
     let wishData = {
