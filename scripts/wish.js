@@ -3,24 +3,23 @@ function wishConnection() {
 };
 
 class Wish {
-  constructor({
-      id,
-      wishlistId,
-      name,
-      url,
-      image = "images/whoopsie.png",
-      priceInCents,
-      currency,
-      quantity = 1,
-      note,
-      date = "a hot minute ago" //Put the Now Time here somehow
-    }) {
-      this.id = id;
+  #id;
+  name;
+  wishlistId;
+  url;
+  image = "images/whoopsie.png";
+  price;
+  currency;
+  quantity = 1;
+  note;
+  date;
+
+  constructor({wishlistId,name,url,image,price,currency,quantity,note,date}) {
       this.wishlistId = wishlistId;
       this.name = name;
       this.url = url;
       this.image = image;
-      this.priceInCents = priceInCents;
+      this.price = price;
       this.currency = currency;
       this.quantity = quantity;
       this.note = note;
