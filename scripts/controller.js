@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   imageHandlerConnection();
 
   // Scrapes active tab for title,url and images, tries price and currency
-  let scraped = await scrape();
-  console.log(scraped);
-  display(scraped);
+  let scraper = new Scraper;
+  await scraper.scrape();
+  display(scraper);
   handleImage(11);
 
   //Button Listeners
@@ -24,11 +24,9 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   // Save Button Submit Form
   const saveButton = document.getElementById('save-wish');
   saveButton.addEventListener('click', () => {
-    saveTesting(200);
-
-    // let asdf = getFormData();
-    // let wish = new Wish(asdf);
-    // console.log(wish);
+    let formData = getFormData();
+    let wish = new Wish(formData);
+    console.log(wish);
     // wish.save();
 
     // chrome.storage.local.set({'test': document.getElementById('wish-name').value});

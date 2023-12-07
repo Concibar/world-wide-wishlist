@@ -2,6 +2,10 @@ function imageHandlerConnection() {
   console.log("Image Handler reports for duty!");
 };
 
+
+// To-Do: Refactor into Class
+// To-Do: Turn Base64 into displayable stuff
+// To-Do: Refactor handleImage into taking SRC, instead of id
 function handleImage(imageId) {
   let originalImage = document.getElementById(`${imageId}`);
   resizeImage(imageId);
