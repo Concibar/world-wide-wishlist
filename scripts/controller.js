@@ -5,30 +5,27 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   scraperConnection();
   wishConnection();
   wishlistConnection();
-  imageHandlerConnection();
 
   // Scrapes active tab for title,url and images, tries price and currency
-  let scraped = await scrape();
-  console.log(scraped);
-  display(scraped);
-  handleImage(11);
+  const scraper = new Scraper;
+  await scraper.scrape();
+  const view = new View(scraper);
+  view.display();
 
   //Button Listeners
 
   // Prev-Next Gallery
   const prev = document.getElementById('previous-image');
-  prev.addEventListener('click', displayPrev, false);
+  prev.addEventListener('click', view.displayPrev, false);
   const next = document.getElementById('next-image');
-  next.addEventListener('click', displayNext, false);
+  next.addEventListener('click', view.displayNext, false);
 
   // Save Button Submit Form
   const saveButton = document.getElementById('save-wish');
   saveButton.addEventListener('click', () => {
-    saveTesting(200);
-
-    // let asdf = getFormData();
-    // let wish = new Wish(asdf);
-    // console.log(wish);
+    let formData = view.getFormData();
+    let wish = new Wish(formData);
+    console.log(formData);
     // wish.save();
 
     // chrome.storage.local.set({'test': document.getElementById('wish-name').value});
