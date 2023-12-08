@@ -44,54 +44,56 @@ class View {
     document.getElementById(prevId).setAttribute('style', 'display: initial;');
   };
 
-  getFormData() {
+  async getFormData() {
     let gallery = document.getElementById('image-gallery');
     let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
-    let formData = {};
-        formData.wishlistId = "test wishlist id";
-        formData.name = document.getElementById('wish-name').value;
-        formData.url = this.url;
-        formData.image = this.#convertImage(activeSrc);
-        formData.price = document.getElementById('wish-price').value;
-        formData.currency = "test EUR";
-        formData.quantity = document.getElementById('wish-quantity').value;
-        formData.note = document.getElementById('wish-notes').value;
-        formData.date = new Date();
-
+    var formData = {};
+        formData.image       = await this.#convertImage(activeSrc);
+        formData.date        = new Date();
+        formData.url         = this.url;
+        formData.wishlistId  = "test wishlist id";
+        formData.currency    = "test EUR";
+        formData.name        = document.getElementById('wish-name').value;
+        formData.price       = document.getElementById('wish-price').value;
+        formData.quantity    = document.getElementById('wish-quantity').value;
+        formData.note        = document.getElementById('wish-notes').value;
     return formData;
   };
 
   #convertImage(imageSrc) {
-    //create an image object from the path
-    const originalImage = new Image();
-    originalImage.crossOrigin = "anonymous";
-    originalImage.src = imageSrc;
 
-    //get a reference to the canvas
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    return new Promise((resolve) => {
+      //create an image object from the path
+      const originalImage = new Image();
+      originalImage.crossOrigin = "anonymous";
+      originalImage.src = imageSrc;
 
-    //wait for the image to load
-    originalImage.addEventListener('load', () => {
+      //get a reference to the canvas
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
 
-        //get the original image size and aspect ratio
-        const originalWidth = originalImage.naturalWidth;
-        const originalHeight = originalImage.naturalHeight;
-        const aspectRatio = originalWidth/originalHeight;
+      //wait for the image to load
+      originalImage.addEventListener('load', () => {
 
-        //resize image while keeping the Ratio
-        //To-Do: make better aspect ratio for if one higher than the other
-        let newWidth = 200;
-        let newHeight = newWidth/aspectRatio;
+          //get the original image size and aspect ratio
+          const originalWidth = originalImage.naturalWidth;
+          const originalHeight = originalImage.naturalHeight;
+          const aspectRatio = originalWidth/originalHeight;
 
-        //set the canvas size
-        canvas.width = 200;
-        canvas.height = 200;
+          //resize image while keeping the Ratio
+          //To-Do: make better aspect ratio for if one higher than the other
+          let newWidth = 200;
+          let newHeight = newWidth/aspectRatio;
 
-        //render the image
-        ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
-        const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
-        return base64; //To-Do: Make this work, because it doesn't -.-
+          //set the canvas size
+          canvas.width = 200;
+          canvas.height = 200;
+
+          //render the image
+          ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+          const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
+          resolve(base64);
+      });
     });
   };
 };

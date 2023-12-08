@@ -15,20 +15,20 @@ class Wish {
   date;
 
   constructor({wishlistId,name,url,image,price,currency,quantity,note,date}) {
-      this.wishlistId = wishlistId;
-      this.name = name;
-      this.url = url;
-      this.image = image;
-      this.price = price;
-      this.currency = currency;
-      this.quantity = quantity;
-      this.note = note;
-      this.date = date;
+    this.wishlistId = wishlistId;
+    this.name = name;
+    this.url = url;
+    this.image = image;
+    this.price = price;
+    this.currency = currency;
+    this.quantity = quantity;
+    this.note = note;
+    this.date = date;
   };
 
   async save() {
     let wishData = {
-      "id": this.id,
+      "id": this.id, //time to implement an id tracker
       "wishlistId": this.wishlistId,
       "name": this.name,
       "url": this.url,
@@ -45,6 +45,7 @@ class Wish {
     wishes.push(wishData);
 
     chrome.storage.local.set({'wishes': wishes});
+    console.log(await chrome.storage.local.get(['wishes']));
   };
 
   class
@@ -52,7 +53,7 @@ class Wish {
   // Todo: Read all wishes that fit X method
   read(wishlistId) {
 
-  }
+  };
 
   // Todo: Destroy a wish method
 
