@@ -41,25 +41,23 @@ class Wish {
     };
     let result = await chrome.storage.local.get(['wishes']);
     let wishes = result.wishes;
-
     wishes.push(wishData);
-
     chrome.storage.local.set({'wishes': wishes});
-    console.log(await chrome.storage.local.get(['wishes']));
   };
 
   class
 
-  // Todo: Read all wishes that fit X method
-  read(wishlistId) {
+  // Todo: Delete a wish method
+  delete() {
+
+  };
+  // Todo: update a wish method
+  update() {
 
   };
 
-  // Todo: Destroy a wish method
+  // Todo: Read all wishes that fit X method
+  static readAll(wishlistId) {
 
-  // Todo: update a wish method
-
-  // Todo: Import wishes method
-
-  // Todo: write getter for currency
+  };
 };

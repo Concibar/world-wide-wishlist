@@ -61,7 +61,6 @@ class View {
   };
 
   #convertImage(imageSrc) {
-
     return new Promise((resolve) => {
       //create an image object from the path
       const originalImage = new Image();
