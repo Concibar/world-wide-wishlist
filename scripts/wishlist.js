@@ -1,3 +1,10 @@
 function wishlistConnection() {
-  console.log("wishlist Model reports for duty!");
+  console.log("wishlist.js connected");
+};
+
+class Wishlist {
+
+  constructor() {
+    
+  };
 };

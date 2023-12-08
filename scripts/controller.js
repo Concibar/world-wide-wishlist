@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
 
   // Save Button Submit Form
   const saveButton = document.getElementById('save-wish');
-  saveButton.addEventListener('click', () => {
-    let formData = view.getFormData();
+  saveButton.addEventListener('click', async () => {
+    let formData = await view.getFormData();
     let wish = new Wish(formData);
-    console.log(formData);
-    // wish.save();
+    console.log(wish)
+    wish.save();
 
     // chrome.storage.local.set({'test': document.getElementById('wish-name').value});
     // console.log("I saved the thing");
