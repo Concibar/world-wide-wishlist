@@ -45,8 +45,6 @@ class Wish {
     chrome.storage.local.set({'wishes': wishes});
   };
 
-  class
-
   // Todo: Delete a wish method
   delete() {
 
@@ -57,7 +55,10 @@ class Wish {
   };
 
   // Todo: Read all wishes that fit X method
-  static readAll(wishlistId) {
-
+  static async readWishesOnWishlist(wishlistId) {
+    let result = await chrome.storage.local.get(['wishes']);
+    let wishes = result.wishes;
+    filteredWishes = wishes.filter((wish) => {return wish.wishlistId == wishlistId});
+    return filteredWishes.map((wish) => {new Wish(wish)});
   };
 };

@@ -1,8 +1,8 @@
-function popupConnection() {
+function popupViewConnection() {
   console.log("popupView.js connected");
 };
 
-class View {
+class PopupView {
   wishUrl = "";
   imageArray = [];
   price = 0;
@@ -17,13 +17,19 @@ class View {
     this.currency = scraper.currency;
   };
 
-  display() {
+  display(wishlists) {
     document.getElementById('wish-name').value = this.wishName;
     let gallery = document.getElementById('image-gallery');
     for (var i = 0; i<this.imageArray.length; i++){
       gallery.insertAdjacentHTML("beforeend", `<img style="display: none;" id="${i}" class="img-fit is-align-content-center" src="${this.imageArray[i]}"></img>`);
     };
     document.getElementById('0').setAttribute('style', 'display: initial;');
+
+    let wishlistsSelector = document.getElementById('wishlists');
+    for (let i = 0; i < wishlists.length; i++) {
+      wishlistsSelector.insertAdjacentHTML("afterbegin", `<option value="${wishlists[i].id}">${wishlists[i].name}</option>`);
+    };
+    //TODO: make sure the default is up and selected
   };
 
   displayNext() {
@@ -64,8 +70,8 @@ class View {
     return new Promise((resolve) => {
       //create an image object from the path
       const originalImage = new Image();
-      originalImage.crossOrigin = "anonymous";
       originalImage.src = imageSrc;
+      originalImage.crossOrigin = "anonymous";
 
       //get a reference to the canvas
       const canvas = document.getElementById('canvas');
