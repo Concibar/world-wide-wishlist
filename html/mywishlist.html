@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+  <head>
+    <title>My Wishlists</title>
+    <!-- To-Do: Favicon -->
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/bulma.css" type="text/css">
+    <link rel="stylesheet" href="/css/wishlist.css" type="text/css">
+    <link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/fontawesome/css/solid.css">
+    <script src="/scripts/views/myWishlistView.js"></script>
+    <script src="/scripts/controllers/myWishlistController.js"></script>
+    <script src="/scripts/models/wish.js"></script>
+    <script src="/scripts/models/wishlist.js"></script>
+    <script src="/scripts/models/currency.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar p-2 has-background-grey-darker" role="navigation">
+      <!-- Logo picture insert here -->
+      <div class="navbar-menu">
+
+        <div class="navbar-start">
+
+          <!-- search field -->
+          <div id="search-field">
+            <div class="field has-addons">
+              <p class="control">
+                <input class="input" type="text" placeholder="Find a wish">
+              </p>
+              <p class="control">
+                <button class="button">
+                  <span class="icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                  </span>
+                </button>
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="navbar-end">
+
+          <!-- support request -->
+          <button class="button is-warning">
+            <span class="icon">
+              <i class="fa-solid fa-mug-hot"></i>
+            </span>
+            <span>Donate to the developer</span>
+          </button>
+
+
+        <!-- settings -->
+        <div>
+          <button class="button is-link">
+            <span class="icon">
+              <i class="fa-solid fa-gear"></i>
+            </span>
+            <span>Settings</span>
+          </button>
+        </div>
+      </div>
+
+    </nav>
+    <div class="container">
+
+      <!-- Here goes the column thingy -->
+      <div class="is-flex pt-3">
+
+        <!-- LEFT - The List of Wishlitst -->
+        <div class="mr-5">
+
+          <ul class="content">
+            <li class="py-2 px-4 is-clickable">
+              <span>
+                Create a new list
+              </span>
+              <span class="icon">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            </li>
+
+            <li class="py-2 px-4 is-clickable has-background-grey-lighter">
+              <div>
+                <div>
+                  <span>
+                    Haben wollen
+                  </span>
+                  <span class="icon">
+                    <i class="fa-solid fa-star"></i>
+                  </span>
+                </div>
+                <div>
+                  <p class="is-size-7">Default Wishlist</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="py-2 px-4 is-clickable ">
+              <span>
+                insert the rest
+              </span>
+            </li>
+          </ul>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="is-flex-grow-1">
+          <!-- level bar with: Name of the Wishlist, (sort-by), (share), delete, edit -->
+          <hr>
+          <!-- the wish boxes -->
+          <div class="box">
+            <div class="is-flex">
+
+              <figure class="image is-128x128 mr-3">
+                <img src="https://bulma.io/images/placeholders/128x128.png">
+              </figure>
+
+              <!-- Title, website, Notes -->
+              <div class="is-flex-grow-1">
+                <h3>THis is a Wish</h3>
+                <h4>from: amazon.com</h4>
+              </div>
+
+              <!-- Actions-->
+              <div class="ml-3">
+                <div>
+                  <p>Article added on 17.12.2028</p>
+                </div>
+                <div>
+                  <button class="button">Go to shop</button>
+                </div>
+                <div>
+                  <button class="button">Move to:</button>
+                  <button class="button">Edit</button>
+                  <button class="button">Delete</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>
