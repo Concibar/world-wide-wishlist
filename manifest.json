@@ -8,7 +8,7 @@
     "action": {
         "default_icon": "images/icon.png",
         "default_title": "Save to your World Wide Wishlist",
-        "default_popup": "popup.html"
+        "default_popup": "html/popup.html"
     },
 
     "permissions": [

@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="/css/popup.css" type="text/css">
     <link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/fontawesome/css/solid.css">
-    <script src="scripts/popupController.js"></script>
-    <script src="scripts/popupView.js"></script>
-    <script src="scripts/scraper.js"></script>
-    <script src="scripts/wish.js"></script>
-    <script src="scripts/wishlist.js"></script>
-    <script src="scripts/storageTesting.js"></script>
+    <script src="/scripts/storageTesting.js"></script>
+    <script src="/scripts/controllers/popupController.js"></script>
+    <script src="/scripts/views/popupView.js"></script>
+    <script src="/scripts/scraper.js"></script>
+    <script src="/scripts/models/wish.js"></script>
+    <script src="/scripts/models/wishlist.js"></script>
+    <script src="/scripts/models/currency.js"></script>
   </head>
 
   <body>
@@ -116,6 +117,7 @@
                   </div>
                   <div class="control">
                     <span class="select">
+                      <!-- To-Do: This can be way prettier https://bulma.io/documentation/components/dropdown/# -->
                       <select>
                         <option value="USD">$ USD</option>
                         <option value="EUR">€ EUR</option>
