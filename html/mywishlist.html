@@ -50,17 +50,17 @@
             <span>Donate to the developer</span>
           </button>
 
+          <!-- settings -->
+          <div>
+            <button class="button is-link">
+              <span class="icon">
+                <i class="fa-solid fa-gear"></i>
+              </span>
+              <span>Settings</span>
+            </button>
+          </div>
 
-        <!-- settings -->
-        <div>
-          <button class="button is-link">
-            <span class="icon">
-              <i class="fa-solid fa-gear"></i>
-            </span>
-            <span>Settings</span>
-          </button>
         </div>
-      </div>
 
     </nav>
     <div class="container">
@@ -71,15 +71,24 @@
         <!-- LEFT - The List of Wishlitst -->
         <div class="mr-5">
 
+          <nav class="navbar">
+            <div class="navbar-menu">
+              <div class="navbar-start">
+                <a class="navbar-item">
+                  <span>
+                    Create new list
+                  </span>
+                  <span class="icon">
+                    <i class="fa-solid fa-plus"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </nav>
+
+          <hr>
+
           <ul class="content">
-            <li class="py-2 px-4 is-clickable">
-              <span>
-                Create a new list
-              </span>
-              <span class="icon">
-                <i class="fa-solid fa-plus"></i>
-              </span>
-            </li>
 
             <li class="py-2 px-4 is-clickable has-background-grey-lighter">
               <div>
@@ -108,8 +117,49 @@
 
         <!-- RIGHT -->
         <div class="is-flex-grow-1">
-          <!-- level bar with: Name of the Wishlist, (sort-by), (share), delete, edit -->
+
+          <!-- level bar with: (sort-by), (share), delete, edit -->
+
+          <nav id="wishlist-actions" class="navbar" role="toolbar">
+            <div class="navbar-menu">
+              <div class="navbar-start">
+                <a class="navbar-item">
+                  <span class="icon">
+                    <i class="fa-solid fa-plus"></i>
+                  </span>
+                  <span>
+                    Add an idea
+                  </span>
+                </a>
+              </div>
+
+              <div class="navbar-end">
+                <a class="navbar-item">
+                  <span class="icon">
+                    <i class="fa-solid fa-pen"></i>
+                  </span>
+                  <span>
+                    Edit this wishlist
+                  </span>
+                </a>
+              </div>
+
+            </div>
+          </nav>
+
+          <!-- <ul class="content">
+            <li class="py-2 px-4 is-clickable">
+              <span class="icon">
+                <i class="fa-solid fa-plus"></i>
+              </span>
+              <span>
+                Add an idea
+              </span>
+            </li>
+          </ul> -->
+
           <hr>
+
           <!-- the wish boxes -->
           <div class="box">
             <div class="is-flex">
@@ -122,6 +172,10 @@
               <div class="is-flex-grow-1">
                 <h3>THis is a Wish</h3>
                 <h4>from: amazon.com</h4>
+                <div>
+                  <h4>Notes:</h4>
+                  <p>For Grandma</p>
+                </div>
               </div>
 
               <!-- Actions-->
