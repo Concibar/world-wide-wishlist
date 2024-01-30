@@ -5,10 +5,29 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   scraperConnection();
   wishConnection();
   wishlistConnection();
-  storageTestingConnection()
+  storageTestingConnection();
 
-  // Set Storage for testing
+  // To-Do: Exit function
+  const escapeButton = document.getElementById('escape-button');
+  escapeButton.addEventListener('click', () => {
+
+  }, false);
+
+  // Go-To-Wishlists
+  const WishlistsButton = document.getElementById('go-to-wishlists-button');
+  WishlistsButton.addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
+  }, false);
+
+  // Settings
+  const settingsButton = document.getElementById('settings-button');
+  settingsButton.addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL('html/settings.html') });
+  }, false);
+
+  // debug Set Storage for testing
   await setWishlists();
+  // debug
 
   // Scrapes active tab for title,url and images, tries price and currency
   const scraper = new Scraper;
@@ -29,26 +48,8 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   saveButton.addEventListener('click', async () => {
     let formData = await view.getFormData();
     let wish = new Wish(formData);
-    console.log(wish)
+    console.log(wish); // debug
     wish.save();
-  }, false);
-
-  // To-Do: Exit function
-  const escapeButton = document.getElementById('escape-button');
-  escapeButton.addEventListener('click', () => {
-
-  }, false);
-
-  // Go-To-Wishlists
-  const WishlistsButton = document.getElementById('go-to-wishlists-button');
-  WishlistsButton.addEventListener('click', () => {
-    chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
-  }, false);
-
-  // Settings
-  const settingsButton = document.getElementById('settings-button');
-  settingsButton.addEventListener('click', () => {
-    chrome.tabs.create({ url: chrome.runtime.getURL('html/settings.html') });
   }, false);
 
 }, false);

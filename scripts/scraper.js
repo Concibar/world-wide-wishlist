@@ -51,12 +51,6 @@ class Scraper {
     let tabs = await chrome.tabs.query({ currentWindow: true, active: true });
     let tab = tabs[0];
 
-    // debug
-    chrome.webNavigation.getAllFrames({
-      tabId: tab.id,
-    }).then(logFrameInfo, onError);
-    // debug
-
     let frames = await chrome.scripting.executeScript({
       target:{tabId: tab.id, frameIds: [0]},
       func:grabImages
