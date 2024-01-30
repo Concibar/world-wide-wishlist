@@ -4,8 +4,34 @@ function scraperConnection() {
 
 function grabImages() {
   const images = document.querySelectorAll("img");
-  return Array.from(images).map(image=>image.src);
+  function hasImproperPictureExtension(element) {
+    /\.(avif|gif|svg)$/.test(element.src);
+  }
+  function isProperPicture(element) {
+    if (element.src == null) return false;
+    if (element.height <= 50) return false;
+    if (element.naturalHeight <= 50) return false;
+    if (element.offsetHeight <= 50) return false;
+    if (element.width <= 50) return false;
+    if (element.naturalWidth <= 50) return false;
+    if (element.offsetWidth <= 50) return false;
+    if (window.getComputedStyle(element).visibility === "hidden") return false;
+    if (window.getComputedStyle(element).display === "none") return false;
+    if (hasImproperPictureExtension(element)) return false;
+    return true;
+  };
+  return Array.from(images).filter(isProperPicture).map(image=>image.src);
 };
+
+function logFrameInfo(framesInfo) {
+  for (const frameInfo of framesInfo) {
+    console.log(frameInfo);
+  }
+}
+
+function onError(error) {
+  console.error(`Error: ${error}`);
+}
 
 class Scraper {
   title = "";
@@ -21,13 +47,18 @@ class Scraper {
   // To-Do: Filter images for more uesfull ones
   // To-Do: Filter SRC for evil scripts
 
-
   async scrape() {
     let tabs = await chrome.tabs.query({ currentWindow: true, active: true });
     let tab = tabs[0];
 
+    // debug
+    chrome.webNavigation.getAllFrames({
+      tabId: tab.id,
+    }).then(logFrameInfo, onError);
+    // debug
+
     let frames = await chrome.scripting.executeScript({
-      target:{tabId: tab.id, allFrames: true },
+      target:{tabId: tab.id, frameIds: [0]},
       func:grabImages
     });
 
