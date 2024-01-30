@@ -4,7 +4,7 @@ function scraperConnection() {
 
 function grabImages() {
   const images = document.querySelectorAll("img");
-  function hasImproperPictureExtension(element) {
+  function hasWeirdPictureExtension(element) {
     /\.(avif|gif|svg)$/.test(element.src);
   }
   function isProperPicture(element) {
@@ -17,7 +17,7 @@ function grabImages() {
     if (element.offsetWidth <= 50) return false;
     if (window.getComputedStyle(element).visibility === "hidden") return false;
     if (window.getComputedStyle(element).display === "none") return false;
-    if (hasImproperPictureExtension(element)) return false;
+    if (hasWeirdPictureExtension(element)) return false;
     return true;
   };
   return Array.from(images).filter(isProperPicture).map(image=>image.src);
