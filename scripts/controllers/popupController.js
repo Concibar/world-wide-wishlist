@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   wishConnection();
   wishlistConnection();
   storageTestingConnection();
+  dbSetupConnection();
+
+  // Check if Database needs to be set or updated
+  // TODO: make DB-setup update functionality
+  setupDatabase();
 
   // To-Do: Exit function
   const escapeButton = document.getElementById('escape-button');
@@ -25,16 +30,12 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     chrome.tabs.create({ url: chrome.runtime.getURL('html/settings.html') });
   }, false);
 
-  // debug Set Storage for testing
-  await setWishlists();
-  // debug
-
   // Scrapes active tab for title,url and images, tries price and currency
   const scraper = new Scraper;
   await scraper.scrape();
   const wishlists = await Wishlist.readAll();
   const view = new PopupView(scraper, wishlists);
-  view.display(wishlists);
+  view.displayScraped(wishlists);
 
   // Prev-Next Gallery
   const prev = document.getElementById('previous-image');

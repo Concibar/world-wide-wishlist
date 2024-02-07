@@ -38,14 +38,13 @@ class Scraper {
   url ="";
   imageArray = [];
   price = 0;
-  currency = "TES"; //To-Do: Scraper needs to scrape for currency otherwise default currency
+  currency = "TES"; //TODO: Scraper needs to scrape for currency otherwise default currency
 
   constructor() {};
-  // To-Do: Scrape for price and currency
-  // To-Do: Implement a scalable special scraper call for specific URLs (Amazon, Ali-Express, Etsy, Ebay)
-  // To-Do: Implement affiliate link conversion for websites that have that service
-  // To-Do: Filter images for more uesfull ones
-  // To-Do: Filter SRC for evil scripts
+  // TODO: Scrape for price and currency
+  // TODO: Implement a scalable special scraper call for specific URLs (Amazon, Ali-Express, Etsy, Ebay)
+  // TODO: Implement affiliate link conversion for websites that have that service (amazon, ebay)
+  // TODO: Filter SRC for evil scripts
 
   async scrape() {
     let tabs = await chrome.tabs.query({ currentWindow: true, active: true });
