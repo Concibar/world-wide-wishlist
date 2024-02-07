@@ -4,30 +4,54 @@ function scraperConnection() {
 
 function grabImages() {
   const images = document.querySelectorAll("img");
-  return Array.from(images).map(image=>image.src);
+  function hasWeirdPictureExtension(element) {
+    /\.(avif|gif|svg)$/.test(element.src);
+  }
+  function isProperPicture(element) {
+    if (element.src == null) return false;
+    if (element.height <= 50) return false;
+    if (element.naturalHeight <= 50) return false;
+    if (element.offsetHeight <= 50) return false;
+    if (element.width <= 50) return false;
+    if (element.naturalWidth <= 50) return false;
+    if (element.offsetWidth <= 50) return false;
+    if (window.getComputedStyle(element).visibility === "hidden") return false;
+    if (window.getComputedStyle(element).display === "none") return false;
+    if (hasWeirdPictureExtension(element)) return false;
+    return true;
+  };
+  return Array.from(images).filter(isProperPicture).map(image=>image.src);
 };
+
+function logFrameInfo(framesInfo) {
+  for (const frameInfo of framesInfo) {
+    console.log(frameInfo);
+  }
+}
+
+function onError(error) {
+  console.error(`Error: ${error}`);
+}
 
 class Scraper {
   title = "";
   url ="";
   imageArray = [];
   price = 0;
-  currency = "TES"; //To-Do: Scraper needs to scrape for currency otherwise default currency
+  currency = "TES"; //TODO: Scraper needs to scrape for currency otherwise default currency
 
   constructor() {};
-  // To-Do: Scrape for price and currency
-  // To-Do: Implement a scalable special scraper call for specific URLs (Amazon, Ali-Express, Etsy, Ebay)
-  // To-Do: Implement affiliate link conversion for websites that have that service
-  // To-Do: Filter images for more uesfull ones
-  // To-Do: Filter SRC for evil scripts
-
+  // TODO: Scrape for price and currency
+  // TODO: Implement a scalable special scraper call for specific URLs (Amazon, Ali-Express, Etsy, Ebay)
+  // TODO: Implement affiliate link conversion for websites that have that service (amazon, ebay)
+  // TODO: Filter SRC for evil scripts
 
   async scrape() {
     let tabs = await chrome.tabs.query({ currentWindow: true, active: true });
     let tab = tabs[0];
 
     let frames = await chrome.scripting.executeScript({
-      target:{tabId: tab.id, allFrames: true },
+      target:{tabId: tab.id, frameIds: [0]},
       func:grabImages
     });
 

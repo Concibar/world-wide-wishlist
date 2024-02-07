@@ -17,19 +17,23 @@ class PopupView {
     this.currency = scraper.currency;
   };
 
-  display(wishlists) {
+  displayScraped(wishlists) {
     document.getElementById('wish-name').value = this.wishName;
+    //display the images in the gallery
     let gallery = document.getElementById('image-gallery');
     for (var i = 0; i<this.imageArray.length; i++){
       gallery.insertAdjacentHTML("beforeend", `<img style="display: none;" id="${i}" class="img-fit is-align-content-center" src="${this.imageArray[i]}"></img>`);
     };
     document.getElementById('0').setAttribute('style', 'display: initial;');
 
+    //display the wishlists
     let wishlistsSelector = document.getElementById('wishlists');
     for (let i = 0; i < wishlists.length; i++) {
       wishlistsSelector.insertAdjacentHTML("afterbegin", `<option value="${wishlists[i].id}">${wishlists[i].name}</option>`);
     };
     //TODO: make sure the default is up and selected
+    //TODO: display the currency
+    //TODO: display the price
   };
 
   displayNext() {

@@ -3,62 +3,94 @@ function wishConnection() {
 };
 
 class Wish {
+  #currency;
+  #date;
   #id;
-  name;
-  wishlistId;
-  url;
-  image = "images/whoopsie.png";
-  price;
-  currency;
-  quantity = 1;
-  note;
-  date;
+  #image = "images/whoopsie.png";
+  #name;
+  #note;
+  #price;
+  #quantity = 1;
+  #url;
+  #wishlistId;
 
-  constructor({wishlistId,name,url,image,price,currency,quantity,note,date}) {
-    this.wishlistId = wishlistId;
-    this.name = name;
-    this.url = url;
-    this.image = image;
-    this.price = price;
-    this.currency = currency;
-    this.quantity = quantity;
-    this.note = note;
-    this.date = date;
+  constructor({wishlistId,name,url,image,price,currency,quantity,note,date,id}) {
+    this.#currency = currency;
+    this.#date = date;
+    this.#id = id;
+    this.#image = (image == undefined) ? "images/whoopsie.png" : image;
+    this.#name = name;
+    this.#note = note;
+    this.#price = price;
+    this.#quantity = quantity;
+    this.#url = url;
+    this.#wishlistId = wishlistId;
   };
+
+  get id() {return this.#id};
+  get name() {return this.#name};
+  get wishlistId() {return this.#wishlistId};
+  get url() {return this.#url};
+  get image() {return this.#image};
+  get price() {return this.#price};
+  get currency() {return this.#currency};
+  get quantity() {return this.#quantity};
+  get note() {return this.#note};
+  get date() {return this.#date};
 
   async save() {
-    let wishData = {
-      "id": this.id, //time to implement an id tracker
-      "wishlistId": this.wishlistId,
-      "name": this.name,
-      "url": this.url,
-      "image": this.image,
-      "price": this.price,
-      "currency": this.currency,
-      "quantity": this.quantity,
-      "note": this.note,
-      "date": this.date
+    let wishesResult = await chrome.storage.local.get(['wishes']);
+    let wishes = wishesResult.wishes;
+
+    if (this.#id == null) {
+      let idTrackerResult = await chrome.storage.local.get(['idTracker']);
+      this.#id = idTrackerResult.idTracker;
+      let newId = this.#id + 1;
+      await chrome.storage.local.set({'idTracker': newId});
     };
-    let result = await chrome.storage.local.get(['wishes']);
-    let wishes = result.wishes;
+
+    let wishData = {
+      "id": this.#id,
+      "wishlistId": this.#wishlistId,
+      "name": this.#name,
+      "url": this.#url,
+      "image": this.#image,
+      "price": this.#price,
+      "currency": this.#currency,
+      "quantity": this.#quantity,
+      "note": this.#note,
+      "date": this.#date
+    };
+
     wishes.push(wishData);
-    chrome.storage.local.set({'wishes': wishes});
+    await chrome.storage.local.set({'wishes': wishes});
+    return "Wish successfully saved!"
   };
 
-  // Todo: Delete a wish method
-  delete() {
-
-  };
-  // Todo: update a wish method
-  update() {
-
+  async delete() {
+    let wishesResult = await chrome.storage.local.get(['wishes']);
+    let wishes = wishesResult.wishes;
+    let filteredwishes = wishes.filter(obj => obj.id !== this.#id);
+    await chrome.storage.local.set({'wishes': filteredwishes});
   };
 
-  // Todo: Read all wishes that fit X method
+  async update({currency,name,note,price,quantity,url,wishlistId}) {
+    if (currency) {this.#currency = currency};
+    if (name) {this.#name = name};
+    if (note) {this.#note = note};
+    if (price) {this.#price = price};
+    if (quantity) {this.#quantity = quantity};
+    if (url) {this.#url = url};
+    if (wishlistId) {this.#wishlistId = wishlistId};
+    await this.delete();
+    await this.save();
+    return "Wish successfully updated!"
+  };
+
   static async readWishesOnWishlist(wishlistId) {
     let result = await chrome.storage.local.get(['wishes']);
     let wishes = result.wishes;
-    filteredWishes = wishes.filter((wish) => {return wish.wishlistId == wishlistId});
-    return filteredWishes.map((wish) => {new Wish(wish)});
+    let filteredWishes = wishes.filter(wish => wish.wishlistId == wishlistId);
+    return filteredWishes.map((wish) => new Wish(wish));
   };
 };
