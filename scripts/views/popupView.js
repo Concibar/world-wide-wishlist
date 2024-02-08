@@ -88,11 +88,15 @@ class PopupView {
           const originalWidth = originalImage.naturalWidth;
           const originalHeight = originalImage.naturalHeight;
           const aspectRatio = originalWidth/originalHeight;
+          var newWidth = 200;
+          var newHeight = 200;
 
           //resize image while keeping the Ratio
-          //To-Do: make better aspect ratio for if one higher than the other
-          let newWidth = 200;
-          let newHeight = newWidth/aspectRatio;
+          if (originalWidth > originalHeight) {
+            newHeight = newWidth * aspectRatio;
+          } else {
+            newWidth = newHeight/aspectRatio;
+          }
 
           //set the canvas size
           canvas.width = 200;
