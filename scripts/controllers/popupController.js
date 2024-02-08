@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   // TODO: make DB-setup update functionality
   setupDatabase();
 
-  // To-Do: Exit function
+  // Exit function
   const escapeButton = document.getElementById('escape-button');
   escapeButton.addEventListener('click', () => {
-
+    window.close();
   }, false);
 
   // Go-To-Wishlists
