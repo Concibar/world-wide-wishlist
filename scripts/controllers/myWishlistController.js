@@ -1,6 +1,20 @@
 document.addEventListener('DOMContentLoaded', async function () { // this waits for the html to fully load
-  // TODO: Check the js connections
 
+  // Check js scripts connections
+  myWishlistViewConnection();
+  wishConnection();
+  wishlistConnection();
+  dbSetupConnection();
+
+  setupDatabase();
+  // TODO: update check/functionality
+  const view = new MyWishlistView();
+
+  // Filling with wishlists
+  var wishlists = view.fillDefault();
+  // TODO: add eventlisteners to wishlists via forloop:
+  // remove Event Listeners -> load corresponding wishlist -> attach new eventlisteners
+  // TODO: add eventlisteners to wishes via forloop
 
   // TODO: fct -> display wishlist
   // Get Wishlists
@@ -13,6 +27,12 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   // TODO: tell view to display def. wishlist + wishes
 
   // TODO: eventlisteners for clicking on the other wishlists
+  // 1) check if already active -> if yes abbort
+  // 2) remove eventlisteners from wishes
+  // 3) remove wishes
+  // 4) load new wishes
+  // 5) add new eventlisteners to wishes
+  // MAYBE: do I need a new event listener
 
   // TODO: eventlistener for edit wish buttons
   // TODO: eventlistener for delete wish buttons
