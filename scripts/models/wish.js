@@ -16,7 +16,7 @@ class Wish {
 
   constructor({wishlistId,name,url,image,price,currency,quantity,note,date,id}) {
     this.#currency = currency;
-    this.#date = date;
+    this.#date = date; // TODO: make this an actual date?
     this.#id = id;
     this.#image = (image == undefined) ? "images/whoopsie.png" : image;
     this.#name = name;
@@ -91,6 +91,8 @@ class Wish {
     let result = await chrome.storage.local.get(['wishes']);
     let wishes = result.wishes;
     let filteredWishes = wishes.filter(wish => wish.wishlistId == wishlistId);
-    return filteredWishes.map((wish) => new Wish(wish));
+    filteredWishes = filteredWishes.map((wish) => new Wish(wish));
+    let wishesNotYetSortedByDate = filteredWishes; //TODO: sort the wishes by date
+    return wishesNotYetSortedByDate; //TODO: sort the wishes by date
   };
 };

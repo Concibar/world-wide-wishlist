@@ -44,16 +44,15 @@
         <div class="navbar-end">
 
           <!-- support request -->
-          <button class="button is-warning">
+          <button id="donate" class="button is-warning">
             <span class="icon">
               <i class="fa-solid fa-mug-hot"></i>
             </span>
             <span>Donate to the developer</span>
           </button>
 
-          <!-- settings -->
           <div>
-            <button class="button is-link">
+            <button id="settings" class="button is-link">
               <span class="icon">
                 <i class="fa-solid fa-gear"></i>
               </span>
@@ -75,7 +74,7 @@
           <nav class="navbar">
             <div class="navbar-menu">
               <div class="navbar-start">
-                <a class="navbar-item">
+                <a id="create-new-list" class="navbar-item">
                   <span>
                     Create new list
                   </span>
@@ -103,7 +102,7 @@
           <nav id="wishlist-actions" class="navbar" role="toolbar">
             <div class="navbar-menu">
               <div class="navbar-start">
-                <a class="navbar-item">
+                <a id="add-an-idea" class="navbar-item">
                   <span class="icon">
                     <i class="fa-solid fa-plus"></i>
                   </span>
@@ -114,7 +113,7 @@
               </div>
 
               <div class="navbar-end">
-                <a class="navbar-item">
+                <a id="edit-wishlist" class="navbar-item">
                   <span class="icon">
                     <i class="fa-solid fa-pen"></i>
                   </span>
@@ -127,53 +126,10 @@
             </div>
           </nav>
 
-          <!-- <ul class="content">
-            <li class="py-2 px-4 is-clickable">
-              <span class="icon">
-                <i class="fa-solid fa-plus"></i>
-              </span>
-              <span>
-                Add an idea
-              </span>
-            </li>
-          </ul> -->
-
           <hr>
 
-          <!-- the wish boxes -->
-          <div class="box">
-            <div class="is-flex">
-
-              <figure class="image is-128x128 mr-3">
-                <img src="https://bulma.io/images/placeholders/128x128.png">
-              </figure>
-
-              <!-- Title, website, Notes -->
-              <div class="is-flex-grow-1">
-                <h3>THis is a Wish</h3>
-                <h4>from: amazon.com</h4>
-                <div>
-                  <h4>Notes:</h4>
-                  <p>For Grandma</p>
-                </div>
-              </div>
-
-              <!-- Actions-->
-              <div class="ml-3">
-                <div>
-                  <p>Article added on 17.12.2028</p>
-                </div>
-                <div>
-                  <button class="button">Go to shop</button>
-                </div>
-                <div>
-                  <button class="button">Move to:</button>
-                  <button class="button">Edit</button>
-                  <button class="button">Delete</button>
-                </div>
-              </div>
-
-            </div>
+          <!-- the container for the wish cards: -->
+          <div id="wishes">
           </div>
 
         </div>
