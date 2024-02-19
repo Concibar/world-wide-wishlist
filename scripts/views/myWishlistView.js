@@ -69,41 +69,7 @@ class MyWishlistView{
     // insert the new wishes with name, date, url, note and id
     for (let i = 0; i < wishes.length; i++) {
       let wish = wishes[i];
-      var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
-      wishesContainer.insertAdjacentHTML("beforeend", `
-        <div id="${"wish-" + wish.id}" class="box">
-          <div class="is-flex">
-
-            <figure class="image is-128x128 mr-3">
-              <img src="data:image/png;base64, ${base64regex.test(wish.image) ? wish.image : this.#imageNotFound} alt="product image of ${wish.name}">
-            </figure>
-
-            <div class="is-flex-grow-1">
-              <h3>${wish.name}</h3>
-              <h4>from: ${wish.url}</h4>
-              <div>
-                <h4>Notes:</h4>
-                <p>${wish.note}</p>
-              </div>
-            </div>
-
-            <div class="ml-3">
-              <div>
-                <p>Article added on ${wish.date}</p>
-              </div>
-              <div>
-                <button id="${"go-to-wish-" + wish.id}" class="button go-to-wish-website">Go to shop</button>
-              </div>
-              <div>
-                <button id="${"move-wish-" + wish.id}" class="button move-wish">Move to...</button>
-                <button id="${"edit-wish-" + wish.id}" class="button edit-wish">Edit</button>
-                <button id="${"delete-wish-" + wish.id}" class="button delete-wish">Delete</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      `);
+      wishesContainer.insertAdjacentHTML("beforeend", this.makeHtmlElementFromWish(wish));
     };
   };
 
@@ -116,7 +82,6 @@ class MyWishlistView{
   };
 
   editWish() {
-
   };
 
   async deleteWish(wishId) {
@@ -148,40 +113,7 @@ class MyWishlistView{
     var undoDeleteMessage = document.getElementById(`wish-${this.lastDeletedWish.id}`);
     var wish = this.lastDeletedWish;
     var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
-    undoDeleteMessage.outerHTML = `
-    <div id="${"wish-" + wish.id}" class="box">
-          <div class="is-flex">
-
-            <figure class="image is-128x128 mr-3">
-              <img src="data:image/png;base64, ${base64regex.test(wish.image) ? wish.image : this.#imageNotFound} alt="product image of ${wish.name}">
-            </figure>
-
-            <div class="is-flex-grow-1">
-              <h3>${wish.name}</h3>
-              <h4>from: ${wish.url}</h4>
-              <div>
-                <h4>Notes:</h4>
-                <p>${wish.note}</p>
-              </div>
-            </div>
-
-            <div class="ml-3">
-              <div>
-                <p>Article added on ${wish.date}</p>
-              </div>
-              <div>
-                <button id="${"go-to-wish-" + wish.id}" class="button go-to-wish-website">Go to shop</button>
-              </div>
-              <div>
-                <button id="${"move-wish-" + wish.id}" class="button move-wish">Move to...</button>
-                <button id="${"edit-wish-" + wish.id}" class="button edit-wish">Edit</button>
-                <button id="${"delete-wish-" + wish.id}" class="button delete-wish">Delete</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-    `;
+    undoDeleteMessage.outerHTML = this.makeHtmlElementFromWish(wish);
     this.lastDeletedWish = null;
   };
 
@@ -196,4 +128,42 @@ class MyWishlistView{
   deleteWishlist() {
 
   };
+
+  makeHtmlElementFromWish(wish) {
+    var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+    return `
+      <div id="${"wish-" + wish.id}" class="box">
+        <div class="is-flex">
+
+          <figure class="image is-128x128 mr-3">
+            <img src="data:image/png;base64, ${base64regex.test(wish.image) ? wish.image : this.#imageNotFound} alt="product image of ${wish.name}">
+          </figure>
+
+          <div class="is-flex-grow-1">
+            <h3>${wish.name}</h3>
+            <h4>from: ${wish.url}</h4>
+            <div>
+              <h4>Notes:</h4>
+              <p>${wish.note}</p>
+            </div>
+          </div>
+
+          <div class="ml-3">
+            <div>
+              <p>Article added on ${wish.date}</p>
+            </div>
+            <div>
+              <button id="${"go-to-wish-" + wish.id}" class="button go-to-wish-website">Go to shop</button>
+            </div>
+            <div>
+              <button id="${"move-wish-" + wish.id}" class="button move-wish">Move to...</button>
+              <button id="${"edit-wish-" + wish.id}" class="button edit-wish">Edit</button>
+              <button id="${"delete-wish-" + wish.id}" class="button delete-wish">Delete</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    `;
+  }
 };
