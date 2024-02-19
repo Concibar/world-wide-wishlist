@@ -2,54 +2,65 @@ function storageTestingConnection() {
   console.log("storageTesting.js connected");
 };
 
-async function setNewWishlist(name, alteration) {
-  let wishlist = new Wishlist({name});
-  await wishlist.save();
-  console.log("DEBUG: Wishlist " + name + " saved. new Wishlists are");
-  let wishlists = Wishlist.readAll();
-  console.log(wishlists);
+async function setTestDatabase() {
 
-  await wishlist.setAsDefaultWishlist();
+  await chrome.storage.local.clear(() => {
+    console.log("DEBUG: storage cleared");
+  });
+  await setupDatabase();
 
-  await wishlist.update(alteration);
-  console.log("DEBUG: Wishlist updated:");
-  let update = Wishlist.readAll();
-  console.log(update);
+  let habenWollen = new Wishlist({'name': "Haben Wollen"});
+  habenWollen.setAsDefaultWishlist();
+  await habenWollen.save();
 
-  await wishlist.delete();
-  let deletedList = Wishlist.readAll();
-  console.log(deletedList);
-};
+  let weihnachten = new Wishlist({name: "Weihnachten 2017"});
+  await weihnachten.save();
 
-async function setNewWish(name, alteration) {
+  let geburtstag = new Wishlist({name: "Geburtstag 2017"});
+  await geburtstag.save();
 
-  var formData = {
-    'currency'    : "EUR",
-    'date'        : new Date(),
-    'name'        : name,
-    'note'        : "might get one for Grandma as well",
-    'price'       : 69.69,
-    'quantity'    : 1,
-    'url'         : "www.example.de",
-    'wishlistId'  : 0
+  for (let i = 0; i < 20; i++) {
+    let formData = {
+      'currency'    : "EUR",
+      'date'        : new Date(),
+      'name'        : `foowish ${i}`,
+      'note'        : "when will this finally be done?",
+      'price'       : 69.69,
+      'quantity'    : 1,
+      'url'         : "https://www.example.de",
+      'wishlistId'  : habenWollen.id
+    };
+    let wish = new Wish(formData);
+    await wish.save();
   };
 
-  let wish = new Wish(formData);
-  console.log(wish);
-  console.log(typeof wish);
+  for (let i = 0; i < 20; i++) {
+    let formData = {
+      'currency'    : "EUR",
+      'date'        : new Date(),
+      'name'        : `Weihnachtswunsch ${i}`,
+      'note'        : "when will this finally be done?",
+      'price'       : 69.69,
+      'quantity'    : 1,
+      'url'         : "https://www.example.de",
+      'wishlistId'  : weihnachten.id
+    };
+    let wish = new Wish(formData);
+    await wish.save();
+  };
 
-  await wish.save();
-  console.log("DEBUG: Wish " + name + " saved. new Wishes are");
-  let wishes = await Wish.readWishesOnWishlist(0);
-  console.log(wishes);
-  console.log(typeof wishes[0]);
-
-  await wish.update({'name' : alteration});
-  let update = await Wish.readWishesOnWishlist(0);
-  console.log(update);
-
-  await wish.delete();
-  let deletedList = await Wish.readWishesOnWishlist(0);
-  console.log(deletedList);
-
+  for (let i = 0; i < 20; i++) {
+    let formData = {
+      'currency'    : "EUR",
+      'date'        : new Date(),
+      'name'        : `geburtstagswunsch ${i}`,
+      'note'        : "when will this finally be done?",
+      'price'       : 69.69,
+      'quantity'    : 1,
+      'url'         : "https://www.example.de",
+      'wishlistId'  : geburtstag.id
+    };
+    let wish = new Wish(formData);
+    await wish.save();
+  };
 };

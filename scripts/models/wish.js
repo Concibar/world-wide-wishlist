@@ -95,4 +95,11 @@ class Wish {
     let wishesNotYetSortedByDate = filteredWishes; //TODO: sort the wishes by date
     return wishesNotYetSortedByDate; //TODO: sort the wishes by date
   };
+
+  static async read(wishId) {
+    let result = await chrome.storage.local.get(['wishes']);
+    let wishes = result.wishes;
+    let wishData = wishes.find(wish => wish.id == wishId);
+    return new Wish(wishData);
+  };
 };

@@ -5,8 +5,12 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   wishConnection();
   wishlistConnection();
   dbSetupConnection();
+  storageTestingConnection();
 
-  setupDatabase();
+  // DEBUG:
+  // await setTestDatabase();
+
+  await setupDatabase();
   // TODO: update check/functionality
   const view = new MyWishlistView();
   const wishlistsContainer = document.getElementById('wishlists');
@@ -18,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   const editWishlist = document.getElementById('edit-wishlist');
 
   await view.firstLoad();
+  // DONE
   wishlistsContainer.addEventListener("click", (event) => {
     let wishlistCssId = event.target.id;
     let numStr = wishlistCssId.replace(/[^0-9]/g, '');
@@ -26,36 +31,53 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       view.displayWishes(wishes, wishlistId);
     });
   });
+  // add listeners to all wish-buttons
+  // TODO: 3 listeners; DONE 2/5
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {
       var buttonCssId = event.target.id;
       var numStr = buttonCssId.replace(/[^0-9]/g, '');
       var wishId = parseInt(numStr, 10);
 
-      // TODO
       if (event.target.matches(".go-to-wish-website")) {
-        console.log("going to wish website of " + wishId);
+        Wish.read(wishId).then(wish => {
+          window.open(wish.url);
+        });
       } else if (event.target.matches(".move-wish")) {
-        console.log("moving the wish of " + wishId);
+        Wish.read(wishId).then(wish => {
+          console.log("moving the wish of " + wish.id); //TODO
+        });
       } else if (event.target.matches(".edit-wish")) {
-        console.log("editing the wish of" + wishId);
+        Wish.read(wishId).then(wish => {
+          console.log("editing the wish of" + wish.id); //TODO
+        });
       } else if (event.target.matches(".delete-wish")) {
-        console.log("deleting the wish of" + wishId);
+        Wish.read(wishId).then(wish => {
+          view.deleteWish(wish.id).then(() => {wish.delete()})
+        });
+      } else if (event.target.matches(".undo-delete")) {
+        view.lastDeletedWish.save();
+        view.undoDeleteWish();
       };
     };
   });
+  // TODO:
   createNewWishlist.addEventListener("click", () => {
     console.log("creating new wishlist");
   });
+  // TODO:
   addIdea.addEventListener("click", () => {
     console.log("adding a new idea");
   });
+  // DONE:
   settings.addEventListener("click", () => {
-    console.log("going to settings");
+    chrome.tabs.create({ url: chrome.runtime.getURL('html/settings.html') });
   });
+  // DONE:
   donate.addEventListener("click", () => {
-    console.log("going to donation");
+    window.open("https://ko-fi.com/H2H2H8OO");
   });
+  // TODO:
   editWishlist.addEventListener("click", () => {
     console.log("editing the wishlist");
   });
