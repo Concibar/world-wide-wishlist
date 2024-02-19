@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     chrome.tabs.create({ url: chrome.runtime.getURL('html/settings.html') });
   }, false);
 
-  // Scrapes active tab for title,url and images, tries price and currency
+  // Scrapes active tab for title,url and images
   const scraper = new Scraper;
   await scraper.scrape();
   const wishlists = await Wishlist.readAll();

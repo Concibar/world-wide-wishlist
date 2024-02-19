@@ -38,10 +38,8 @@ class Scraper {
   url ="";
   imageArray = [];
   price = 0;
-  currency = "TES"; //TODO: Scraper needs to scrape for currency otherwise default currency
 
   constructor() {};
-  // TODO: Scrape for price and currency
   // TODO: Implement a scalable special scraper call for specific URLs (Amazon, Ali-Express, Etsy, Ebay)
   // TODO: Implement affiliate link conversion for websites that have that service (amazon, ebay)
   // TODO: Filter SRC for evil scripts
@@ -61,7 +59,6 @@ class Scraper {
     this.url = tab.url;
     this.imageArray = srcArray;
     this.price = "to-do: scrape price";
-    this.currency = "to-do: scrape currency";
     };
 
   #combineFrames(frames) {

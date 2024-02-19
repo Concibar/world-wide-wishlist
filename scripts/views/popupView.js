@@ -6,7 +6,6 @@ class PopupView {
   wishUrl = "";
   imageArray = [];
   price = 0;
-  currency = "";
   wishName = "";
 
   constructor (scraper) {
@@ -14,7 +13,6 @@ class PopupView {
     this.wishUrl = scraper.url;
     this.imageArray = scraper.imageArray;
     this.price = scraper.price;
-    this.currency = scraper.currency;
   };
 
   displayScraped(wishlists) {
@@ -32,7 +30,6 @@ class PopupView {
       wishlistsSelector.insertAdjacentHTML("afterbegin", `<option value="${wishlists[i].id}">${wishlists[i].name}</option>`);
     };
     //TODO: make sure the default is up and selected
-    //TODO: display the currency
     //TODO: display the price
   };
 
@@ -62,11 +59,10 @@ class PopupView {
         formData.date        = new Date();
         formData.url         = this.url;
         formData.wishlistId  = "test wishlist id";
-        formData.currency    = "test EUR";
         formData.name        = document.getElementById('wish-name').value;
         formData.price       = document.getElementById('wish-price').value;
         formData.quantity    = document.getElementById('wish-quantity').value;
-        formData.note        = document.getElementById('wish-notes').value;
+        formData.note        = document.getElementById('wish-note').value;
     return formData;
   };
 

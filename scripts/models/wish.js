@@ -3,7 +3,6 @@ function wishConnection() {
 };
 
 class Wish {
-  #currency;
   #date;
   #id;
   #image = "images/whoopsie.png";
@@ -14,8 +13,7 @@ class Wish {
   #url;
   #wishlistId;
 
-  constructor({wishlistId,name,url,image,price,currency,quantity,note,date,id}) {
-    this.#currency = currency;
+  constructor({wishlistId,name,url,image,price,quantity,note,date,id}) {
     this.#date = date; // TODO: make this an actual date?
     this.#id = id;
     this.#image = (image == undefined) ? "images/whoopsie.png" : image;
@@ -33,7 +31,6 @@ class Wish {
   get url() {return this.#url};
   get image() {return this.#image};
   get price() {return this.#price};
-  get currency() {return this.#currency};
   get quantity() {return this.#quantity};
   get note() {return this.#note};
   get date() {return this.#date};
@@ -56,7 +53,6 @@ class Wish {
       "url": this.#url,
       "image": this.#image,
       "price": this.#price,
-      "currency": this.#currency,
       "quantity": this.#quantity,
       "note": this.#note,
       "date": this.#date
@@ -74,17 +70,15 @@ class Wish {
     await chrome.storage.local.set({'wishes': filteredwishes});
   };
 
-  async update({currency,name,note,price,quantity,url,wishlistId}) {
-    if (currency) {this.#currency = currency};
+  async update({name,note,price,quantity,wishlistId}) {
     if (name) {this.#name = name};
     if (note) {this.#note = note};
     if (price) {this.#price = price};
     if (quantity) {this.#quantity = quantity};
-    if (url) {this.#url = url};
     if (wishlistId) {this.#wishlistId = wishlistId};
     await this.delete();
     await this.save();
-    return "Wish successfully updated!"
+    return this
   };
 
   static async readWishesOnWishlist(wishlistId) {

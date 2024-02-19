@@ -1,18 +1,7 @@
 {
   "versionNumber": 0.1,
-  "activeCurrencies": [0,1,2],
   "defaultWishlistId": 0,
   "idTracker": 0,
-
-  "currencies": [
-    {
-      "id": 0,
-      "name": "Euro",
-      "sign": "€",
-      "iso4217": "EUR",
-      "active": 1
-    }
-  ],
 
   "wishlists": [
     {
@@ -28,8 +17,7 @@
       "name": "foowish",
       "url": "http://www.website.foo",
       "image": "ASCII base64 encoded string",
-      "price": 13.54,
-      "currency": "EUR",
+      "price": "13.54 usd",
       "quantity": 1,
       "note": "this might be a good gift for my grandma :)",
       "date": "2020.12.17"

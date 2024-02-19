@@ -14,13 +14,6 @@ async function setupDatabase() {
     await chrome.storage.local.set({'versionNumber': versionNumber});
     console.log("versionNumber set to " + versionNumber);
 
-    // check and set activeCurrencies to default
-    let activeCurrenciesResult = await chrome.storage.local.get('activeCurrencies');
-    if (activeCurrenciesResult.activeCurrencies == undefined) {
-      await chrome.storage.local.set({'activeCurrencies': []});
-      console.log("activeCurrencies set to default");
-    };
-
     // check and set defaultWishlistId to default
     let defWishlistResult = chrome.storage.local.get('defaultWishlistId');
     if (defWishlistResult.defaultWishlistId == undefined) {
@@ -33,13 +26,6 @@ async function setupDatabase() {
     if (idTrackerResult.idTracker == undefined) {
       await chrome.storage.local.set({'idTracker': 0});
       console.log("idTracker set to default");
-    };
-
-    // check and set currencies to default
-    let currenciesResult = await chrome.storage.local.get('currencies');
-    if (currenciesResult.currencies == undefined) {
-      await chrome.storage.local.set({'currencies': []});
-      console.log("currencies set to default");
     };
 
     // check and set wishlists to default

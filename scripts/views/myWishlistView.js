@@ -24,15 +24,15 @@ class MyWishlistView{
       <li id="${'wishlist-' + this.#defaultWishlistId}" class="py-2 px-4 is-clickable active-wishlist">
         <div style="pointer-events: none;">
           <div>
-            <span>
+            <span class="is-unselectable">
               ${defaultWishlist.name}
             </span>
-            <span class="icon">
+            <span class="icon is-unselectable">
               <i class="fa-solid fa-star"></i>
             </span>
           </div>
           <div>
-            <p class="is-size-7">Default Wishlist</p>
+            <p class="is-size-7 is-unselectable">Default Wishlist</p>
           </div>
         </div>
       </li>
@@ -44,7 +44,7 @@ class MyWishlistView{
     for (let i = 0; i < sortedWishlists.length; i++) {
       listOfWishlists.insertAdjacentHTML("beforeend", `
         <li id="${'wishlist-' + sortedWishlists[i].id}" class="py-2 px-4 is-clickable ">
-          <span style="pointer-events: none;">
+          <span style="pointer-events: none;" class="is-unselectable">
             ${sortedWishlists[i].name}
           </span>
         </li>
@@ -77,12 +77,36 @@ class MyWishlistView{
 
   };
 
-  moveWish() {
+  moveWish(wish) {
+    console.log("DEBUG: moving the wish of " + wish.id); //TODO
 
   };
 
-  editWish() {
+  editWish(wish) {
+    document.getElementById("edit-wish-name").value = wish.name;
+    document.getElementById("edit-wish-price").value = wish.price;
+    document.getElementById("edit-wish-quantity").value = wish.quantity;
+    document.getElementById("edit-wish-note").value = wish.note;
+    document.getElementById("edit-wish-image").src = this.getImageSrc(wish);
+    let editWishModal = document.getElementById("edit-wish-modal");
+    this.openModal(editWishModal);
   };
+
+  getEditWishModalFormData() {
+    if (document.getElementById("edit-wish-name").value.length < 1) {
+      window.alert("Name cannot be empty, please enter a name!");
+      return false
+    } else {
+      let formData = {
+        'name': document.getElementById("edit-wish-name").value,
+        'price': document.getElementById("edit-wish-price").value,
+        'quantity': document.getElementById("edit-wish-quantity").value,
+        'note': document.getElementById("edit-wish-note").value
+      };
+      return formData;
+
+    }
+  }
 
   async deleteWish(wishId) {
     let undoElement = document.querySelector(".undo-div");
@@ -110,11 +134,15 @@ class MyWishlistView{
   };
 
   undoDeleteWish() {
-    var undoDeleteMessage = document.getElementById(`wish-${this.lastDeletedWish.id}`);
     var wish = this.lastDeletedWish;
-    var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+    var undoDeleteMessage = document.getElementById(`wish-${wish.id}`);
     undoDeleteMessage.outerHTML = this.makeHtmlElementFromWish(wish);
     this.lastDeletedWish = null;
+  };
+
+  updateWish(wish) {
+    var wishHtml = document.getElementById(`wish-${wish.id}`);
+    wishHtml.outerHTML = this.makeHtmlElementFromWish(wish);
   };
 
   createWishlist() {
@@ -129,21 +157,29 @@ class MyWishlistView{
 
   };
 
-  makeHtmlElementFromWish(wish) {
+  getImageSrc(wish) {
     var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+    if (base64regex.test(wish.image)) {
+      return `data:image/png;base64, ${wish.image}`
+    } else {
+      return '/images/whoopsie.png'
+    }
+  }
+
+  makeHtmlElementFromWish(wish) {
     return `
       <div id="${"wish-" + wish.id}" class="box">
         <div class="is-flex">
 
           <figure class="image is-128x128 mr-3">
-            <img src="data:image/png;base64, ${base64regex.test(wish.image) ? wish.image : this.#imageNotFound} alt="product image of ${wish.name}">
+            <img src="${this.getImageSrc(wish)}" alt="product image of ${wish.name}">
           </figure>
 
           <div class="is-flex-grow-1">
             <h3>${wish.name}</h3>
             <h4>from: ${wish.url}</h4>
             <div>
-              <h4>Notes:</h4>
+              <h4>Note:</h4>
               <p>${wish.note}</p>
             </div>
           </div>
@@ -165,5 +201,19 @@ class MyWishlistView{
         </div>
       </div>
     `;
+  }
+
+  openModal($modal) {
+    $modal.classList.add('is-active');
+  }
+
+  closeModal($modal) {
+    $modal.classList.remove('is-active');
+  }
+
+  closeAllModals() {
+    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+      this.closeModal($modal);
+    });
   }
 };

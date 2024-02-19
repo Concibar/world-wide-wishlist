@@ -20,10 +20,13 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   const settings = document.getElementById('settings');
   const donate = document.getElementById('donate');
   const editWishlist = document.getElementById('edit-wishlist');
+  const editWishModalSave = document.getElementById('edit-wish-modal-save');
+  const modalClosingElements = (document.querySelectorAll('.modal-background, .modal-close, .delete, .modal-cancel') || []);
+  var wishToBeEdited;
 
   await view.firstLoad();
   // DONE
-  wishlistsContainer.addEventListener("click", (event) => {
+  wishlistsContainer.addEventListener("mousedown", (event) => {
     let wishlistCssId = event.target.id;
     let numStr = wishlistCssId.replace(/[^0-9]/g, '');
     let wishlistId = parseInt(numStr, 10);
@@ -32,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     });
   });
   // add listeners to all wish-buttons
-  // TODO: 3 listeners; DONE 2/5
+  // TODO: 2 listeners; DONE 3/5
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {
       var buttonCssId = event.target.id;
@@ -45,11 +48,13 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         });
       } else if (event.target.matches(".move-wish")) {
         Wish.read(wishId).then(wish => {
-          console.log("moving the wish of " + wish.id); //TODO
+          view.moveWish(wish);
+          // TODO: save the wish returned from moveWish here
         });
       } else if (event.target.matches(".edit-wish")) {
         Wish.read(wishId).then(wish => {
-          console.log("editing the wish of" + wish.id); //TODO
+          view.editWish(wish);
+          wishToBeEdited = wish;
         });
       } else if (event.target.matches(".delete-wish")) {
         Wish.read(wishId).then(wish => {
@@ -80,6 +85,30 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   // TODO:
   editWishlist.addEventListener("click", () => {
     console.log("editing the wishlist");
+  });
+
+  editWishModalSave.addEventListener('click', () => {
+    formData = view.getEditWishModalFormData();
+    if (formData) {
+      wishToBeEdited.update(formData)
+      .then((wish) => {view.updateWish(wish)})
+      view.closeModal(document.getElementById('edit-wish-modal'));
+    };
+  })
+
+  // Escape-key closes all Modals:
+  document.addEventListener('keydown', (event) => {
+    if(event.key === "Escape") {
+      view.closeAllModals();
+    };
+  });
+
+  modalClosingElements.forEach((element) => {
+    const $modalToClose = element.closest('.modal');
+
+    element.addEventListener('click', () => {
+      view.closeModal($modalToClose);
+    });
   });
 
 });

@@ -21,7 +21,6 @@ async function setTestDatabase() {
 
   for (let i = 0; i < 20; i++) {
     let formData = {
-      'currency'    : "EUR",
       'date'        : new Date(),
       'name'        : `foowish ${i}`,
       'note'        : "when will this finally be done?",
@@ -36,7 +35,6 @@ async function setTestDatabase() {
 
   for (let i = 0; i < 20; i++) {
     let formData = {
-      'currency'    : "EUR",
       'date'        : new Date(),
       'name'        : `Weihnachtswunsch ${i}`,
       'note'        : "when will this finally be done?",
@@ -51,7 +49,6 @@ async function setTestDatabase() {
 
   for (let i = 0; i < 20; i++) {
     let formData = {
-      'currency'    : "EUR",
       'date'        : new Date(),
       'name'        : `geburtstagswunsch ${i}`,
       'note'        : "when will this finally be done?",
