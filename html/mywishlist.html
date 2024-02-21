@@ -74,7 +74,7 @@
           <nav class="navbar">
             <div class="navbar-menu">
               <div class="navbar-start">
-                <a id="create-new-list" class="navbar-item">
+                <a id="create-new-wishlist" class="navbar-item">
                   <span>
                     Create new list
                   </span>
@@ -236,7 +236,7 @@
         <section class="modal-card-body">
           <div class="is-flex p-3">
             <div class="is-flex-grow-1">
-              <form id="edit-wish-form">
+              <form id="add-idea-form">
 
                 <!-- Name -->
                 <div class="field is-horizontal">
@@ -303,7 +303,57 @@
       <button class="modal-close is-large" aria-label="close"></button>
     </div>
 
-    <!-- TODO: Create Wishlist Modal -->
+    <!-- Create Wishlist Modal -->
+    <div id="create-wishlist-modal" class="modal">
+      <div class="modal-background"></div>
+
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Create a new Wishlist</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="is-flex p-3">
+            <div class="is-flex-grow-1">
+              <form id="create-wishlist-form" class="control">
+
+                <!-- Name -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label for="create-wishlist-name" class="label">Name</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field control">
+                      <input id="create-wishlist-name" name="create-wishlist-name" class="input" type="text" placeholder="Name of your idea">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- make default? -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal"></div>
+                  <div class="field-body">
+                    <div class="control">
+                      <label for="create-wishlist-new-default-wishlist" class="checkbox">
+                        <input id="create-wishlist-new-default-wishlist" type="checkbox">
+                        make this the new default wishlist
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="create-wishlist-modal-save" class="button is-success">Save changes</button>
+          <button class="button modal-cancel">Cancel</button>
+        </footer>
+      </div>
+
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
 
     <!-- TODO: edit & delete Wishlist Modal -->
 

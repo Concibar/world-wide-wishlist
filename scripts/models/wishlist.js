@@ -38,7 +38,7 @@ class Wishlist {
 
     wishlists.push(wishlistData);
     await chrome.storage.local.set({'wishlists': wishlists});
-    return "Wishlist successfully saved!"
+    return this;
   };
 
   async update(name) {
@@ -72,7 +72,7 @@ class Wishlist {
   };
 
   async setAsDefaultWishlist() {
-    let results = await chrome.storage.local.set({'defaultWishlistId': this.#id});
+    await chrome.storage.local.set({'defaultWishlistId': this.#id});
   };
 
   static async readAll() {

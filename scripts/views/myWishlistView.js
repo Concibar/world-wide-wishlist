@@ -3,22 +3,18 @@ function myWishlistViewConnection() {
 };
 
 class MyWishlistView{
-  #defaultWishlistId;
   #currentWishlistId;
 
-  constructor() {
-    chrome.storage.local.get('defaultWishlistId', (result) => {
-      this.#defaultWishlistId = result.defaultWishlistId
-    });
-  };
+  constructor() {};
 
-  firstLoad(wishlists) {
+  completeLoad(defaultWishlistId, wishes, wishlists) {
     // fill with the default wishlist at the top
     // give every wishlist element an id
     let listOfWishlists = document.getElementById('wishlists');
-    let defaultWishlist = wishlists.find(list => list.id === this.#defaultWishlistId);
+    listOfWishlists.innerHTML = '';
+    let defaultWishlist = wishlists.find(list => list.id === defaultWishlistId);
     listOfWishlists.insertAdjacentHTML("afterbegin", `
-      <li data-wishlist-id="${this.#defaultWishlistId}" class="py-2 px-4 is-clickable active-wishlist">
+      <li data-wishlist-id="${defaultWishlist.id}" class="py-2 px-4 is-clickable active-wishlist">
         <div style="pointer-events: none;">
           <div>
             <span class="is-unselectable">
@@ -36,7 +32,7 @@ class MyWishlistView{
     `);
 
     // fill with rest of wishlists in alphabetical order
-    let remainingWishlists = wishlists.filter(list => list.id !== this.#defaultWishlistId);
+    let remainingWishlists = wishlists.filter(list => list.id !== defaultWishlist.id);
     let sortedRemainingWishlists = remainingWishlists.sort((a, b) => a.name.localeCompare(b.name));
     for (let i = 0; i < sortedRemainingWishlists.length; i++) {
       listOfWishlists.insertAdjacentHTML("beforeend", `
@@ -49,8 +45,7 @@ class MyWishlistView{
     };
 
     // fill in the wishes of the default Wishlist
-    Wish.readWishesOnWishlist(this.#defaultWishlistId)
-    .then(wishes => {this.displayWishes(wishes, this.#defaultWishlistId, wishlists)});
+    this.displayWishes(wishes, defaultWishlist.id, wishlists);
   };
 
   displayWishes(wishes, wishlistId, wishlists) {
@@ -94,7 +89,7 @@ class MyWishlistView{
       window.alert("Name cannot be empty, please enter a name!");
       return false
     } else if (document.getElementById("edit-wish-name").value.length > 50) {
-      window.alert("Name longer than 50 letters, please enter shorter name!");
+      window.alert("Name longer than 50 letters, please enter a shorter name!");
       return false
     } else {
       let formData = {
@@ -112,7 +107,7 @@ class MyWishlistView{
       window.alert("Name cannot be empty, please enter a name!");
       return false
     } else if (document.getElementById("add-idea-name").value.length > 50) {
-      window.alert("Name longer than 50 letters, please enter shorter name!");
+      window.alert("Name longer than 50 letters, please enter a shorter name!");
       return false
     } else {
       let formData = {
@@ -126,6 +121,22 @@ class MyWishlistView{
       return formData;
     };
   };
+
+  getCreateWishlistFormData() {
+    if (document.getElementById("create-wishlist-name").value.length < 1) {
+      window.alert("Name cannot be empty, please enter a name!");
+      return false
+    } else if (document.getElementById("create-wishlist-name").value.length > 30) {
+      window.alert("Name longer than 30 letters, please enter a shorter name!");
+      return false
+    } else {
+      let formData = {
+        'name': document.getElementById("create-wishlist-name").value,
+        'newDefault': document.getElementById("create-wishlist-new-default-wishlist").checked
+      };
+      return formData;
+    };
+  }
 
   deleteWish(wish) {
     let undoElement = document.getElementById("undo-delete");
@@ -159,10 +170,6 @@ class MyWishlistView{
   updateWish(wish, wishlists) {
     var wishHtmlElement = document.querySelector(`[data-wish-id="${wish.id}"].wish`)
     wishHtmlElement.outerHTML = this.#makeHtmlElementFromWish(wish, wishlists);
-  };
-
-  createWishlist() {
-
   };
 
   editWishlist() {
