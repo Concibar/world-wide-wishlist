@@ -53,15 +53,13 @@ class Wishlist {
     let defaultWishlistId = result.defaultWishlistId;
     if (defaultWishlistId == this.#id) {
       console.log("error: you cannot delete your default wishlist. Set another one first!");
-      return "You cannot delete your default wishlist. Set another wishlist as default first!";
+      return false
     } else {
       let wishes = Wish.readWishesOnWishlist(this.#id);
       for (let i = 0; i < wishes.length; i++) {
-        const element = wishes[i];
-        wishes.array.forEach(element => {
-          
-        });
-      }
+        let wish = wishes[i];
+        await wish.delete();
+      };
       await this.#deleteWithoutIdCheck();
     };
   };
