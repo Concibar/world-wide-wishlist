@@ -3,6 +3,7 @@ function wishConnection() {
 };
 
 class Wish {
+  static LAST_DELETED_WISH;
   #date;
   #id;
   #image = "images/whoopsie.png";
@@ -14,7 +15,7 @@ class Wish {
   #wishlistId;
 
   constructor({wishlistId,name,url,image,price,quantity,note,date,id}) {
-    this.#date = date; // TODO: make this an actual date?
+    this.#date = new Date(date);
     this.#id = id;
     this.#image = (image == undefined) ? "images/whoopsie.png" : image;
     this.#name = name;
@@ -47,15 +48,15 @@ class Wish {
     };
 
     let wishData = {
+      "date": this.#date.toISOString(),
       "id": this.#id,
-      "wishlistId": this.#wishlistId,
-      "name": this.#name,
-      "url": this.#url,
       "image": this.#image,
+      "name": this.#name,
+      "note": this.#note,
       "price": this.#price,
       "quantity": this.#quantity,
-      "note": this.#note,
-      "date": this.#date
+      "url": this.#url,
+      "wishlistId": this.#wishlistId
     };
 
     wishes.push(wishData);
@@ -64,6 +65,7 @@ class Wish {
   };
 
   async delete() {
+    Wish.LAST_DELETED_WISH = this;
     let wishesResult = await chrome.storage.local.get(['wishes']);
     let wishes = wishesResult.wishes;
     let filteredwishes = wishes.filter(obj => obj.id !== this.#id);
@@ -75,7 +77,7 @@ class Wish {
     if (note) {this.#note = note};
     if (price) {this.#price = price};
     if (quantity) {this.#quantity = quantity};
-    if (wishlistId) {this.#wishlistId = wishlistId};
+    if (!(wishlistId ===  undefined)) {this.#wishlistId = wishlistId};
     await this.delete();
     await this.save();
     return this
@@ -86,8 +88,8 @@ class Wish {
     let wishes = result.wishes;
     let filteredWishes = wishes.filter(wish => wish.wishlistId == wishlistId);
     filteredWishes = filteredWishes.map((wish) => new Wish(wish));
-    let wishesNotYetSortedByDate = filteredWishes; //TODO: sort the wishes by date
-    return wishesNotYetSortedByDate; //TODO: sort the wishes by date
+    let wishesSortedByDate = filteredWishes.sort((a,b) => a.date.getTime()-b.date.getTime());
+    return wishesSortedByDate;
   };
 
   static async read(wishId) {
@@ -95,5 +97,11 @@ class Wish {
     let wishes = result.wishes;
     let wishData = wishes.find(wish => wish.id == wishId);
     return new Wish(wishData);
+  };
+
+  static async undoDelete() {
+    let wish = Wish.LAST_DELETED_WISH;
+    await wish.save();
+    return wish;
   };
 };

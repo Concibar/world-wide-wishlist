@@ -79,6 +79,6 @@ class Wishlist {
       let wishlist = new Wishlist(wishlistsData[i]);
       wishlists.push(wishlist);
     };
-    return wishlists;
+    return wishlists; // TODO: sort alphabetically
   };
 };

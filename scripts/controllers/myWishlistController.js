@@ -21,35 +21,32 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   const donate = document.getElementById('donate');
   const editWishlist = document.getElementById('edit-wishlist');
   const editWishModalSave = document.getElementById('edit-wish-modal-save');
-  const modalClosingElements = (document.querySelectorAll('.modal-background, .modal-close, .delete, .modal-cancel') || []);
+
   var wishToBeEdited;
 
-  await view.firstLoad();
-  // DONE
+  Wishlist.readAll().then(wishlists => {view.firstLoad(wishlists);});
+
   wishlistsContainer.addEventListener("mousedown", (event) => {
-    let wishlistCssId = event.target.id;
-    let numStr = wishlistCssId.replace(/[^0-9]/g, '');
-    let wishlistId = parseInt(numStr, 10);
-    Wish.readWishesOnWishlist(wishlistId).then(wishes => {
-      view.displayWishes(wishes, wishlistId);
+    let dataWishlistId = event.target.dataset.wishlistId;
+    let wishlistId = parseInt(dataWishlistId, 10);
+    Wishlist.readAll().then(wishlists => {
+      Wish.readWishesOnWishlist(wishlistId).then(wishes => {
+        view.displayWishes(wishes, wishlistId, wishlists);
+      });
     });
   });
   // add listeners to all wish-buttons
-  // TODO: 2 listeners; DONE 3/5
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {
-      var buttonCssId = event.target.id;
-      var numStr = buttonCssId.replace(/[^0-9]/g, '');
-      var wishId = parseInt(numStr, 10);
-
+      var dataWishId = event.target.dataset.wishId;
+      var wishId = parseInt(dataWishId, 10);
       if (event.target.matches(".go-to-wish-website")) {
         Wish.read(wishId).then(wish => {
           window.open(wish.url);
         });
       } else if (event.target.matches(".move-wish")) {
         Wish.read(wishId).then(wish => {
-          view.moveWish(wish);
-          // TODO: save the wish returned from moveWish here
+          view.toggleDropdown(wish);
         });
       } else if (event.target.matches(".edit-wish")) {
         Wish.read(wishId).then(wish => {
@@ -58,12 +55,26 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         });
       } else if (event.target.matches(".delete-wish")) {
         Wish.read(wishId).then(wish => {
-          view.deleteWish(wish.id).then(() => {wish.delete()})
+          view.deleteWish(wish);
+          wish.delete();
         });
       } else if (event.target.matches(".undo-delete")) {
-        view.lastDeletedWish.save();
-        view.undoDeleteWish();
+        Wish.undoDelete().then(wish => {
+          Wishlist.readAll().then(wishlists => {
+            view.undoDeleteWish(wish,wishlists);
+          });
+        });
       };
+    } else if (event.target.nodeName == "A") {
+      let dataWishId = event.target.dataset.wishId;
+      let wishId = parseInt(dataWishId, 10);
+      let dataWishlistId = event.target.dataset.wishlistId;
+      let wishlistId = parseInt(dataWishlistId, 10);
+
+      Wish.read(wishId).then(wish => {
+        wish.update({wishlistId: wishlistId});
+        view.moveWish(wish);
+      });
     };
   });
   // TODO:
@@ -72,13 +83,14 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
   // TODO:
   addIdea.addEventListener("click", () => {
-    console.log("adding a new idea");
+    view.createWish();
+
   });
-  // DONE:
+
   settings.addEventListener("click", () => {
     chrome.tabs.create({ url: chrome.runtime.getURL('html/settings.html') });
   });
-  // DONE:
+
   donate.addEventListener("click", () => {
     window.open("https://ko-fi.com/H2H2H8OO");
   });
@@ -90,25 +102,27 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   editWishModalSave.addEventListener('click', () => {
     formData = view.getEditWishModalFormData();
     if (formData) {
-      wishToBeEdited.update(formData)
-      .then((wish) => {view.updateWish(wish)})
+      Wishlist.readAll().then(wishlists => {
+        wishToBeEdited.update(formData).then((wish) => {
+          view.updateWish(wish, wishlists)
+        });
+      });
       view.closeModal(document.getElementById('edit-wish-modal'));
     };
-  })
+  });
 
-  // Escape-key closes all Modals:
+  // General closing Modal listeners
   document.addEventListener('keydown', (event) => {
     if(event.key === "Escape") {
       view.closeAllModals();
     };
   });
-
-  modalClosingElements.forEach((element) => {
-    const $modalToClose = element.closest('.modal');
-
-    element.addEventListener('click', () => {
-      view.closeModal($modalToClose);
-    });
-  });
-
+  document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal-close')
+    || event.target.classList.contains('modal-background')
+    || event.target.classList.contains('modal-cancel')
+    || event.target.classList.contains('delete')) {
+    const $modalToClose = event.target.closest('.modal');
+    view.closeModal($modalToClose);
+  }})
 });
