@@ -3,7 +3,7 @@ function wishConnection() {
 };
 
 class Wish {
-  #currency;
+  static LAST_DELETED_WISH;
   #date;
   #id;
   #image = "images/whoopsie.png";
@@ -14,9 +14,8 @@ class Wish {
   #url;
   #wishlistId;
 
-  constructor({wishlistId,name,url,image,price,currency,quantity,note,date,id}) {
-    this.#currency = currency;
-    this.#date = date;
+  constructor({wishlistId,name,url,image,price,quantity,note,date,id}) {
+    this.#date = new Date(date);
     this.#id = id;
     this.#image = (image == undefined) ? "images/whoopsie.png" : image;
     this.#name = name;
@@ -33,7 +32,6 @@ class Wish {
   get url() {return this.#url};
   get image() {return this.#image};
   get price() {return this.#price};
-  get currency() {return this.#currency};
   get quantity() {return this.#quantity};
   get note() {return this.#note};
   get date() {return this.#date};
@@ -50,47 +48,60 @@ class Wish {
     };
 
     let wishData = {
+      "date": this.#date.toISOString(),
       "id": this.#id,
-      "wishlistId": this.#wishlistId,
-      "name": this.#name,
-      "url": this.#url,
       "image": this.#image,
-      "price": this.#price,
-      "currency": this.#currency,
-      "quantity": this.#quantity,
+      "name": this.#name,
       "note": this.#note,
-      "date": this.#date
+      "price": this.#price,
+      "quantity": this.#quantity,
+      "url": this.#url,
+      "wishlistId": this.#wishlistId
     };
 
     wishes.push(wishData);
     await chrome.storage.local.set({'wishes': wishes});
-    return "Wish successfully saved!"
+    return this;
   };
 
   async delete() {
+    Wish.LAST_DELETED_WISH = this;
     let wishesResult = await chrome.storage.local.get(['wishes']);
     let wishes = wishesResult.wishes;
     let filteredwishes = wishes.filter(obj => obj.id !== this.#id);
     await chrome.storage.local.set({'wishes': filteredwishes});
   };
 
-  async update({currency,name,note,price,quantity,url,wishlistId}) {
-    if (currency) {this.#currency = currency};
+  async update({name,note,price,quantity,wishlistId}) {
     if (name) {this.#name = name};
     if (note) {this.#note = note};
     if (price) {this.#price = price};
     if (quantity) {this.#quantity = quantity};
-    if (url) {this.#url = url};
-    if (wishlistId) {this.#wishlistId = wishlistId};
+    if (!(wishlistId ===  undefined)) {this.#wishlistId = wishlistId};
     await this.delete();
     await this.save();
-    return "Wish successfully updated!"
+    return this
   };
 
   static async readWishesOnWishlist(wishlistId) {
     let result = await chrome.storage.local.get(['wishes']);
     let wishes = result.wishes;
     let filteredWishes = wishes.filter(wish => wish.wishlistId == wishlistId);
-    return filteredWishes.map((wish) => new Wish(wish));
+    filteredWishes = filteredWishes.map((wish) => new Wish(wish));
+    let wishesSortedByDate = filteredWishes.sort((a,b) => b.date.getTime()-a.date.getTime());
+    return wishesSortedByDate;
+  };
+
+  static async read(wishId) {
+    let result = await chrome.storage.local.get(['wishes']);
+    let wishes = result.wishes;
+    let wishData = wishes.find(wish => wish.id == wishId);
+    return new Wish(wishData);
+  };
+
+  static async undoDelete() {
+    let wish = Wish.LAST_DELETED_WISH;
+    await wish.save();
+    return wish;
   };
 };

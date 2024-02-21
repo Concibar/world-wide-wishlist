@@ -38,12 +38,12 @@ class Wishlist {
 
     wishlists.push(wishlistData);
     await chrome.storage.local.set({'wishlists': wishlists});
-    return "Wishlist successfully saved!"
+    return this;
   };
 
   async update(name) {
     this.#name = name;
-    await this._deleteWithoutIdCheck();
+    await this.#deleteWithoutIdCheck();
     await this.save();
     return "Wishlist successfully updated!"
   };
@@ -53,13 +53,18 @@ class Wishlist {
     let defaultWishlistId = result.defaultWishlistId;
     if (defaultWishlistId == this.#id) {
       console.log("error: you cannot delete your default wishlist. Set another one first!");
-      return "You cannot delete your default wishlist. Set another wishlist as default first!";
-    }
-    await this._deleteWithoutIdCheck();
-    return "Wishlist successfully deleted!"
+      return false
+    } else {
+      let wishes = Wish.readWishesOnWishlist(this.#id);
+      for (let i = 0; i < wishes.length; i++) {
+        let wish = wishes[i];
+        await wish.delete();
+      };
+      await this.#deleteWithoutIdCheck();
+    };
   };
 
-  async _deleteWithoutIdCheck() {
+  async #deleteWithoutIdCheck() {
     let wishlistsResult = await chrome.storage.local.get(['wishlists']);
     let wishlists = wishlistsResult.wishlists;
     let filteredWishlists = wishlists.filter(obj => obj.id !== this.#id);
@@ -67,7 +72,7 @@ class Wishlist {
   };
 
   async setAsDefaultWishlist() {
-    let results = await chrome.storage.local.set({'defaultWishlistId': this.#id});
+    await chrome.storage.local.set({'defaultWishlistId': this.#id});
   };
 
   static async readAll() {
@@ -79,6 +84,7 @@ class Wishlist {
       let wishlist = new Wishlist(wishlistsData[i]);
       wishlists.push(wishlist);
     };
-    return wishlists;
+
+    return wishlists; // TODO: sort alphabetically
   };
 };
