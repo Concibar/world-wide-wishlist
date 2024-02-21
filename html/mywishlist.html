@@ -171,7 +171,7 @@
                   </div>
                 </div>
 
-                <!-- Price+$ -->
+                <!-- Price -->
                 <div class="field is-horizontal">
                   <div class="field-label is-normal">
                     <label for="edit-wish-price" class="label">Price</label>
@@ -180,7 +180,7 @@
                     <div class="field is-expanded">
                       <div class="field has-addons">
                         <div class="control is-expanded">
-                          <input id="edit-wish-price" name="edit-wish-price" class="input" type="number" min="0">
+                          <input id="edit-wish-price" name="edit-wish-price" class="input" type="text">
                         </div>
                       </div>
                     </div>
@@ -224,9 +224,84 @@
       <button class="modal-close is-large" aria-label="close"></button>
     </div>
 
-    <!-- TODO: Move Wish Modal -->
+    <!-- Add Idea Modal -->
+    <div id="add-idea-modal" class="modal">
+      <div class="modal-background"></div>
 
-    <!-- TODO: Add Idea Modal -->
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Add an Idea</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="is-flex p-3">
+            <div class="is-flex-grow-1">
+              <form id="edit-wish-form">
+
+                <!-- Name -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label for="add-idea-name" class="label">Name</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field control">
+                      <input id="add-idea-name" name="add-idea-name" class="input" type="text" placeholder="Name of your idea">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Price -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label for="add-idea-price" class="label">Price</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field is-expanded">
+                      <div class="field has-addons">
+                        <div class="control is-expanded">
+                          <input id="add-idea-price" name="add-idea-price" class="input" type="text">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label for="add-idea-quantity" class="label">Quantity</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field control">
+                      <input id="add-idea-quantity" name="add-idea-quantity" class="input" type="number" min="1" value="1">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Note -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label for="add-idea-note" class="label">Note</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field control">
+                      <input id="add-idea-note" name="add-idea-note" class="input" type="text" placeholder="e.g. gift idea for Grandma">
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="add-idea-modal-save" class="button is-success">Save changes</button>
+          <button class="button modal-cancel">Cancel</button>
+        </footer>
+      </div>
+
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
 
     <!-- TODO: Create Wishlist Modal -->
 

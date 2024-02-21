@@ -43,7 +43,7 @@ class Wishlist {
 
   async update(name) {
     this.#name = name;
-    await this._deleteWithoutIdCheck();
+    await this.#deleteWithoutIdCheck();
     await this.save();
     return "Wishlist successfully updated!"
   };
@@ -54,12 +54,19 @@ class Wishlist {
     if (defaultWishlistId == this.#id) {
       console.log("error: you cannot delete your default wishlist. Set another one first!");
       return "You cannot delete your default wishlist. Set another wishlist as default first!";
-    }
-    await this._deleteWithoutIdCheck();
-    return "Wishlist successfully deleted!"
+    } else {
+      let wishes = Wish.readWishesOnWishlist(this.#id);
+      for (let i = 0; i < wishes.length; i++) {
+        const element = wishes[i];
+        wishes.array.forEach(element => {
+          
+        });
+      }
+      await this.#deleteWithoutIdCheck();
+    };
   };
 
-  async _deleteWithoutIdCheck() {
+  async #deleteWithoutIdCheck() {
     let wishlistsResult = await chrome.storage.local.get(['wishlists']);
     let wishlists = wishlistsResult.wishlists;
     let filteredWishlists = wishlists.filter(obj => obj.id !== this.#id);
@@ -79,6 +86,7 @@ class Wishlist {
       let wishlist = new Wishlist(wishlistsData[i]);
       wishlists.push(wishlist);
     };
+
     return wishlists; // TODO: sort alphabetically
   };
 };

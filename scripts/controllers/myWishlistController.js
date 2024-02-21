@@ -16,11 +16,14 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   const wishlistsContainer = document.getElementById('wishlists');
   const wishesContainer = document.getElementById('wishes');
   const createNewWishlist = document.getElementById('create-new-list');
-  const addIdea = document.getElementById('add-an-idea');
+  const addIdeaButton = document.getElementById('add-an-idea');
   const settings = document.getElementById('settings');
   const donate = document.getElementById('donate');
   const editWishlist = document.getElementById('edit-wishlist');
+
+  const addIdeaModal = document.getElementById('add-idea-modal');
   const editWishModalSave = document.getElementById('edit-wish-modal-save');
+  const addIdeaModalSave = document.getElementById('add-idea-modal-save');
 
   var wishToBeEdited;
 
@@ -35,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       });
     });
   });
-  // add listeners to all wish-buttons
+  // adds listeners to all wish-buttons
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {
       var dataWishId = event.target.dataset.wishId;
@@ -81,10 +84,25 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   createNewWishlist.addEventListener("click", () => {
     console.log("creating new wishlist");
   });
-  // TODO:
-  addIdea.addEventListener("click", () => {
-    view.createWish();
 
+  addIdeaButton.addEventListener("click", () => {
+    view.openModal(addIdeaModal);
+  });
+
+  addIdeaModalSave.addEventListener('click', () => {
+    formData = view.getAddIdeaFormData();
+    if (formData) {
+      let wish = new Wish(formData);
+      view.closeModal(addIdeaModal);
+      wish.save().then((wish) => {
+        Wishlist.readAll().then(wishlists => {
+          Wish.readWishesOnWishlist(wish.wishlistId).then(wishes => {
+            view.displayWishes(wishes, wish.wishlistId, wishlists);
+          });
+        });
+
+      });
+    };
   });
 
   settings.addEventListener("click", () => {
@@ -100,7 +118,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
 
   editWishModalSave.addEventListener('click', () => {
-    formData = view.getEditWishModalFormData();
+    formData = view.getEditWishFormData();
     if (formData) {
       Wishlist.readAll().then(wishlists => {
         wishToBeEdited.update(formData).then((wish) => {

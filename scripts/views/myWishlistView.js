@@ -69,10 +69,6 @@ class MyWishlistView{
     };
   };
 
-  createWish() {
-    console.log("adding a new idea");
-  };
-
   toggleDropdown(wish) {
     let dropdown = document.querySelector(`[data-wish-id="${wish.id}"].dropdown`);
     dropdown.classList.toggle('is-active');
@@ -93,9 +89,12 @@ class MyWishlistView{
     this.openModal(editWishModal);
   };
 
-  getEditWishModalFormData() {
+  getEditWishFormData() {
     if (document.getElementById("edit-wish-name").value.length < 1) {
       window.alert("Name cannot be empty, please enter a name!");
+      return false
+    } else if (document.getElementById("edit-wish-name").value.length > 50) {
+      window.alert("Name longer than 50 letters, please enter shorter name!");
       return false
     } else {
       let formData = {
@@ -105,9 +104,28 @@ class MyWishlistView{
         'note': document.getElementById("edit-wish-note").value
       };
       return formData;
+    };
+  };
 
-    }
-  }
+  getAddIdeaFormData() {
+    if (document.getElementById("add-idea-name").value.length < 1) {
+      window.alert("Name cannot be empty, please enter a name!");
+      return false
+    } else if (document.getElementById("add-idea-name").value.length > 50) {
+      window.alert("Name longer than 50 letters, please enter shorter name!");
+      return false
+    } else {
+      let formData = {
+        'name': document.getElementById("add-idea-name").value,
+        'price': document.getElementById("add-idea-price").value,
+        'quantity': document.getElementById("add-idea-quantity").value,
+        'note': document.getElementById("add-idea-note").value,
+        'wishlistId': this.#currentWishlistId,
+        'date': new Date()
+      };
+      return formData;
+    };
+  };
 
   deleteWish(wish) {
     let undoElement = document.getElementById("undo-delete");
@@ -172,67 +190,118 @@ class MyWishlistView{
   // Private Methods
 
   #makeHtmlElementFromWish(wish, wishlists) {
-    return `
-      <div data-wish-id="${wish.id}" class="wish box">
-        <div class="is-flex">
+    if (wish.url == null) {
+      return `
+        <div data-wish-id="${wish.id}" class="wish box">
+          <div class="is-flex">
 
-          <figure class="image is-128x128 mr-3">
-            <img src="${this.#makeHtmlImgSrc(wish)}" alt="product image of ${wish.name}">
-          </figure>
+            <div class="is-flex-grow-1">
+              <h3>${wish.name}</h3>
+              <div>
+                <h4>Note:</h4>
+                <p>${wish.note}</p>
+              </div>
+            </div>
 
-          <div class="is-flex-grow-1">
-            <h3>${wish.name}</h3>
-            <h4>from: ${wish.url}</h4>
-            <div>
-              <h4>Note:</h4>
-              <p>${wish.note}</p>
-            </div>
-          </div>
-
-          <div class="ml-3">
-            <div>
-              <p>Article added on ${wish.date.toDateString()}</p>
-            </div>
-            <div>
-              <button data-wish-id="${wish.id}" class="button go-to-wish-website">
-                <span style="pointer-events: none;">Go to shop</span>
-                <span style="pointer-events: none;" class="icon">
-                  <i class="fa-solid fa-up-right-from-square"></i>
-                </span>
-              </button>
-            </div>
-            <div>
-              <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
-                  <div class="dropdown-trigger">
-                    <button data-wish-id="${wish.id}" class="button move-wish" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span style="pointer-events: none;">Move to...</span>
-                      <span style="pointer-events: none;" class="icon is-small">
-                        <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
-                      </span>
-                    </button>
-                  </div>
-                  <div id="wish-17-move-dropdown-menu" class="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                      ${this.#makeHtmlMoveWishDropdown(wish, wishlists)}
+            <div class="ml-3">
+              <div>
+                <p>Article added on ${wish.date.toDateString()}</p>
+              </div>
+              <div>
+                <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
+                    <div class="dropdown-trigger">
+                      <button data-wish-id="${wish.id}" class="button move-wish" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span style="pointer-events: none;">Move to...</span>
+                        <span style="pointer-events: none;" class="icon is-small">
+                          <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div id="wish-17-move-dropdown-menu" class="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        ${this.#makeHtmlMoveWishDropdown(wish, wishlists)}
+                      </div>
                     </div>
                   </div>
-                </div>
-              <button data-wish-id="${wish.id}" class="button edit-wish">
-                <span style="pointer-events: none;" class="icon">
-                  <i class="fa-solid fa-pen"></i>
-                </span>
-              </button>
-              <button data-wish-id="${wish.id}" class="button delete-wish">
-                <span style="pointer-events: none;" class="icon">
-                  <i class="fa-solid fa-trash"></i>
-                </span>
-              </button>
+                <button data-wish-id="${wish.id}" class="button edit-wish">
+                  <span style="pointer-events: none;" class="icon">
+                    <i class="fa-solid fa-pen"></i>
+                  </span>
+                </button>
+                <button data-wish-id="${wish.id}" class="button delete-wish">
+                  <span style="pointer-events: none;" class="icon">
+                    <i class="fa-solid fa-trash"></i>
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      return `
+        <div data-wish-id="${wish.id}" class="wish box">
+          <div class="is-flex">
+
+            <figure class="image is-128x128 mr-3">
+              <img src="${this.#makeHtmlImgSrc(wish)}" alt="product image of ${wish.name}">
+            </figure>
+
+            <div class="is-flex-grow-1">
+              <h3>${wish.name}</h3>
+              <h4>from: ${wish.url}</h4>
+              <div>
+                <h4>Note:</h4>
+                <p>${wish.note}</p>
+              </div>
+            </div>
+
+            <div class="ml-3">
+              <div>
+                <p>Article added on ${wish.date.toDateString()}</p>
+              </div>
+              <div>
+                <button data-wish-id="${wish.id}" class="button go-to-wish-website">
+                  <span style="pointer-events: none;">Go to shop</span>
+                  <span style="pointer-events: none;" class="icon">
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                  </span>
+                </button>
+              </div>
+              <div>
+                <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
+                    <div class="dropdown-trigger">
+                      <button data-wish-id="${wish.id}" class="button move-wish" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span style="pointer-events: none;">Move to...</span>
+                        <span style="pointer-events: none;" class="icon is-small">
+                          <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div id="wish-17-move-dropdown-menu" class="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        ${this.#makeHtmlMoveWishDropdown(wish, wishlists)}
+                      </div>
+                    </div>
+                  </div>
+                <button data-wish-id="${wish.id}" class="button edit-wish">
+                  <span style="pointer-events: none;" class="icon">
+                    <i class="fa-solid fa-pen"></i>
+                  </span>
+                </button>
+                <button data-wish-id="${wish.id}" class="button delete-wish">
+                  <span style="pointer-events: none;" class="icon">
+                    <i class="fa-solid fa-trash"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+    };
   };
 
   #makeHtmlImgSrc(wish) {

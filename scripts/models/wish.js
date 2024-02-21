@@ -61,7 +61,7 @@ class Wish {
 
     wishes.push(wishData);
     await chrome.storage.local.set({'wishes': wishes});
-    return "Wish successfully saved!"
+    return this;
   };
 
   async delete() {
@@ -88,7 +88,7 @@ class Wish {
     let wishes = result.wishes;
     let filteredWishes = wishes.filter(wish => wish.wishlistId == wishlistId);
     filteredWishes = filteredWishes.map((wish) => new Wish(wish));
-    let wishesSortedByDate = filteredWishes.sort((a,b) => a.date.getTime()-b.date.getTime());
+    let wishesSortedByDate = filteredWishes.sort((a,b) => b.date.getTime()-a.date.getTime());
     return wishesSortedByDate;
   };
 
