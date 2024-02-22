@@ -30,7 +30,6 @@ class PopupView {
       wishlistsSelector.insertAdjacentHTML("afterbegin", `<option value="${wishlists[i].id}">${wishlists[i].name}</option>`);
     };
     //TODO: make sure the default is up and selected
-    //TODO: display the price
   };
 
   displayNext() {

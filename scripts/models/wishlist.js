@@ -92,6 +92,7 @@ class Wishlist {
       let wishlist = new Wishlist(wishlistsData[i]);
       wishlists.push(wishlist);
     };
-    return wishlists;
+    let wishlistsSortedAlphabetically = wishlists.sort((a, b) => a.name.localeCompare(b.name))
+    return wishlistsSortedAlphabetically;
   };
 };

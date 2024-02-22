@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   const scraper = new Scraper;
   await scraper.scrape();
   const wishlists = await Wishlist.readAll();
-  const view = new PopupView(scraper, wishlists);
+  const view = new PopupView(scraper);
   view.displayScraped(wishlists);
 
   // Prev-Next Gallery
