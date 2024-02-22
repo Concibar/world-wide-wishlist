@@ -23,16 +23,6 @@ function grabImages() {
   return Array.from(images).filter(isProperPicture).map(image=>image.src);
 };
 
-function logFrameInfo(framesInfo) {
-  for (const frameInfo of framesInfo) {
-    console.log(frameInfo);
-  }
-}
-
-function onError(error) {
-  console.error(`Error: ${error}`);
-}
-
 class Scraper {
   title = "";
   url ="";
