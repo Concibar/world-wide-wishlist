@@ -355,8 +355,43 @@
       <button class="modal-close is-large" aria-label="close"></button>
     </div>
 
-    <!-- TODO: edit & delete Wishlist Modal -->
+    <!-- edit & delete Wishlist Modal -->
+    <div id="edit-wishlist-modal" class="modal">
+      <div class="modal-background"></div>
 
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p id="edit-wishlist-card-title" class="modal-card-title">Edit Wishlist</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="is-flex p-3">
+            <div class="is-flex-grow-1">
+              <form id="edit-wishlist-form" class="control">
+                <!-- Name -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label for="edit-wishlist-name" class="label">Name</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field control">
+                      <input id="edit-wishlist-name" name="edit-wishlist-name" class="input" type="text" placeholder="Name of your idea">
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="edit-wishlist-modal-save" class="button is-success">Save changes</button>
+          <button class="button modal-cancel">Cancel</button>
+          <button id="edit-wishlist-modal-delete" class="button is-danger">Delete wishlist</button>
+        </footer>
+      </div>
+
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
 
   </body>
 </html>

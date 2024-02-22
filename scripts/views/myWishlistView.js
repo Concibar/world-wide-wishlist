@@ -7,6 +7,10 @@ class MyWishlistView{
 
   constructor() {};
 
+  get currentWishlistId() {
+    return this.#currentWishlistId;
+  };
+
   completeLoad(defaultWishlistId, wishes, wishlists) {
     // fill with the default wishlist at the top
     // give every wishlist element an id
@@ -85,15 +89,16 @@ class MyWishlistView{
   };
 
   getEditWishFormData() {
-    if (document.getElementById("edit-wish-name").value.length < 1) {
+    let name = document.getElementById("edit-wish-name").value;
+    if (name.length < 1) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
-    } else if (document.getElementById("edit-wish-name").value.length > 50) {
+    } else if (name.length > 50) {
       window.alert("Name longer than 50 letters, please enter a shorter name!");
       return false
     } else {
       let formData = {
-        'name': document.getElementById("edit-wish-name").value,
+        'name': name,
         'price': document.getElementById("edit-wish-price").value,
         'quantity': document.getElementById("edit-wish-quantity").value,
         'note': document.getElementById("edit-wish-note").value
@@ -102,16 +107,38 @@ class MyWishlistView{
     };
   };
 
-  getAddIdeaFormData() {
-    if (document.getElementById("add-idea-name").value.length < 1) {
+  getEditWishlistNewName() {
+    let name = document.getElementById("edit-wishlist-name").value;
+    if (name.length < 1) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
-    } else if (document.getElementById("add-idea-name").value.length > 50) {
+    } else if (name.length > 30) {
+      window.alert("Name longer than 30 letters, please enter a shorter name!");
+      return false
+    } else {
+      return name;
+    };
+  };
+
+  deleteWishlist(defaultWishlistId) {
+    if (defaultWishlistId === this.#currentWishlistId) {
+      window.alert("You cannot delete your default wishlist. Please make another wishlist your default wishlist before you delete this wishlist.");
+    } else {
+      return window.confirm("Are you sure you want to delete this wishlist and all wishes on it? This cannot be undone!")
+    };
+  };
+
+  getAddIdeaFormData() {
+    let name = document.getElementById("add-idea-name").value;
+    if (name.length < 1) {
+      window.alert("Name cannot be empty, please enter a name!");
+      return false
+    } else if (name.length > 50) {
       window.alert("Name longer than 50 letters, please enter a shorter name!");
       return false
     } else {
       let formData = {
-        'name': document.getElementById("add-idea-name").value,
+        'name': name,
         'price': document.getElementById("add-idea-price").value,
         'quantity': document.getElementById("add-idea-quantity").value,
         'note': document.getElementById("add-idea-note").value,
@@ -123,15 +150,16 @@ class MyWishlistView{
   };
 
   getCreateWishlistFormData() {
-    if (document.getElementById("create-wishlist-name").value.length < 1) {
+    let name = document.getElementById("create-wishlist-name").value;
+    if (name.length < 1) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
-    } else if (document.getElementById("create-wishlist-name").value.length > 30) {
+    } else if (name.length > 30) {
       window.alert("Name longer than 30 letters, please enter a shorter name!");
       return false
     } else {
       let formData = {
-        'name': document.getElementById("create-wishlist-name").value,
+        'name': name,
         'newDefault': document.getElementById("create-wishlist-new-default-wishlist").checked
       };
       return formData;
@@ -172,12 +200,11 @@ class MyWishlistView{
     wishHtmlElement.outerHTML = this.#makeHtmlElementFromWish(wish, wishlists);
   };
 
-  editWishlist() {
-
-  };
-
-  deleteWishlist() {
-
+  editWishlist(wishlist) {
+    document.getElementById("edit-wishlist-name").value = wishlist.name;
+    document.getElementById("edit-wishlist-card-title").innerText = `Edit "${wishlist.name}"`
+    let editWishlistModal = document.getElementById("edit-wishlist-modal");
+    this.openModal(editWishlistModal);
   };
 
   openModal($modal) {
