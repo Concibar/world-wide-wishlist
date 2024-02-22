@@ -2,7 +2,6 @@ function wishlistConnection() {
   console.log("wishlist.js connected");
 };
 
-// TODO: make sure the frontend displays the message returned from save/update/delete correctly!
 class Wishlist {
   #id;
   #name = "unnamed wishlist";
@@ -45,7 +44,7 @@ class Wishlist {
     this.#name = name;
     await this.#deleteWithoutIdCheck();
     await this.save();
-    return "Wishlist successfully updated!"
+    return this;
   };
 
   async delete() {
@@ -55,7 +54,7 @@ class Wishlist {
       console.log("error: you cannot delete your default wishlist. Set another one first!");
       return false
     } else {
-      let wishes = Wish.readWishesOnWishlist(this.#id);
+      let wishes = await Wish.readWishesOnWishlist(this.#id);
       for (let i = 0; i < wishes.length; i++) {
         let wish = wishes[i];
         await wish.delete();
@@ -75,8 +74,17 @@ class Wishlist {
     await chrome.storage.local.set({'defaultWishlistId': this.#id});
   };
 
+  static async read(wishlistId) {
+    let result = await chrome.storage.local.get(['wishlists']);
+    let wishlistsData = result.wishlists;
+    let wishlistData = wishlistsData.find((wishlist) => {
+      return wishlist.id === wishlistId;
+    });
+    let wishlist = new Wishlist(wishlistData);
+    return wishlist;
+  };
+
   static async readAll() {
-    // returns an Array of all Wishlist objects
     let result = await chrome.storage.local.get(['wishlists']);
     let wishlistsData = result.wishlists;
     let wishlists = [];
@@ -84,7 +92,6 @@ class Wishlist {
       let wishlist = new Wishlist(wishlistsData[i]);
       wishlists.push(wishlist);
     };
-
-    return wishlists; // TODO: sort alphabetically
+    return wishlists;
   };
 };

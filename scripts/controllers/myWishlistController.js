@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   const donate = document.getElementById('donate');
   const editWishlistButton = document.getElementById('edit-wishlist');
 
+
+  const editWishlistModalSave = document.getElementById('edit-wishlist-modal-save');
+  const editWishlistModalDelete = document.getElementById('edit-wishlist-modal-delete');
   const createWishlistModal = document.getElementById('create-wishlist-modal');
   const createWishlistModalSave = document.getElementById('create-wishlist-modal-save');
   const addIdeaModal = document.getElementById('add-idea-modal');
@@ -28,6 +31,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   const editWishModalSave = document.getElementById('edit-wish-modal-save');
 
   var wishToBeEdited;
+  var wishlistToBeEdited;
 
   async function loadPage() {
     let wishlists = await Wishlist.readAll();
@@ -47,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       });
     });
   });
-  // adds listeners to all wish-buttons
+
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {
       var dataWishId = event.target.dataset.wishId;
@@ -136,9 +140,36 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   donate.addEventListener("click", () => {
     window.open("https://ko-fi.com/H2H2H8OO");
   });
-  // TODO:
+
   editWishlistButton.addEventListener("click", () => {
-    console.log("editing the wishlist");
+    var wishlistId = view.currentWishlistId;
+    Wishlist.read(wishlistId).then((wishlist) => {
+      view.editWishlist(wishlist);
+      wishlistToBeEdited = wishlist;
+    });
+  });
+
+  editWishlistModalSave.addEventListener('click', async function() {
+    var name = view.getEditWishlistNewName();
+    if (name) {
+      view.closeModal(document.getElementById('edit-wishlist-modal'));
+      await wishlistToBeEdited.update(name);
+      let wishes = await Wish.readWishesOnWishlist(wishlistToBeEdited.id);
+      let wishlists = await Wishlist.readAll();
+      await loadPage();
+      view.displayWishes(wishes, wishlistToBeEdited.id, wishlists);
+    };
+  });
+
+  editWishlistModalDelete.addEventListener('click', async function() {
+    let result = await chrome.storage.local.get('defaultWishlistId');
+    let defaultWishlistId = result.defaultWishlistId;
+    let deleteBoolean = view.deleteWishlist(defaultWishlistId);
+    if (deleteBoolean) {
+      view.closeModal(document.getElementById('edit-wishlist-modal'));
+      await wishlistToBeEdited.delete();
+      await loadPage();
+    };
   });
 
   editWishModalSave.addEventListener('click', () => {
