@@ -26,7 +26,7 @@ function grabImages() {
 
 class Scraper {
   title = "";
-  url ="";
+  url = "";
   imageArray = [];
   price = 0;
 
@@ -44,20 +44,30 @@ class Scraper {
 
     let srcArray = this.#combineFrames(frames);
 
-    this.title = tab.title;
+    this.title = this.#cutTitle(tab.title);
     this.url = tab.url;
     this.imageArray = srcArray;
+  };
+
+  #cutTitle(title) {
+    // TODO: extract homeDomain stuff from Titles
+    let maxTitleLength = 50;
+    if (title.length > maxTitleLength) {
+      title = title.substring(0,  (maxTitleLength-3)) + "...";
     };
+
+    return title
+  }
 
   #combineFrames(frames) {
-      if (!frames || !frames.length) {
-        console.log("Error: Couldn't find any images on the specified page");
-        // To-Do: give the no-images-found image placeholder
-        // let imageUrls = ["path/to/placeholder.png"]
-        // return imageUrls
-        return;
-      };
-      return frames.map(frame => frame.result).reduce((r1, r2) => r1.concat(r2));
+    if (!frames || !frames.length) {
+      console.log("Error: Couldn't find any images on the specified page");
+      // To-Do: give the no-images-found image placeholder
+      // let imageUrls = ["path/to/placeholder.png"]
+      // return imageUrls
+      return;
     };
-
+    return frames.map(frame => frame.result).reduce((r1, r2) => r1.concat(r2));
   };
+
+};

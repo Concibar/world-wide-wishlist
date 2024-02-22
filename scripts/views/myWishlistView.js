@@ -164,7 +164,7 @@ class MyWishlistView{
       };
       return formData;
     };
-  }
+  };
 
   deleteWish(wish) {
     let undoElement = document.getElementById("undo-delete");
@@ -209,17 +209,17 @@ class MyWishlistView{
 
   openModal($modal) {
     $modal.classList.add('is-active');
-  }
+  };
 
   closeModal($modal) {
     $modal.classList.remove('is-active');
-  }
+  };
 
   closeAllModals() {
     (document.querySelectorAll('.modal') || []).forEach(($modal) => {
       this.closeModal($modal);
     });
-  }
+  };
 
   // Private Methods
 
@@ -277,14 +277,13 @@ class MyWishlistView{
       return `
         <div data-wish-id="${wish.id}" class="wish box">
           <div class="is-flex">
-
-            <figure class="image is-128x128 mr-3">
-              <img src="${this.#makeHtmlImgSrc(wish)}" alt="product image of ${wish.name}">
+            <figure class="image mr-3">
+              <img class="wish-image" src="${this.#makeHtmlImgSrc(wish)}" alt="product image of ${wish.name}">
             </figure>
 
             <div class="is-flex-grow-1">
               <h3>${wish.name}</h3>
-              <h4>from: ${wish.url}</h4>
+              <h4>from: ${this.#makeHomeUrl(wish.url)}</h4>
               <div>
                 <h4>Note:</h4>
                 <p>${wish.note}</p>
@@ -336,6 +335,12 @@ class MyWishlistView{
         </div>
       `;
     };
+  };
+
+  #makeHomeUrl(url) {
+      const domainRegex = /(?:https?:\/\/)?(?:www\.)?([^\/]+)/i;
+      const match = url.match(domainRegex);
+      return match ? match[1] : "error";
   };
 
   #makeHtmlImgSrc(wish) {

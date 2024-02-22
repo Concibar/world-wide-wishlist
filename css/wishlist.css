@@ -2,3 +2,8 @@
 .active-wishlist{
   background-color: hsl(0, 0%, 86%);
 }
+
+.wish-image{
+  max-height: 128px;
+  width: auto;
+}

@@ -15,7 +15,7 @@ class PopupView {
     this.price = scraper.price;
   };
 
-  displayScraped(wishlists) {
+  displayScraped(wishlists, selectedWishlistId) {
     document.getElementById('wish-name').value = this.wishName;
     //display the images in the gallery
     let gallery = document.getElementById('image-gallery');
@@ -26,12 +26,7 @@ class PopupView {
       document.getElementById('0').setAttribute('style', 'display: initial;');
     };
 
-    //display the wishlists
-    let wishlistsSelector = document.getElementById('wishlists');
-    for (let i = 0; i < wishlists.length; i++) {
-      wishlistsSelector.insertAdjacentHTML("afterbegin", `<option value="${wishlists[i].id}">${wishlists[i].name}</option>`);
-    };
-    //TODO: make sure the default is up and selected
+    this.displayWishlists(wishlists, selectedWishlistId);
   };
 
   displayNext() {
@@ -53,55 +48,112 @@ class PopupView {
   };
 
   async getFormData() {
-    let gallery = document.getElementById('image-gallery');
-    let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
-    var formData = {};
-        formData.image       = await this.#convertImage(activeSrc);
-        formData.date        = new Date();
-        formData.url         = this.url;
-        formData.wishlistId  = "test wishlist id";
-        formData.name        = document.getElementById('wish-name').value;
-        formData.price       = document.getElementById('wish-price').value;
-        formData.quantity    = document.getElementById('wish-quantity').value;
-        formData.note        = document.getElementById('wish-note').value;
-    return formData;
+    let wishName = document.getElementById('wish-name').value;
+    let nameMaxLength = 50;
+    let nameMinLength = 1;
+    if (wishName.length < nameMinLength) {
+      window.alert("Name cannot be empty, please enter a name!");
+      return false
+    } else if (wishName.length > nameMaxLength) {
+      window.alert("Name longer than " + nameMaxLength + " letters, please enter a shorter name!");
+      return false
+    } else {
+      let gallery = document.getElementById('image-gallery');
+      let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
+      var formData = {};
+          formData.image       = await this.#convertImage(activeSrc);
+          formData.date        = new Date();
+          formData.url         = this.wishUrl;
+          formData.wishlistId  = document.getElementById('wishlists').value;
+          formData.name        = wishName;
+          formData.price       = document.getElementById('wish-price').value;
+          formData.quantity    = document.getElementById('wish-quantity').value;
+          formData.note        = document.getElementById('wish-note').value;
+      return formData;
+    };
+  };
+
+  displayWishlists(wishlists, selectedWishlistId) {
+    let wishlistsSelector = document.getElementById('wishlists');
+    for (let i = 0; i < wishlists.length; i++) {
+      wishlistsSelector.insertAdjacentHTML("afterbegin", `<option value="${wishlists[i].id}" class="wishlist-option">${wishlists[i].name}</option>`);
+    };
+    wishlistsSelector.value = selectedWishlistId;
+  };
+
+  getCreateWishlistFormData() {
+    let name = document.getElementById("create-wishlist-name").value;
+    if (name.length < 1) {
+      window.alert("Name cannot be empty, please enter a name!");
+      return false
+    } else if (name.length > 30) {
+      window.alert("Name longer than 30 letters, please enter a shorter name!");
+      return false
+    } else {
+      let formData = {
+        'name': name,
+        'newDefault': document.getElementById("create-wishlist-new-default-wishlist").checked
+      };
+      return formData;
+    };
+  };
+
+  confirmSave() {
+    document.getElementById('content').innerHTML = `
+    <p>success!</p>
+    `
+  };
+
+  openModal($modal) {
+    $modal.classList.add('is-active');
+  };
+
+  closeModal($modal) {
+    $modal.classList.remove('is-active');
+  };
+
+  closeAllModals() {
+    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+      this.closeModal($modal);
+    });
   };
 
   #convertImage(imageSrc) {
     return new Promise((resolve) => {
-      //create an image object from the path
+      // Create an image object from the path
       const originalImage = new Image();
       originalImage.src = imageSrc;
       originalImage.crossOrigin = "anonymous";
 
-      //get a reference to the canvas
+      // Get a reference to the canvas
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
 
-      //wait for the image to load
+      // Wait for the image to load
       originalImage.addEventListener('load', () => {
 
-          //get the original image size and aspect ratio
+          // Get the original image size and aspect ratio
           const originalWidth = originalImage.naturalWidth;
           const originalHeight = originalImage.naturalHeight;
           const aspectRatio = originalWidth/originalHeight;
           var newWidth = 200;
           var newHeight = 200;
 
-          //resize image while keeping the Ratio
+          // Resize image while keeping the Ratio
           if (originalWidth > originalHeight) {
-            newHeight = newWidth * aspectRatio;
+            newHeight = newWidth / aspectRatio;
           } else {
-            newWidth = newHeight/aspectRatio;
+            newWidth = newHeight * aspectRatio;
           }
 
-          //set the canvas size
-          canvas.width = 200;
-          canvas.height = 200;
+          // Set the canvas size
+          canvas.width = newWidth;
+          canvas.height = newHeight;
 
-          //render the image
+          // Render the image
           ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
           const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
+          console.log(base64);
           resolve(base64);
       });
     });
