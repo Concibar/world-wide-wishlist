@@ -95,4 +95,11 @@ class Wishlist {
     let wishlistsSortedAlphabetically = wishlists.sort((a, b) => a.name.localeCompare(b.name))
     return wishlistsSortedAlphabetically;
   };
+
+  static async getDefaultWishlist() {
+    let result = await chrome.storage.local.get('defaultWishlistId');
+    let defaultWishlistId = result.defaultWishlistId;
+    let defaultWishlist = await Wishlist.read(defaultWishlistId);
+    return defaultWishlist;
+  }
 };

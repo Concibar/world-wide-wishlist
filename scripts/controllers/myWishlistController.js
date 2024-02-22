@@ -35,10 +35,9 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
 
   async function loadPage() {
     let wishlists = await Wishlist.readAll();
-    let result = await chrome.storage.local.get('defaultWishlistId');
-    let defaultWishlistId = result.defaultWishlistId;
-    let wishes = await Wish.readWishesOnWishlist(defaultWishlistId);
-    view.completeLoad(defaultWishlistId, wishes, wishlists);
+    let defaultWishlist = await Wishlist.getDefaultWishlist();
+    let wishes = await Wish.readWishesOnWishlist(defaultWishlist.id);
+    view.completeLoad(defaultWishlist.id, wishes, wishlists);
   };
   await loadPage();
 
@@ -108,7 +107,6 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         await wishlist.setAsDefaultWishlist();
       };
       let wishlists = await Wishlist.readAll();
-      let result = await chrome.storage.local.get('defaultWishlistId');
       await loadPage();
       view.displayWishes([], wishlist.id, wishlists);
     };
@@ -162,9 +160,8 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
 
   editWishlistModalDelete.addEventListener('click', async function() {
-    let result = await chrome.storage.local.get('defaultWishlistId');
-    let defaultWishlistId = result.defaultWishlistId;
-    let deleteBoolean = view.deleteWishlist(defaultWishlistId);
+    let defaultWishlist = await Wishlist.getDefaultWishlist();
+    let deleteBoolean = view.deleteWishlist(defaultWishlist.id);
     if (deleteBoolean) {
       view.closeModal(document.getElementById('edit-wishlist-modal'));
       await wishlistToBeEdited.delete();
