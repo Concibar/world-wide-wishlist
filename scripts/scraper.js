@@ -20,7 +20,8 @@ function grabImages() {
     if (hasWeirdPictureExtension(element)) return false;
     return true;
   };
-  return Array.from(images).filter(isProperPicture).map(image=>image.src);
+  let imageSrcs = Array.from(images).filter(isProperPicture).map(image=>image.src);
+  return imageSrcs;
 };
 
 class Scraper {
@@ -30,8 +31,6 @@ class Scraper {
   price = 0;
 
   constructor() {};
-  // TODO: Implement a scalable special scraper call for specific URLs (Amazon, Ali-Express, Etsy, Ebay)
-  // TODO: Implement affiliate link conversion for websites that have that service (amazon, ebay)
   // TODO: Filter SRC for evil scripts
 
   async scrape() {
@@ -48,12 +47,11 @@ class Scraper {
     this.title = tab.title;
     this.url = tab.url;
     this.imageArray = srcArray;
-    this.price = "to-do: scrape price";
     };
 
   #combineFrames(frames) {
       if (!frames || !frames.length) {
-        alert("Error: Couldn't find any images on the specified page");
+        console.log("Error: Couldn't find any images on the specified page");
         // To-Do: give the no-images-found image placeholder
         // let imageUrls = ["path/to/placeholder.png"]
         // return imageUrls
