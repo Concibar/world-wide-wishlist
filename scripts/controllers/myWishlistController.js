@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     let defaultWishlist = await Wishlist.getDefaultWishlist();
     let wishes = await Wish.readWishesOnWishlist(defaultWishlist.id);
     view.completeLoad(defaultWishlist.id, wishes, wishlists);
-  };
+  }
   await loadPage();
 
   wishlistsContainer.addEventListener("mousedown", (event) => {
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
             view.undoDeleteWish(wish,wishlists);
           });
         });
-      };
+      }
     } else if (event.target.nodeName == "A") {
       let dataWishId = event.target.dataset.wishId;
       let wishId = parseInt(dataWishId, 10);
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         wish.update({wishlistId: wishlistId});
         view.moveWish(wish);
       });
-    };
+    }
   });
 
   createWishlistButton.addEventListener("click", () => {
@@ -105,11 +105,11 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       wishlist = await wishlist.save();
       if (formData.newDefault) {
         await wishlist.setAsDefaultWishlist();
-      };
+      }
       let wishlists = await Wishlist.readAll();
       await loadPage();
       view.displayWishes([], wishlist.id, wishlists);
-    };
+    }
   });
 
   addIdeaButton.addEventListener("click", () => {
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
           });
         });
       });
-    };
+    }
   });
 
   settings.addEventListener("click", () => {
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       let wishlists = await Wishlist.readAll();
       await loadPage();
       view.displayWishes(wishes, wishlistToBeEdited.id, wishlists);
-    };
+    }
   });
 
   editWishlistModalDelete.addEventListener('click', async function() {
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       view.closeModal(document.getElementById('edit-wishlist-modal'));
       await wishlistToBeEdited.delete();
       await loadPage();
-    };
+    }
   });
 
   editWishModalSave.addEventListener('click', () => {
@@ -178,14 +178,14 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         });
       });
       view.closeModal(document.getElementById('edit-wish-modal'));
-    };
+    }
   });
 
   // General closing Modal listeners
   document.addEventListener('keydown', (event) => {
     if(event.key === "Escape") {
       view.closeAllModals();
-    };
+    }
   });
   document.addEventListener('click', (event) => {
     if (event.target.classList.contains('modal-close')

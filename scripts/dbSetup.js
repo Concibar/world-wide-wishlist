@@ -1,6 +1,6 @@
 function dbSetupConnection() {
   console.log("dbSetup.js is connected");
-};
+}
 
 const manifest = chrome.runtime.getManifest();
 const versionNumber = manifest.version;
@@ -19,27 +19,27 @@ async function setupDatabase() {
     if (defWishlistResult.defaultWishlistId == undefined) {
       await chrome.storage.local.set({'defaultWishlistId': 0});
       console.log("defaultWishlistId set to default");
-    };
+    }
 
     // check and set idTracker to default
     let idTrackerResult = await chrome.storage.local.get('idTracker');
     if (idTrackerResult.idTracker == undefined) {
       await chrome.storage.local.set({'idTracker': 0});
       console.log("idTracker set to default");
-    };
+    }
 
     // check and set wishlists to default
     let wishlistsResult = await chrome.storage.local.get('wishlists');
     if (wishlistsResult.wishlists == undefined) {
       await chrome.storage.local.set({'wishlists': []});
       console.log("wishlists set to default");
-    };
+    }
 
     // check and set wishes to default
     let wishesResult = await chrome.storage.local.get('wishes');
     if (wishesResult.wishes == undefined) {
       await chrome.storage.local.set({'wishes': []});
       console.log("wishes set to default");
-    };
-  };
-};
+    }
+  }
+}

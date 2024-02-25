@@ -1,6 +1,6 @@
 function popupViewConnection() {
   console.log("popupView.js connected");
-};
+}
 
 class PopupView {
   wishUrl = "";
@@ -13,7 +13,7 @@ class PopupView {
     this.wishUrl = scraper.url;
     this.imageArray = scraper.imageArray;
     this.price = scraper.price;
-  };
+  }
 
   displayScraped(wishlists, selectedWishlistId) {
     document.getElementById('wish-name').value = this.wishName;
@@ -22,12 +22,12 @@ class PopupView {
     if (this.imageArray.length > 0) {
       for (var i = 0; i<this.imageArray.length; i++){
         gallery.insertAdjacentHTML("beforeend", `<img style="display: none;" id="${i}" class="img-fit is-align-content-center" src="${this.imageArray[i]}"></img>`);
-      };
+      }
       document.getElementById('0').setAttribute('style', 'display: initial;');
-    };
+    }
 
     this.displayWishlists(wishlists, selectedWishlistId);
-  };
+  }
 
   displayNext() {
     let gallery = document.getElementById('image-gallery');
@@ -36,7 +36,7 @@ class PopupView {
     let nextId = (activeId + 1) % length;
     document.getElementById(activeId).setAttribute('style', 'display: none;');
     document.getElementById(nextId).setAttribute('style', 'display: initial;');
-  };
+  }
 
   displayPrev() {
     let gallery = document.getElementById('image-gallery');
@@ -45,7 +45,7 @@ class PopupView {
     let prevId = (((activeId - 1) % length) < 0) ? (length-1) : ((activeId - 1) % length);
     document.getElementById(activeId).setAttribute('style', 'display: none;');
     document.getElementById(prevId).setAttribute('style', 'display: initial;');
-  };
+  }
 
   async getFormData() {
     let wishName = document.getElementById('wish-name').value;
@@ -70,16 +70,16 @@ class PopupView {
           formData.quantity    = document.getElementById('wish-quantity').value;
           formData.note        = document.getElementById('wish-note').value;
       return formData;
-    };
-  };
+    }
+  }
 
   displayWishlists(wishlists, selectedWishlistId) {
     let wishlistsSelector = document.getElementById('wishlists');
     for (let i = 0; i < wishlists.length; i++) {
       wishlistsSelector.insertAdjacentHTML("afterbegin", `<option value="${wishlists[i].id}" class="wishlist-option">${wishlists[i].name}</option>`);
-    };
+    }
     wishlistsSelector.value = selectedWishlistId;
-  };
+  }
 
   getCreateWishlistFormData() {
     let name = document.getElementById("create-wishlist-name").value;
@@ -95,28 +95,38 @@ class PopupView {
         'newDefault': document.getElementById("create-wishlist-new-default-wishlist").checked
       };
       return formData;
-    };
-  };
+    }
+  }
 
   confirmSave() {
     document.getElementById('content').innerHTML = `
-    <p>success!</p>
+    <div class="">
+
+      <p>Your wish has been saved successfully!</p>
+
+      <button id="donate" class="button is-link">
+        <span class="icon">
+          <i class="fa-solid fa-gift"></i>
+        </span>
+        <span>Go to Wishlists</span>
+      </button>
+    </div>
     `
-  };
+  }
 
   openModal($modal) {
     $modal.classList.add('is-active');
-  };
+  }
 
   closeModal($modal) {
     $modal.classList.remove('is-active');
-  };
+  }
 
   closeAllModals() {
     (document.querySelectorAll('.modal') || []).forEach(($modal) => {
       this.closeModal($modal);
     });
-  };
+  }
 
   #convertImage(imageSrc) {
     return new Promise((resolve) => {
@@ -157,5 +167,5 @@ class PopupView {
           resolve(base64);
       });
     });
-  };
-};
+  }
+}

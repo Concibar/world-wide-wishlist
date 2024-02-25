@@ -1,6 +1,6 @@
 function scraperConnection() {
   console.log("scraper.js is connected");
-};
+}
 
 function grabImages() {
   const images = document.querySelectorAll("img");
@@ -19,10 +19,10 @@ function grabImages() {
     if (window.getComputedStyle(element).display === "none") return false;
     if (hasWeirdPictureExtension(element)) return false;
     return true;
-  };
+  }
   let imageSrcs = Array.from(images).filter(isProperPicture).map(image=>image.src);
   return imageSrcs;
-};
+}
 
 class Scraper {
   title = "";
@@ -30,7 +30,7 @@ class Scraper {
   imageArray = [];
   price = 0;
 
-  constructor() {};
+  constructor() {}
   // TODO: Filter SRC for evil scripts
 
   async scrape() {
@@ -47,14 +47,14 @@ class Scraper {
     this.title = this.#cutTitle(tab.title);
     this.url = tab.url;
     this.imageArray = srcArray;
-  };
+  }
 
   #cutTitle(title) {
     // TODO: extract homeDomain stuff from Titles
     let maxTitleLength = 50;
     if (title.length > maxTitleLength) {
       title = title.substring(0,  (maxTitleLength-3)) + "...";
-    };
+    }
 
     return title
   }
@@ -66,8 +66,8 @@ class Scraper {
       // let imageUrls = ["path/to/placeholder.png"]
       // return imageUrls
       return;
-    };
+    }
     return frames.map(frame => frame.result).reduce((r1, r2) => r1.concat(r2));
-  };
+  }
 
-};
+}

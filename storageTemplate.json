@@ -1,4 +1,7 @@
 {
+
+  // This file shows how the JSON safe data is structured in the extension
+
   "versionNumber": 0.1,
   "defaultWishlistId": 0,
   "idTracker": 0,

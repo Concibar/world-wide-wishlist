@@ -1,15 +1,15 @@
 function myWishlistViewConnection() {
   console.log("myWishlistView.js is connected");
-};
+}
 
 class MyWishlistView{
   #currentWishlistId;
 
-  constructor() {};
+  constructor() {}
 
   get currentWishlistId() {
     return this.#currentWishlistId;
-  };
+  }
 
   completeLoad(defaultWishlistId, wishes, wishlists) {
     // fill with the default wishlist at the top
@@ -46,11 +46,11 @@ class MyWishlistView{
           </span>
         </li>
       `);
-    };
+    }
 
     // fill in the wishes of the default Wishlist
     this.displayWishes(wishes, defaultWishlist.id, wishlists);
-  };
+  }
 
   displayWishes(wishes, wishlistId, wishlists) {
     var wishesContainer = document.getElementById('wishes');
@@ -65,18 +65,18 @@ class MyWishlistView{
     for (let i = 0; i < wishes.length; i++) {
       let wish = wishes[i];
       wishesContainer.insertAdjacentHTML("beforeend", this.#makeHtmlElementFromWish(wish, wishlists));
-    };
-  };
+    }
+  }
 
   toggleDropdown(wish) {
     let dropdown = document.querySelector(`[data-wish-id="${wish.id}"].dropdown`);
     dropdown.classList.toggle('is-active');
-  };
+  }
 
   moveWish(wish) {
     let wishHtmlElement = document.querySelector(`[data-wish-id="${wish.id}"].wish`);
     wishHtmlElement.outerHTML = ''
-  };
+  }
 
   editWish(wish) {
     document.getElementById("edit-wish-name").value = wish.name;
@@ -86,7 +86,7 @@ class MyWishlistView{
     document.getElementById("edit-wish-image").src = this.#makeHtmlImgSrc(wish);
     let editWishModal = document.getElementById("edit-wish-modal");
     this.openModal(editWishModal);
-  };
+  }
 
   getEditWishFormData() {
     let name = document.getElementById("edit-wish-name").value;
@@ -104,8 +104,8 @@ class MyWishlistView{
         'note': document.getElementById("edit-wish-note").value
       };
       return formData;
-    };
-  };
+    }
+  }
 
   getEditWishlistNewName() {
     let name = document.getElementById("edit-wishlist-name").value;
@@ -117,16 +117,16 @@ class MyWishlistView{
       return false
     } else {
       return name;
-    };
-  };
+    }
+  }
 
   deleteWishlist(defaultWishlistId) {
     if (defaultWishlistId === this.#currentWishlistId) {
       window.alert("You cannot delete your default wishlist. Please make another wishlist your default wishlist before you delete this wishlist.");
     } else {
       return window.confirm("Are you sure you want to delete this wishlist and all wishes on it? This cannot be undone!")
-    };
-  };
+    }
+  }
 
   getAddIdeaFormData() {
     let name = document.getElementById("add-idea-name").value;
@@ -146,8 +146,8 @@ class MyWishlistView{
         'date': new Date()
       };
       return formData;
-    };
-  };
+    }
+  }
 
   getCreateWishlistFormData() {
     let name = document.getElementById("create-wishlist-name").value;
@@ -163,12 +163,12 @@ class MyWishlistView{
         'newDefault': document.getElementById("create-wishlist-new-default-wishlist").checked
       };
       return formData;
-    };
-  };
+    }
+  }
 
   deleteWish(wish) {
     let undoElement = document.getElementById("undo-delete");
-    if (undoElement !== null && undoElement !== undefined) {undoElement.remove()};
+    if (undoElement !== null && undoElement !== undefined) {undoElement.remove()}
     let wishHtmlElement = document.querySelector(`[data-wish-id="${wish.id}"].wish`);
     wishHtmlElement.outerHTML = `
     <div id="undo-delete" data-wish-id="${wish.id}" class="box">
@@ -188,38 +188,38 @@ class MyWishlistView{
       </div>
     </div>
     `;
-  };
+  }
 
   undoDeleteWish(wish, wishlists) {
     var undoDeleteMessage = document.querySelector(`[data-wish-id="${wish.id}"]#undo-delete`);
     undoDeleteMessage.outerHTML = this.#makeHtmlElementFromWish(wish, wishlists);
-  };
+  }
 
   updateWish(wish, wishlists) {
     var wishHtmlElement = document.querySelector(`[data-wish-id="${wish.id}"].wish`)
     wishHtmlElement.outerHTML = this.#makeHtmlElementFromWish(wish, wishlists);
-  };
+  }
 
   editWishlist(wishlist) {
     document.getElementById("edit-wishlist-name").value = wishlist.name;
     document.getElementById("edit-wishlist-card-title").innerText = `Edit "${wishlist.name}"`
     let editWishlistModal = document.getElementById("edit-wishlist-modal");
     this.openModal(editWishlistModal);
-  };
+  }
 
   openModal($modal) {
     $modal.classList.add('is-active');
-  };
+  }
 
   closeModal($modal) {
     $modal.classList.remove('is-active');
-  };
+  }
 
   closeAllModals() {
     (document.querySelectorAll('.modal') || []).forEach(($modal) => {
       this.closeModal($modal);
     });
-  };
+  }
 
   // Private Methods
 
@@ -277,8 +277,8 @@ class MyWishlistView{
       return `
         <div data-wish-id="${wish.id}" class="wish box">
           <div class="is-flex">
-            <figure class="image mr-3">
-              <img class="wish-image" src="${this.#makeHtmlImgSrc(wish)}" alt="product image of ${wish.name}">
+            <figure class="wish-image-container mr-3">
+              <img class="wish-image" ${this.#makeHtmlImgSrc(wish)}>
             </figure>
 
             <div class="is-flex-grow-1">
@@ -334,23 +334,23 @@ class MyWishlistView{
           </div>
         </div>
       `;
-    };
-  };
+    }
+  }
 
   #makeHomeUrl(url) {
-      const domainRegex = /(?:https?:\/\/)?(?:www\.)?([^\/]+)/i;
+      const domainRegex = /(?:https?:\/\/)?(?:www\.)?([^/]+)/i;
       const match = url.match(domainRegex);
       return match ? match[1] : "error";
-  };
+  }
 
   #makeHtmlImgSrc(wish) {
     var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
     if (base64regex.test(wish.image)) {
-      return `data:image/png;base64, ${wish.image}`
+      return `src="data:image/png;base64, ${wish.image}" alt="product image of ${wish.name}"`
     } else {
-      return '/images/whoopsie.png'
+      return 'src="/images/whoopsie.png" alt="image not found"'
     }
-  };
+  }
 
   #makeHtmlMoveWishDropdown(wish, wishlists) {
     let htmlDropdownlist = ""
@@ -362,5 +362,5 @@ class MyWishlistView{
       `;
     });
     return htmlDropdownlist
-  };
-};
+  }
+}

@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     let wishlists = await Wishlist.readAll();
     let defaultWishlist = await Wishlist.getDefaultWishlist();
     view.displayScraped(wishlists, defaultWishlist.id);
-  };
+  }
 
   // make new Wishlist
   const wishlists = document.getElementById('wishlists');
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     if (wishlists.value === "WishlistNew") {
       console.log("make new wishlist clicked");
       view.openModal(document.getElementById('create-wishlist-modal'))
-    };
+    }
   });
   const newWishlistSave = document.getElementById('create-wishlist-modal-save');
   newWishlistSave.addEventListener('click', async () => {
@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       wishlist = await wishlist.save();
       if (formData.newDefault) {
         await wishlist.setAsDefaultWishlist();
-      };
+      }
       let wishlists = await Wishlist.readAll();
       view.displayWishlists(wishlists, wishlist.id);
-    };
+    }
   });
 
   // Prev-Next Gallery
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       await wish.save();
       view.closeAllModals();
       view.confirmSave();
-    };
+    }
   }, false);
 
   // General closing Modal listeners
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       view.closeAllModals()
       let defaultWishlist = await Wishlist.getDefaultWishlist();
       wishlists.value = defaultWishlist.id;
-    };
+    }
   });
   document.addEventListener('click', async (event) => {
     if (event.target.classList.contains('modal-close')

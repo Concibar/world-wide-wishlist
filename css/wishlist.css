@@ -5,5 +5,21 @@
 
 .wish-image{
   max-height: 128px;
+  max-width: 128px;
   width: auto;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.wish-image-container{
+  display:flex;
+  justify-content: center;
+  height: 128px;
+  width: 128px;
+  border: 2px solid hsl(0, 0%, 71%);
+  border-radius: 15px;
+  overflow:hidden;
+  position: relative;
 }
