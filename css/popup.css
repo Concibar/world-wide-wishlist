@@ -1,6 +1,11 @@
+@import '/css/bulma.css';
+@import '/css/text.css';
+
 body{
   min-width: 770px;
+  font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
 }
+
 #image-gallery{
   max-width: 250px;
 }
