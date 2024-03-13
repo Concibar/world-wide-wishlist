@@ -1,6 +1,6 @@
 function scraperConnection() {
   console.log("scraper.js is connected");
-};
+}
 
 function grabImages() {
   const images = document.querySelectorAll("img");
@@ -19,29 +19,18 @@ function grabImages() {
     if (window.getComputedStyle(element).display === "none") return false;
     if (hasWeirdPictureExtension(element)) return false;
     return true;
-  };
-  return Array.from(images).filter(isProperPicture).map(image=>image.src);
-};
-
-function logFrameInfo(framesInfo) {
-  for (const frameInfo of framesInfo) {
-    console.log(frameInfo);
   }
-}
-
-function onError(error) {
-  console.error(`Error: ${error}`);
+  let imageSrcs = Array.from(images).filter(isProperPicture).map(image=>image.src);
+  return imageSrcs;
 }
 
 class Scraper {
   title = "";
-  url ="";
+  url = "";
   imageArray = [];
   price = 0;
 
-  constructor() {};
-  // TODO: Implement a scalable special scraper call for specific URLs (Amazon, Ali-Express, Etsy, Ebay)
-  // TODO: Implement affiliate link conversion for websites that have that service (amazon, ebay)
+  constructor() {}
   // TODO: Filter SRC for evil scripts
 
   async scrape() {
@@ -55,21 +44,30 @@ class Scraper {
 
     let srcArray = this.#combineFrames(frames);
 
-    this.title = tab.title;
+    this.title = this.#cutTitle(tab.title);
     this.url = tab.url;
     this.imageArray = srcArray;
-    this.price = "to-do: scrape price";
-    };
+  }
+
+  #cutTitle(title) {
+    // TODO: extract homeDomain stuff from Titles
+    let maxTitleLength = 50;
+    if (title.length > maxTitleLength) {
+      title = title.substring(0,  (maxTitleLength-3)) + "...";
+    }
+
+    return title
+  }
 
   #combineFrames(frames) {
-      if (!frames || !frames.length) {
-        alert("Error: Couldn't find any images on the specified page");
-        // To-Do: give the no-images-found image placeholder
-        // let imageUrls = ["path/to/placeholder.png"]
-        // return imageUrls
-        return;
-      };
-      return frames.map(frame => frame.result).reduce((r1, r2) => r1.concat(r2));
-    };
+    if (!frames || !frames.length) {
+      console.log("Error: Couldn't find any images on the specified page");
+      // To-Do: give the no-images-found image placeholder
+      // let imageUrls = ["path/to/placeholder.png"]
+      // return imageUrls
+      return;
+    }
+    return frames.map(frame => frame.result).reduce((r1, r2) => r1.concat(r2));
+  }
 
-  };
+}

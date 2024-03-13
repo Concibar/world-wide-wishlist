@@ -3,7 +3,6 @@
   <head>
     <title>World Wide Wishlist Popup</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/bulma.css" type="text/css">
     <link rel="stylesheet" href="/css/popup.css" type="text/css">
     <link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/fontawesome/css/solid.css">
@@ -19,12 +18,12 @@
   <body>
 
     <!-- Header Bar -->
-    <nav class="level is-mobile p-3">
+    <nav class="level is-mobile p-3 has-background-dark">
 
       <!-- Title -->
       <div class="level-left">
         <div class="level-item">
-          <p class="title">World Wide Wishlist</p>
+          <p class="title has-text-danger">World Wide Wishlist</p>
         </div>
       </div>
 
@@ -33,7 +32,7 @@
 
         <!-- Wishlists -->
         <div class="level-item">
-          <button id="go-to-wishlists-button" class="button is-link is-light">
+          <button id="go-to-wishlists-button" class="button is-link">
             <span class="icon is-small">
               <i class="fa-solid fa-gift"></i>
             </span>
@@ -42,7 +41,7 @@
 
         <!-- Settings -->
         <div class="level-item">
-          <button id="settings-button" class="button is-link is-light">
+          <button id="settings-button" class="button is-link">
             <span class="icon is-small">
               <i class="fa-solid fa-gear"></i>
             </span>
@@ -51,7 +50,7 @@
 
         <!-- Exit -->
         <div class="level-item">
-          <button id="escape-button" class="button is-danger is-light">
+          <button id="escape-button" class="button is-danger">
             <span class="icon is-small">
               <i class="fas fa-times"></i>
             </span>
@@ -62,7 +61,7 @@
     </nav>
 
     <!-- Content -->
-    <div class="is-flex p-3">
+    <div id="content" class="is-flex p-3">
 
       <!-- Left -->
       <div>
@@ -161,7 +160,7 @@
                   <p class="control">
                     <span class="select">
                       <select id="wishlists">
-                        <option value="WishlistNew">add new list</option>
+                        <option id="make-new-wishlist" value="WishlistNew" class="wishlist-option has-background-link">+ add new list</option>
                       </select>
                     </span>
                   </p>
@@ -175,5 +174,56 @@
     </div>
 
     <canvas style="display: none;" id="canvas"></canvas>
+
+    <div id="create-wishlist-modal" class="modal">
+      <div class="modal-background"></div>
+
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Create a new Wishlist</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="is-flex p-3">
+            <div class="is-flex-grow-1">
+              <form id="create-wishlist-form" class="control">
+
+                <!-- Name -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal">
+                    <label for="create-wishlist-name" class="label">Name</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field control">
+                      <input id="create-wishlist-name" name="create-wishlist-name" class="input" type="text" placeholder="Name of your new Wishlist">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- make default? -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal"></div>
+                  <div class="field-body">
+                    <div class="control">
+                      <label for="create-wishlist-new-default-wishlist" class="checkbox">
+                        <input id="create-wishlist-new-default-wishlist" type="checkbox">
+                        make this the new default wishlist
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="create-wishlist-modal-save" class="button is-success">Save changes</button>
+          <button class="button modal-cancel">Cancel</button>
+        </footer>
+      </div>
+
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
   </body>
 </html>

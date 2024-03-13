@@ -1,6 +1,6 @@
 function storageTestingConnection() {
   console.log("storageTesting.js connected");
-};
+}
 
 async function setTestDatabase() {
 
@@ -31,7 +31,7 @@ async function setTestDatabase() {
     };
     let wish = new Wish(formData);
     await wish.save();
-  };
+  }
 
   for (let i = 0; i < 20; i++) {
     let formData = {
@@ -45,7 +45,7 @@ async function setTestDatabase() {
     };
     let wish = new Wish(formData);
     await wish.save();
-  };
+  }
 
   for (let i = 0; i < 20; i++) {
     let formData = {
@@ -59,5 +59,5 @@ async function setTestDatabase() {
     };
     let wish = new Wish(formData);
     await wish.save();
-  };
-};
+  }
+}
