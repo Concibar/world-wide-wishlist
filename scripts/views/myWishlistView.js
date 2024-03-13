@@ -16,7 +16,7 @@ class MyWishlistView{
     // give every wishlist element an id
     let listOfWishlists = document.getElementById('wishlists');
     listOfWishlists.innerHTML = '';
-    let defaultWishlist = wishlists.find(list => list.id === defaultWishlistId);
+    let defaultWishlist = wishlists.find(wishlist => wishlist.id === defaultWishlistId);
     listOfWishlists.insertAdjacentHTML("afterbegin", `
       <li data-wishlist-id="${defaultWishlist.id}" class="py-2 px-4 is-clickable active-wishlist">
         <div style="pointer-events: none;">
@@ -37,12 +37,11 @@ class MyWishlistView{
 
     // fill with rest of wishlists in alphabetical order
     let remainingWishlists = wishlists.filter(list => list.id !== defaultWishlist.id);
-    let sortedRemainingWishlists = remainingWishlists.sort((a, b) => a.name.localeCompare(b.name));
-    for (let i = 0; i < sortedRemainingWishlists.length; i++) {
+    for (let i = 0; i < remainingWishlists.length; i++) {
       listOfWishlists.insertAdjacentHTML("beforeend", `
-        <li data-wishlist-id="${sortedRemainingWishlists[i].id}" class="py-2 px-4 is-clickable ">
+        <li data-wishlist-id="${remainingWishlists[i].id}" class="py-2 px-4 is-clickable ">
           <span style="pointer-events: none;" class="is-unselectable">
-            ${sortedRemainingWishlists[i].name}
+            ${remainingWishlists[i].name}
           </span>
         </li>
       `);
