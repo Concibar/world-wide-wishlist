@@ -15,9 +15,9 @@ class PopupView {
     this.price = scraper.price;
   }
 
-  displayScraped(wishlists, selectedWishlistId) {
+  displayScraped(wishlists, defaultWishlistId) {
     document.getElementById('wish-name').value = this.wishName;
-    //display the images in the gallery
+    // display the images in the gallery
     let gallery = document.getElementById('image-gallery');
     if (this.imageArray.length > 0) {
       for (var i = 0; i<this.imageArray.length; i++){
@@ -25,8 +25,7 @@ class PopupView {
       }
       document.getElementById('0').setAttribute('style', 'display: initial;');
     }
-
-    this.displayWishlists(wishlists, selectedWishlistId);
+    this.displayWishlists(wishlists, defaultWishlistId, defaultWishlistId);
   }
 
   displayNext() {
@@ -73,11 +72,22 @@ class PopupView {
     }
   }
 
-  displayWishlists(wishlists, selectedWishlistId) {
+  displayWishlists(wishlists, selectedWishlistId, defaultWishlistId) {
     let wishlistsSelector = document.getElementById('wishlists');
-    for (let i = 0; i < wishlists.length; i++) {
-      wishlistsSelector.insertAdjacentHTML("afterbegin", `<option value="${wishlists[i].id}" class="wishlist-option">${wishlists[i].name}</option>`);
+    let defaultWishlist = wishlists.find(wishlist => wishlist.id === defaultWishlistId);
+    let remainingWishlists = wishlists.filter(wishlist => wishlist.id !== defaultWishlist.id);
+
+    for (let i = 0; i < remainingWishlists.length; i++) {
+      wishlistsSelector.insertAdjacentHTML("beforeend", `<option value="${remainingWishlists[i].id}" class="wishlist-option">${remainingWishlists[i].name}</option>`);
     }
+
+    // insert default wishlist at the top
+    wishlistsSelector.insertAdjacentHTML("afterbegin", `
+      <option value="${defaultWishlist.id}" class="wishlist-option has-background-grey-lighter">
+        ${defaultWishlist.name} (default)
+      </option>
+    `);
+
     wishlistsSelector.value = selectedWishlistId;
   }
 
@@ -100,16 +110,20 @@ class PopupView {
 
   confirmSave() {
     document.getElementById('content').innerHTML = `
-    <div class="">
-
-      <p>Your wish has been saved successfully!</p>
-
-      <button id="donate" class="button is-link">
-        <span class="icon">
-          <i class="fa-solid fa-gift"></i>
-        </span>
-        <span>Go to Wishlists</span>
-      </button>
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-two-thirds">
+          <p class="is-size-4 has-text-centered">Your wish has been saved successfully!</p class="is-size-3">
+          <div class="buttons is-centered">
+            <button id="donate" class="button is-link is-centered">
+              <span class="icon">
+                <i class="fa-solid fa-gift"></i>
+              </span>
+              <span>Go to Wishlists</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     `
   }

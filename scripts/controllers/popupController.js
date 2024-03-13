@@ -61,7 +61,8 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         await wishlist.setAsDefaultWishlist();
       }
       let wishlists = await Wishlist.readAll();
-      view.displayWishlists(wishlists, wishlist.id);
+      let defaultWishlistId = await Wishlist.getDefaultWishlist();
+      view.displayWishlists(wishlists, wishlist.id, defaultWishlistId);
     }
   });
 
