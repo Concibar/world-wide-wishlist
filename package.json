@@ -1,0 +1,30 @@
+{
+  "name": "world-wide-wishlist",
+  "version": "1.0.0",
+  "description": "A Chrome Extension that can save products from any shop website to one unified local wishlist",
+  "main": "popupController.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css-build": "node-sass --omit-source-map-url sass/mystyles.scss css/mystyles.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Concibar/world-wide-wishlist.git"
+  },
+  "keywords": [
+    "Chrome",
+    "Extension"
+  ],
+  "author": "Jan Plewa",
+  "license": "GPL-2.0-only",
+  "bugs": {
+    "url": "https://github.com/Concibar/world-wide-wishlist/issues"
+  },
+  "homepage": "https://github.com/Concibar/world-wide-wishlist#readme",
+  "dependencies": {
+    "bulma": "^0.9.4",
+    "node-sass": "^9.0.0"
+  }
+}
