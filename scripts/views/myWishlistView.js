@@ -65,6 +65,7 @@ class MyWishlistView{
       let wish = wishes[i];
       wishesContainer.insertAdjacentHTML("beforeend", this.#makeHtmlElementFromWish(wish, wishlists));
     }
+    wishesContainer.insertAdjacentHTML("beforeend", `<div id="platzhalter"></div>`);
   }
 
   toggleDropdown(wish) {
@@ -224,12 +225,13 @@ class MyWishlistView{
 
   #makeHtmlElementFromWish(wish, wishlists) {
     if (wish.url == null) {
+      // this creates a note card instead of a regular wish card
       return `
         <div data-wish-id="${wish.id}" class="wish box">
           <div class="is-flex">
 
             <div class="is-flex-grow-1">
-              <h3>${wish.name}</h3>
+              <h3 class="subtitle is-5">${wish.name}</h3>
               <div>
                 <h4>Note:</h4>
                 <p>${wish.note}</p>
@@ -273,38 +275,25 @@ class MyWishlistView{
         </div>
       `;
     } else {
+      // this creates a regular wish card
       return `
-        <div data-wish-id="${wish.id}" class="wish box">
+        <div data-wish-id="${wish.id}" class="wish box actual-wishcard is-clickable">
           <div class="is-flex">
             <figure class="wish-image-container mr-3">
               <img class="wish-image" ${this.#makeHtmlImgSrc(wish)}>
             </figure>
 
             <div class="is-flex-grow-1">
-              <h3>${wish.name}</h3>
-              <h4>from: ${this.#makeHomeUrl(wish.url)}</h4>
-              <div>
-                <h4>Note:</h4>
-                <p>${wish.note}</p>
-              </div>
+              <h3 class="subtitle is-5">${wish.name}</h3>
+              <h4 class="is-size-6"><strong>From:</strong> ${this.#makeHomeUrl(wish.url)}</h4>
+              ${this.#makeNoteForWish(wish.note)}
             </div>
 
             <div class="ml-3">
-              <div>
-                <p>Article added on ${wish.date.toDateString()}</p>
-              </div>
-              <div>
-                <button data-wish-id="${wish.id}" class="button go-to-wish-website">
-                  <span style="pointer-events: none;">Go to shop</span>
-                  <span style="pointer-events: none;" class="icon">
-                    <i class="fa-solid fa-up-right-from-square"></i>
-                  </span>
-                </button>
-              </div>
-              <div>
+              <div class="container">
                 <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
                     <div class="dropdown-trigger">
-                      <button data-wish-id="${wish.id}" class="button move-wish" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <button data-wish-id="${wish.id}" class="button move-wish is-link" aria-haspopup="true" aria-controls="dropdown-menu">
                         <span style="pointer-events: none;">Move to...</span>
                         <span style="pointer-events: none;" class="icon is-small">
                           <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
@@ -317,12 +306,12 @@ class MyWishlistView{
                       </div>
                     </div>
                   </div>
-                <button data-wish-id="${wish.id}" class="button edit-wish">
+                <button data-wish-id="${wish.id}" class="button edit-wish is-link">
                   <span style="pointer-events: none;" class="icon">
                     <i class="fa-solid fa-pen"></i>
                   </span>
                 </button>
-                <button data-wish-id="${wish.id}" class="button delete-wish">
+                <button data-wish-id="${wish.id}" class="button delete-wish is-danger">
                   <span style="pointer-events: none;" class="icon">
                     <i class="fa-solid fa-trash"></i>
                   </span>
@@ -334,6 +323,17 @@ class MyWishlistView{
         </div>
       `;
     }
+  }
+
+  #makeNoteForWish(note) {
+    let html = `
+    <hr class="has-background-white-ter mt-2 mb-2">
+    <div>
+      <h4 class="is-size-6"><strong>Note:</strong></h4>
+      <p>${note}</p>
+    </div>
+    `;
+    return note ? html : '';
   }
 
   #makeHomeUrl(url) {

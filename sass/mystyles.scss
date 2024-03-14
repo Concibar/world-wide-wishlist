@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 // brand colors
-$navy: #171738;
+$charcoal: #28536B;
 $turquoise: #7de2d1;
 $white: #FFFAFF;
 $red: #D44D5C;
@@ -12,11 +12,13 @@ $blue: #3E92CC;
 // fonts
 $family-sans-serif: "Roboto Condensed", sans-serif;
 $title-family: "Roboto Serif", serif;
+$subtitle-family: "Roboto Serif", serif;
 
 // global variables
 $link: $blue;
-$dark: $navy;
+$dark: $charcoal;
 $background: $white;
+$title-color: $turquoise;
 
 // import from bulma
 @import "../node_modules/bulma/bulma.sass";

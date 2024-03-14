@@ -19,8 +19,29 @@
   justify-content: center;
   height: 128px;
   width: 128px;
-  border: 2px solid hsl(0, 0%, 71%);
-  border-radius: 15px;
-  overflow:hidden;
+  overflow: hidden;
   position: relative;
+}
+
+.actual-wishcard:hover{
+  transform: translate(-0.05rem, -0.05rem);
+  box-shadow: 0 0 10px 3px #7de2d1;
+}
+#create-new-wishlist:hover, #add-an-idea:hover, #edit-wishlist:hover, .button:hover, li:hover{
+  box-shadow: 0 0 5px 1px #7de2d1;
+}
+
+#create-new-wishlist, #add-an-idea, #edit-wishlist, li{
+  border-radius: 5px;
+}
+
+#wishes, #wishlists{
+  height: 100vh;
+  padding: 10px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+#platzhalter{
+  height: 400px;
 }
