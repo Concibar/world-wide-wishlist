@@ -16,41 +16,27 @@
   </head>
 
   <body>
-    <nav class="navbar p-2 has-background-grey-darker" role="navigation">
+    <nav class="navbar p-2 has-background-dark" role="navigation">
       <!-- Logo picture insert here -->
-      <div class="navbar-menu">
-
-        <div class="navbar-start">
-
-          <!-- search field -->
-          <div id="search-field">
-            <div class="field has-addons">
-              <p class="control">
-                <input class="input" type="text" placeholder="Find a wish">
-              </p>
-              <p class="control">
-                <button class="button">
-                  <span class="icon">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                  </span>
-                </button>
-              </p>
-            </div>
-          </div>
-
+      <div class="level-left">
+        <div class="level-item">
+          <p class="title">World Wide Wishlist</p>
         </div>
+      </div>
+
+      <div class="navbar-menu">
 
         <div class="navbar-end">
 
           <!-- support request -->
-          <button id="donate" class="button is-warning">
-            <span class="icon">
-              <i class="fa-solid fa-mug-hot"></i>
-            </span>
-            <span>Donate to the developer</span>
-          </button>
+          <div class="buttons">
+            <button id="donate" class="button is-warning">
+              <span class="icon">
+                <i class="fa-solid fa-mug-hot"></i>
+              </span>
+              <span>Donate to the developer</span>
+            </button>
 
-          <div>
             <button id="settings" class="button is-link">
               <span class="icon">
                 <i class="fa-solid fa-gear"></i>
@@ -85,7 +71,7 @@
             </div>
           </nav>
 
-          <hr>
+          <hr class="has-background-white-ter	">
 
           <ul id="wishlists" class="content" style="pointer-events: none;">
             <!-- here the wishlist elements get inserted/loaded -->
@@ -125,7 +111,7 @@
             </div>
           </nav>
 
-          <hr>
+          <hr class="has-background-white-ter	">
 
           <!-- the container for the wish cards: -->
           <div id="wishes">

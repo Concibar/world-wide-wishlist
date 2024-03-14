@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   }
   await loadPage();
 
+  // Wishlist clicked -> Display according wishes
   wishlistsContainer.addEventListener("mousedown", (event) => {
     let dataWishlistId = event.target.dataset.wishlistId;
     let wishlistId = parseInt(dataWishlistId, 10);
@@ -51,15 +52,12 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     });
   });
 
+  // listen to go to website; move wish; edit wish; delete Wish; undo-delete
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {
       var dataWishId = event.target.dataset.wishId;
       var wishId = parseInt(dataWishId, 10);
-      if (event.target.matches(".go-to-wish-website")) {
-        Wish.read(wishId).then(wish => {
-          window.open(wish.url);
-        });
-      } else if (event.target.matches(".move-wish")) {
+      if (event.target.matches(".move-wish")) {
         Wish.read(wishId).then(wish => {
           view.toggleDropdown(wish);
         });
@@ -90,6 +88,15 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         wish.update({wishlistId: wishlistId});
         view.moveWish(wish);
       });
+    } else if (!event.target.matches(".wishes") ) {
+      var closestBox = event.target.closest(".actual-wishcard");
+      if (closestBox) {
+        var dataWishId = closestBox.dataset.wishId;
+        var wishId = parseInt(dataWishId, 10);
+        Wish.read(wishId).then(wish => {
+          window.open(wish.url);
+        });
+      }
     }
   });
 
@@ -194,5 +201,6 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     || event.target.classList.contains('delete')) {
     const $modalToClose = event.target.closest('.modal');
     view.closeModal($modalToClose);
-  }})
+  }});
+
 });
