@@ -155,30 +155,29 @@ class PopupView {
 
       // Wait for the image to load
       originalImage.addEventListener('load', () => {
+        // Get the original image size and aspect ratio
+        const originalWidth = originalImage.naturalWidth;
+        const originalHeight = originalImage.naturalHeight;
+        const aspectRatio = originalWidth/originalHeight;
+        var newWidth = 200;
+        var newHeight = 200;
 
-          // Get the original image size and aspect ratio
-          const originalWidth = originalImage.naturalWidth;
-          const originalHeight = originalImage.naturalHeight;
-          const aspectRatio = originalWidth/originalHeight;
-          var newWidth = 200;
-          var newHeight = 200;
+        // Resize image while keeping the Ratio
+        if (originalWidth > originalHeight) {
+          newHeight = newWidth / aspectRatio;
+        } else {
+          newWidth = newHeight * aspectRatio;
+        }
 
-          // Resize image while keeping the Ratio
-          if (originalWidth > originalHeight) {
-            newHeight = newWidth / aspectRatio;
-          } else {
-            newWidth = newHeight * aspectRatio;
-          }
+        // Set the canvas size
+        canvas.width = newWidth;
+        canvas.height = newHeight;
 
-          // Set the canvas size
-          canvas.width = newWidth;
-          canvas.height = newHeight;
-
-          // Render the image
-          ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
-          const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
-          console.log(base64);
-          resolve(base64);
+        // Render the image
+        ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+        const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
+        console.log(base64); // DEBUG
+        resolve(base64);
       });
     });
   }
