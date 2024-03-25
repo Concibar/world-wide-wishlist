@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
 
   addIdeaButton.addEventListener("click", () => {
+    addIdeaModal.querySelector('#add-idea-quantity').value = 1;
     view.openModal(addIdeaModal);
   });
 

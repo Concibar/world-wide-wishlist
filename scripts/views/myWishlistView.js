@@ -213,6 +213,9 @@ class MyWishlistView{
 
   closeModal($modal) {
     $modal.classList.remove('is-active');
+    ($modal.querySelectorAll('input') || []).forEach((inputField) => {
+      inputField.value = "";
+    });
   }
 
   closeAllModals() {
