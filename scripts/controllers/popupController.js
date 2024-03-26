@@ -23,6 +23,11 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   WishlistsButton.addEventListener('click', () => {
     chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
   }, false);
+  // TODO: I'd like to make a way to open a specific wishlist on call, instead of the default
+  const successRedirect = document.getElementById('success-go-to-wishlists-button');
+  successRedirect.addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
+  });
 
   // Settings
   const settingsButton = document.getElementById('settings-button');

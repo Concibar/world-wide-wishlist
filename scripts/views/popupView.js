@@ -109,23 +109,8 @@ class PopupView {
   }
 
   confirmSave() {
-    document.getElementById('content').innerHTML = `
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-two-thirds">
-          <p class="is-size-4 has-text-centered">Your wish has been saved successfully!</p class="is-size-3">
-          <div class="buttons is-centered">
-            <button id="donate" class="button is-link is-centered">
-              <span class="icon">
-                <i class="fa-solid fa-gift"></i>
-              </span>
-              <span>Go to Wishlists</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    `
+    document.getElementById('content').setAttribute('style', 'display: none !important;');
+    document.getElementById('success-message').setAttribute('style', 'display: ;');
   }
 
   openModal($modal) {
