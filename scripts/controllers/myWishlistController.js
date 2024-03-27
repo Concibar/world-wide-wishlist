@@ -52,6 +52,12 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     });
   });
 
+  // any click outside of dropdown closes current active dropdowns
+  document.body.addEventListener('click', () => {
+    let openDropdown = document.querySelector(".dropdown.is-active");
+    openDropdown.classList.remove('is-active');
+  });
+
   // listen to go to website; move wish; edit wish; delete Wish; undo-delete
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {

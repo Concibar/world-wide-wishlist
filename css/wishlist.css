@@ -23,8 +23,14 @@
   position: relative;
 }
 
-.actual-wishcard:hover{
-  transform: translate(-0.05rem, -0.05rem);
+.wish{
+  position:relative;
+}
+
+.wish:hover{
+  position: relative;
+  top: -1px;
+  left: -1px;
   box-shadow: 0 0 10px 3px #7de2d1;
 }
 #create-new-wishlist:hover, #add-an-idea:hover, #edit-wishlist:hover, .button:hover, li:hover{
