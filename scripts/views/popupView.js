@@ -48,28 +48,37 @@ class PopupView {
 
   async getFormData() {
     let wishName = document.getElementById('wish-name').value;
-    let nameMaxLength = 50;
-    let nameMinLength = 1;
+    let wishNote = document.getElementById('wish-note').value;
+    let wishPrice = document.getElementById('wish-price').value;
+    let wishQuantity = document.getElementById('wish-quantity').value;
     if (wishName.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
-      return false
-    } else if (wishName.length > nameMaxLength) {
-      window.alert("Name longer than " + nameMaxLength + " letters, please enter a shorter name!");
-      return false
-    } else {
-      let gallery = document.getElementById('image-gallery');
-      let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
-      var formData = {};
-          formData.image       = await this.#convertImage(activeSrc);
-          formData.date        = new Date();
-          formData.url         = this.wishUrl;
-          formData.wishlistId  = document.getElementById('wishlists').value;
-          formData.name        = wishName;
-          formData.price       = document.getElementById('wish-price').value;
-          formData.quantity    = document.getElementById('wish-quantity').value;
-          formData.note        = document.getElementById('wish-note').value;
-      return formData;
+      return false;
+    } else if (wishName.length > maxWishNameLength) {
+      window.alert("Name longer than " + maxWishNameLength + " letters, please enter a shorter name!");
+      return false;
+    } else if (wishNote.length > maxNoteLength) {
+      window.alert("Note longer than " + maxNoteLength + " letters, please enter a shorter note!");
+      return false;
+    } else if (wishPrice.length > maxPriceLength) {
+      window.alert("Price longer than " + maxPriceLength + " characters, please enter a shorter price!");
+      return false;
+    } else if (wishQuantity > maxQuantity) {
+      window.alert("Quantity bigger than " + maxQuantity + ", please enter a lower quantity!");
+      return false;
     }
+    let gallery = document.getElementById('image-gallery');
+    let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
+    var formData = {};
+        formData.image       = await this.#convertImage(activeSrc);
+        formData.date        = new Date();
+        formData.url         = this.wishUrl;
+        formData.wishlistId  = document.getElementById('wishlists').value;
+        formData.name        = wishName;
+        formData.price       = wishPrice;
+        formData.quantity    = wishQuantity;
+        formData.note        = wishNote;
+    return formData;
   }
 
   displayWishlists(wishlists, selectedWishlistId, defaultWishlistId) {
@@ -93,11 +102,11 @@ class PopupView {
 
   getCreateWishlistFormData() {
     let name = document.getElementById("create-wishlist-name").value;
-    if (name.length < 1) {
+    if (name.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
-    } else if (name.length > 30) {
-      window.alert("Name longer than 30 letters, please enter a shorter name!");
+    } else if (name.length > maxWishlistNameLength) {
+      window.alert("Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!");
       return false
     } else {
       let formData = {
@@ -109,23 +118,8 @@ class PopupView {
   }
 
   confirmSave() {
-    document.getElementById('content').innerHTML = `
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-two-thirds">
-          <p class="is-size-4 has-text-centered">Your wish has been saved successfully!</p class="is-size-3">
-          <div class="buttons is-centered">
-            <button id="donate" class="button is-link is-centered">
-              <span class="icon">
-                <i class="fa-solid fa-gift"></i>
-              </span>
-              <span>Go to Wishlists</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    `
+    document.getElementById('content').setAttribute('style', 'display: none !important;');
+    document.getElementById('success-message').setAttribute('style', 'display: ;');
   }
 
   openModal($modal) {
@@ -144,41 +138,52 @@ class PopupView {
 
   #convertImage(imageSrc) {
     return new Promise((resolve) => {
-      // Create an image object from the path
-      const originalImage = new Image();
-      originalImage.src = imageSrc;
-      originalImage.crossOrigin = "anonymous";
+      try {
+        // Create an image object from the path
+        const originalImage = new Image();
+        originalImage.src = imageSrc;
+        originalImage.crossOrigin = "anonymous";
 
-      // Get a reference to the canvas
-      const canvas = document.getElementById('canvas');
-      const ctx = canvas.getContext('2d');
+        // Handle CORS or loading error
+        originalImage.addEventListener('error', () => {
+          console.error("Failed to load image:", imageSrc);
+          resolve(imageSrc);
+        });
 
-      // Wait for the image to load
-      originalImage.addEventListener('load', () => {
-        // Get the original image size and aspect ratio
-        const originalWidth = originalImage.naturalWidth;
-        const originalHeight = originalImage.naturalHeight;
-        const aspectRatio = originalWidth/originalHeight;
-        var newWidth = 200;
-        var newHeight = 200;
+        // Get a reference to the canvas
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
-        // Resize image while keeping the Ratio
-        if (originalWidth > originalHeight) {
-          newHeight = newWidth / aspectRatio;
-        } else {
-          newWidth = newHeight * aspectRatio;
-        }
+        // Wait for the image to load
+        originalImage.addEventListener('load', () => {
+          // Get the original image size and aspect ratio
+          const originalWidth = originalImage.naturalWidth;
+          const originalHeight = originalImage.naturalHeight;
+          const aspectRatio = originalWidth/originalHeight;
+          var newWidth = 200;
+          var newHeight = 200;
 
-        // Set the canvas size
-        canvas.width = newWidth;
-        canvas.height = newHeight;
+          // Resize image while keeping the Ratio
+          if (originalWidth > originalHeight) {
+            newHeight = newWidth / aspectRatio;
+          } else {
+            newWidth = newHeight * aspectRatio;
+          }
 
-        // Render the image
-        ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
-        const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
-        console.log(base64); // DEBUG
-        resolve(base64);
-      });
+          // Set the canvas size
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+
+          // Render the image
+          ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+          const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
+          console.log(base64); // DEBUG
+          resolve(base64);
+        });
+      } catch (error) {
+        console.error("Image couldn't be loaded properly:", error);
+        resolve(imageSrc);
+      }
     });
   }
 }

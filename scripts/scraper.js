@@ -51,9 +51,8 @@ class Scraper {
 
   #cutTitle(title) {
     // TODO: extract homeDomain stuff from Titles
-    let maxTitleLength = 50;
-    if (title.length > maxTitleLength) {
-      title = title.substring(0,  (maxTitleLength-3)) + "...";
+    if (title.length > maxWishNameLength) {
+      title = title.substring(0,  (maxWishNameLength-3)) + "...";
     }
 
     return title

@@ -2,6 +2,15 @@ function dbSetupConnection() {
   console.log("dbSetup.js is connected");
 }
 
+// Setting the Max Length of Names and Notes for frontend checks
+const nameMinLength = 1;
+const maxWishNameLength = 200;
+const maxWishDisplayLength = 50;
+const maxWishlistNameLength = 30;
+const maxNoteLength = 2000;
+const maxPriceLength = 20;
+const maxQuantity = 100;
+
 const manifest = chrome.runtime.getManifest();
 const versionNumber = manifest.version;
 // verify DB via settings if false check every part and set accordingly

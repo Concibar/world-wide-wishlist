@@ -52,6 +52,12 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     });
   });
 
+  // any click outside of dropdown closes current active dropdowns
+  document.body.addEventListener('click', () => {
+    let openDropdown = document.querySelector(".dropdown.is-active");
+    openDropdown.classList.remove('is-active');
+  });
+
   // listen to go to website; move wish; edit wish; delete Wish; undo-delete
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {
@@ -120,6 +126,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
 
   addIdeaButton.addEventListener("click", () => {
+    addIdeaModal.querySelector('#add-idea-quantity').value = 1;
     view.openModal(addIdeaModal);
   });
 
@@ -155,10 +162,13 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
 
   editWishlistModalSave.addEventListener('click', async function() {
-    var name = view.getEditWishlistNewName();
-    if (name) {
+    var formData = view.getEditWishlistFormData();
+    if (formData) {
       view.closeModal(document.getElementById('edit-wishlist-modal'));
-      await wishlistToBeEdited.update(name);
+      if (formData.newDefault) {
+        await wishlistToBeEdited.setAsDefaultWishlist();
+      };
+      await wishlistToBeEdited.update(formData.name);
       let wishes = await Wish.readWishesOnWishlist(wishlistToBeEdited.id);
       let wishlists = await Wishlist.readAll();
       await loadPage();

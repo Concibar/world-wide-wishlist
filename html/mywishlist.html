@@ -179,7 +179,7 @@
                   </div>
                   <div class="field-body">
                     <div class="field control">
-                      <input id="edit-wish-quantity" name="edit-wish-quantity" class="input" type="number" min="1" value="1">
+                      <input id="edit-wish-quantity" name="edit-wish-quantity" class="input" type="number" min="0" max="100" value="1">
                     </div>
                   </div>
                 </div>
@@ -258,7 +258,7 @@
                   </div>
                   <div class="field-body">
                     <div class="field control">
-                      <input id="add-idea-quantity" name="add-idea-quantity" class="input" type="number" min="1" value="1">
+                      <input id="add-idea-quantity" name="add-idea-quantity" class="input" type="number" min="0" max="100" value="1">
                     </div>
                   </div>
                 </div>
@@ -353,6 +353,7 @@
           <div class="is-flex p-3">
             <div class="is-flex-grow-1">
               <form id="edit-wishlist-form" class="control">
+
                 <!-- Name -->
                 <div class="field is-horizontal">
                   <div class="field-label is-normal">
@@ -364,6 +365,20 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- make new default? -->
+                <div class="field is-horizontal">
+                  <div class="field-label is-normal"></div>
+                  <div class="field-body">
+                    <div class="control">
+                      <label for="edit-wishlist-new-default-wishlist" class="checkbox">
+                        <input id="edit-wishlist-new-default-wishlist" type="checkbox">
+                        make this the new default wishlist
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
               </form>
             </div>
           </div>
