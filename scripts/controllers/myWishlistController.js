@@ -162,10 +162,13 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
 
   editWishlistModalSave.addEventListener('click', async function() {
-    var name = view.getEditWishlistNewName();
-    if (name) {
+    var formData = view.getEditWishlistFormData();
+    if (formData) {
       view.closeModal(document.getElementById('edit-wishlist-modal'));
-      await wishlistToBeEdited.update(name);
+      if (formData.newDefault) {
+        await wishlistToBeEdited.setAsDefaultWishlist();
+      };
+      await wishlistToBeEdited.update(formData.name);
       let wishes = await Wish.readWishesOnWishlist(wishlistToBeEdited.id);
       let wishlists = await Wishlist.readAll();
       await loadPage();

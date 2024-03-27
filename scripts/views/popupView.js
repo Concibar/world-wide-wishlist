@@ -48,28 +48,37 @@ class PopupView {
 
   async getFormData() {
     let wishName = document.getElementById('wish-name').value;
-    let nameMaxLength = 50;
-    let nameMinLength = 1;
+    let wishNote = document.getElementById('wish-note').value;
+    let wishPrice = document.getElementById('wish-price').value;
+    let wishQuantity = document.getElementById('wish-quantity').value;
     if (wishName.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
-      return false
-    } else if (wishName.length > nameMaxLength) {
-      window.alert("Name longer than " + nameMaxLength + " letters, please enter a shorter name!");
-      return false
-    } else {
-      let gallery = document.getElementById('image-gallery');
-      let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
-      var formData = {};
-          formData.image       = await this.#convertImage(activeSrc);
-          formData.date        = new Date();
-          formData.url         = this.wishUrl;
-          formData.wishlistId  = document.getElementById('wishlists').value;
-          formData.name        = wishName;
-          formData.price       = document.getElementById('wish-price').value;
-          formData.quantity    = document.getElementById('wish-quantity').value;
-          formData.note        = document.getElementById('wish-note').value;
-      return formData;
+      return false;
+    } else if (wishName.length > maxWishNameLength) {
+      window.alert("Name longer than " + maxWishNameLength + " letters, please enter a shorter name!");
+      return false;
+    } else if (wishNote.length > maxNoteLength) {
+      window.alert("Note longer than " + maxNoteLength + " letters, please enter a shorter note!");
+      return false;
+    } else if (wishPrice.length > maxPriceLength) {
+      window.alert("Price longer than " + maxPriceLength + " characters, please enter a shorter price!");
+      return false;
+    } else if (wishQuantity > maxQuantity) {
+      window.alert("Quantity bigger than " + maxQuantity + ", please enter a lower quantity!");
+      return false;
     }
+    let gallery = document.getElementById('image-gallery');
+    let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
+    var formData = {};
+        formData.image       = await this.#convertImage(activeSrc);
+        formData.date        = new Date();
+        formData.url         = this.wishUrl;
+        formData.wishlistId  = document.getElementById('wishlists').value;
+        formData.name        = wishName;
+        formData.price       = wishPrice;
+        formData.quantity    = wishQuantity;
+        formData.note        = wishNote;
+    return formData;
   }
 
   displayWishlists(wishlists, selectedWishlistId, defaultWishlistId) {
@@ -93,11 +102,11 @@ class PopupView {
 
   getCreateWishlistFormData() {
     let name = document.getElementById("create-wishlist-name").value;
-    if (name.length < 1) {
+    if (name.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
-    } else if (name.length > 30) {
-      window.alert("Name longer than 30 letters, please enter a shorter name!");
+    } else if (name.length > maxWishlistNameLength) {
+      window.alert("Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!");
       return false
     } else {
       let formData = {

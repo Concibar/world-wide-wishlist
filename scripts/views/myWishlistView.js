@@ -90,33 +90,48 @@ class MyWishlistView{
 
   getEditWishFormData() {
     let name = document.getElementById("edit-wish-name").value;
-    if (name.length < 1) {
+    let price = document.getElementById("edit-wish-price").value;
+    let quantity = document.getElementById("edit-wish-quantity").value;
+    let note = document.getElementById("edit-wish-note").value;
+    if (name.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
-    } else if (name.length > 50) {
-      window.alert("Name longer than 50 letters, please enter a shorter name!");
+    } else if (name.length > maxWishNameLength) {
+      window.alert("Name longer than " + maxWishNameLength + " letters, please enter a shorter name!");
+      return false
+    } else if (note.length > maxNoteLength) {
+      window.alert("Note longer than " + maxNoteLength + " letters, please enter a shorter note!");
+      return false;
+    } else if (price.length > maxPriceLength) {
+      window.alert("Price longer than " + maxPriceLength + " characters, please enter a shorter price!");
+      return false;
+    } else if (quantity > maxQuantity) {
+      window.alert("Quantity bigger than " + maxQuantity + ", please enter a lower quantity!");
+      return false;
+    }
+    let formData = {
+      'name': name,
+      'price': price,
+      'quantity': quantity,
+      'note': note
+    };
+    return formData;
+  }
+
+  getEditWishlistFormData() {
+    let name = document.getElementById("edit-wishlist-name").value;
+    if (name.length < nameMinLength) {
+      window.alert("Name cannot be empty, please enter a name!");
+      return false
+    } else if (name.length > maxWishlistNameLength) {
+      window.alert("Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!");
       return false
     } else {
       let formData = {
         'name': name,
-        'price': document.getElementById("edit-wish-price").value,
-        'quantity': document.getElementById("edit-wish-quantity").value,
-        'note': document.getElementById("edit-wish-note").value
+        'newDefault': document.getElementById("edit-wishlist-new-default-wishlist").checked
       };
       return formData;
-    }
-  }
-
-  getEditWishlistNewName() {
-    let name = document.getElementById("edit-wishlist-name").value;
-    if (name.length < 1) {
-      window.alert("Name cannot be empty, please enter a name!");
-      return false
-    } else if (name.length > 30) {
-      window.alert("Name longer than 30 letters, please enter a shorter name!");
-      return false
-    } else {
-      return name;
     }
   }
 
@@ -130,32 +145,43 @@ class MyWishlistView{
 
   getAddIdeaFormData() {
     let name = document.getElementById("add-idea-name").value;
-    if (name.length < 1) {
+    let note = document.getElementById("add-idea-note").value;
+    let price = document.getElementById("add-idea-price").value;
+    let quantity = document.getElementById("add-idea-quantity").value;
+    if (name.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
-    } else if (name.length > 50) {
-      window.alert("Name longer than 50 letters, please enter a shorter name!");
+    } else if (name.length > maxWishNameLength) {
+      window.alert("Name longer than " + maxWishNameLength + " letters, please enter a shorter name!");
       return false
-    } else {
-      let formData = {
-        'name': name,
-        'price': document.getElementById("add-idea-price").value,
-        'quantity': document.getElementById("add-idea-quantity").value,
-        'note': document.getElementById("add-idea-note").value,
-        'wishlistId': this.#currentWishlistId,
-        'date': new Date()
-      };
-      return formData;
+    } else if (note.length > maxNoteLength) {
+      window.alert("Note longer than " + maxNoteLength + " letters, please enter a shorter note!");
+      return false;
+    } else if (price.length > maxPriceLength) {
+      window.alert("Price longer than " + maxPriceLength + " characters, please enter a shorter price!");
+      return false;
+    } else if (quantity > maxQuantity) {
+      window.alert("Quantity bigger than " + maxQuantity + ", please enter a lower quantity!");
+      return false;
     }
+    let formData = {
+      'name': name,
+      'price': price,
+      'quantity': quantity,
+      'note': note,
+      'wishlistId': this.#currentWishlistId,
+      'date': new Date()
+    };
+    return formData;
   }
 
   getCreateWishlistFormData() {
     let name = document.getElementById("create-wishlist-name").value;
-    if (name.length < 1) {
+    if (name.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
-    } else if (name.length > 30) {
-      window.alert("Name longer than 30 letters, please enter a shorter name!");
+    } else if (name.length > maxWishlistNameLength) {
+      window.alert("Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!");
       return false
     } else {
       let formData = {
@@ -197,7 +223,7 @@ class MyWishlistView{
 
   async updateWish(wish, wishlists) {
     var wishHtmlElement = document.querySelector(`[data-wish-id="${wish.id}"].wish`)
-    wishHtmlElement.outerHTML = this.#makeHtmlElementFromWish(wish, wishlists);
+    wishHtmlElement.outerHTML = await this.#makeHtmlElementFromWish(wish, wishlists);
   }
 
   editWishlist(wishlist) {
@@ -230,49 +256,45 @@ class MyWishlistView{
     if (wish.url == null) {
       // this creates a note card instead of a regular wish card
       return `
-        <div data-wish-id="${wish.id}" class="wish box">
+        <div data-wish-id="${wish.id}" class="wish box is-clickable">
           <div class="is-flex">
 
             <div class="is-flex-grow-1">
-              <h3 class="subtitle is-5">${wish.name}</h3>
-              <div>
-                <h4>Note:</h4>
-                <p>${wish.note}</p>
-              </div>
+              ${this.#makeWishName(wish.name)}
+              ${this.#makeWishPrice(wish.price)}
+              <h4 class="is-size-6"><strong>Quantity:</strong> ${wish.quantity}</h4>
+              ${this.#makeNoteForWish(wish.note)}
             </div>
 
             <div class="ml-3">
-              <div>
-                <p>Article added on ${wish.date.toDateString()}</p>
-              </div>
-              <div>
-                <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
-                    <div class="dropdown-trigger">
-                      <button data-wish-id="${wish.id}" class="button move-wish" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span style="pointer-events: none;">Move to...</span>
-                        <span style="pointer-events: none;" class="icon is-small">
-                          <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </div>
-                    <div id="wish-17-move-dropdown-menu" class="dropdown-menu" role="menu">
-                      <div class="dropdown-content">
-                        ${this.#makeHtmlMoveWishDropdown(wish, wishlists)}
-                      </div>
+            <div class="container">
+              <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
+                  <div class="dropdown-trigger">
+                    <button data-wish-id="${wish.id}" class="button move-wish is-link" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span style="pointer-events: none;">Move to...</span>
+                      <span style="pointer-events: none;" class="icon is-small">
+                        <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div id="wish-17-move-dropdown-menu" class="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      ${this.#makeHtmlMoveWishDropdown(wish, wishlists)}
                     </div>
                   </div>
-                <button data-wish-id="${wish.id}" class="button edit-wish">
-                  <span style="pointer-events: none;" class="icon">
-                    <i class="fa-solid fa-pen"></i>
-                  </span>
-                </button>
-                <button data-wish-id="${wish.id}" class="button delete-wish">
-                  <span style="pointer-events: none;" class="icon">
-                    <i class="fa-solid fa-trash"></i>
-                  </span>
-                </button>
-              </div>
+                </div>
+              <button data-wish-id="${wish.id}" class="button edit-wish is-link">
+                <span style="pointer-events: none;" class="icon">
+                  <i class="fa-solid fa-pen"></i>
+                </span>
+              </button>
+              <button data-wish-id="${wish.id}" class="button delete-wish is-danger">
+                <span style="pointer-events: none;" class="icon">
+                  <i class="fa-solid fa-trash"></i>
+                </span>
+              </button>
             </div>
+          </div>
 
           </div>
         </div>
@@ -287,7 +309,7 @@ class MyWishlistView{
             </figure>
 
             <div class="is-flex-grow-1">
-              <h3 class="subtitle is-5">${wish.name}</h3>
+              ${this.#makeWishName(wish.name)}
               <h4 class="is-size-6"><strong>From:</strong> ${this.#makeHomeUrl(wish.url)}</h4>
               ${this.#makeWishPrice(wish.price)}
               <h4 class="is-size-6"><strong>Quantity:</strong> ${wish.quantity}</h4>
@@ -328,6 +350,17 @@ class MyWishlistView{
         </div>
       `;
     }
+  }
+
+  #makeWishName(name) {
+    var nameElement;
+    if (name.length <= maxWishDisplayLength) {
+      nameElement = `<h3 class="subtitle is-5">${name}</h3>`
+    } else {
+      let shortName = name.substring(0,  (maxWishDisplayLength-3)) + "...";
+      nameElement = `<h3 class="subtitle is-5">${shortName}<span class="tooltiptext p-1 is-underlined is-italic is-light is-family-sans-serif is-size-7">${name}</span></h3>`
+    }
+    return nameElement;
   }
 
   #makeNoteForWish(note) {
