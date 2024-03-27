@@ -51,7 +51,7 @@ class MyWishlistView{
     this.displayWishes(wishes, defaultWishlist.id, wishlists);
   }
 
-  displayWishes(wishes, wishlistId, wishlists) {
+  async displayWishes(wishes, wishlistId, wishlists) {
     var wishesContainer = document.getElementById('wishes');
     wishesContainer.innerHTML = '';
     this.#currentWishlistId = wishlistId;
@@ -63,7 +63,7 @@ class MyWishlistView{
     // insert the new wishes with name, date, url, note and id
     for (let i = 0; i < wishes.length; i++) {
       let wish = wishes[i];
-      wishesContainer.insertAdjacentHTML("beforeend", this.#makeHtmlElementFromWish(wish, wishlists));
+      wishesContainer.insertAdjacentHTML("beforeend", await this.#makeHtmlElementFromWish(wish, wishlists));
     }
     wishesContainer.insertAdjacentHTML("beforeend", `<div id="platzhalter"></div>`);
   }
@@ -190,12 +190,12 @@ class MyWishlistView{
     `;
   }
 
-  undoDeleteWish(wish, wishlists) {
+  async undoDeleteWish(wish, wishlists) {
     var undoDeleteMessage = document.querySelector(`[data-wish-id="${wish.id}"]#undo-delete`);
-    undoDeleteMessage.outerHTML = this.#makeHtmlElementFromWish(wish, wishlists);
+    undoDeleteMessage.outerHTML = await this.#makeHtmlElementFromWish(wish, wishlists);
   }
 
-  updateWish(wish, wishlists) {
+  async updateWish(wish, wishlists) {
     var wishHtmlElement = document.querySelector(`[data-wish-id="${wish.id}"].wish`)
     wishHtmlElement.outerHTML = this.#makeHtmlElementFromWish(wish, wishlists);
   }
@@ -226,7 +226,7 @@ class MyWishlistView{
 
   // Private Methods
 
-  #makeHtmlElementFromWish(wish, wishlists) {
+  async #makeHtmlElementFromWish(wish, wishlists) {
     if (wish.url == null) {
       // this creates a note card instead of a regular wish card
       return `
@@ -283,12 +283,14 @@ class MyWishlistView{
         <div data-wish-id="${wish.id}" class="wish box actual-wishcard is-clickable">
           <div class="is-flex">
             <figure class="wish-image-container mr-3">
-              <img class="wish-image" ${this.#makeHtmlImgSrc(wish)}>
+              <img class="wish-image" ${await this.#makeHtmlImgSrc(wish)}>
             </figure>
 
             <div class="is-flex-grow-1">
               <h3 class="subtitle is-5">${wish.name}</h3>
               <h4 class="is-size-6"><strong>From:</strong> ${this.#makeHomeUrl(wish.url)}</h4>
+              ${this.#makeWishPrice(wish.price)}
+              <h4 class="is-size-6"><strong>Quantity:</strong> ${wish.quantity}</h4>
               ${this.#makeNoteForWish(wish.note)}
             </div>
 
@@ -339,19 +341,55 @@ class MyWishlistView{
     return note ? html : '';
   }
 
+  #makeWishPrice(price) {
+    if (price == "") {
+      return ""
+    } else {
+      return `<h4 class="is-size-6"><strong>Price:</strong> ${price}</h4>`
+    }
+  }
+
   #makeHomeUrl(url) {
       const domainRegex = /(?:https?:\/\/)?(?:www\.)?([^/]+)/i;
       const match = url.match(domainRegex);
       return match ? match[1] : "error";
   }
 
-  #makeHtmlImgSrc(wish) {
-    var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
-    if (base64regex.test(wish.image)) {
-      return `src="data:image/png;base64, ${wish.image}" alt="product image of ${wish.name}"`
-    } else {
-      return 'src="/images/whoopsie.png" alt="image not found"'
-    }
+  async #makeHtmlImgSrc(wish) {
+    return new Promise((resolve) => {
+      var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+      function isValidHttpUrl(string) {
+        let url;
+
+        try {
+          url = new URL(string);
+        } catch (_) {
+          return false;
+        }
+
+        return url.protocol === "http:" || url.protocol === "https:";
+      }
+
+      var imageFallback = 'src="/images/whoopsie.png" alt="image not found"';
+      var imageTester = new Image();
+
+      imageTester.onload = function() {
+        resolve(`src="${imageTester.src}" alt="product image of ${wish.name}"`);
+      };
+
+      imageTester.onerror = function() {
+        resolve(imageFallback);
+      };
+
+      if (base64regex.test(wish.image)) {
+        imageTester.src = `data:image/png;base64, ${wish.image}`;
+      } else if (isValidHttpUrl(wish.image)) {
+        imageTester.src = wish.image;
+      } else {
+        resolve(imageFallback);
+        return;
+      }
+    });
   }
 
   #makeHtmlMoveWishDropdown(wish, wishlists) {
