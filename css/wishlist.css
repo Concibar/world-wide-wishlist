@@ -40,9 +40,10 @@
 
 .tooltiptext{
   visibility: hidden;
-  background-color: #7de2d1;
+  background-color: #7f8888;
+  opacity: 80%;
   color: #fff;
-  text-align: center;
+  text-align: left;
   border-radius: 6px;
   padding: 5px 0;
   position: absolute;

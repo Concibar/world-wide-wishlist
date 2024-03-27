@@ -138,41 +138,52 @@ class PopupView {
 
   #convertImage(imageSrc) {
     return new Promise((resolve) => {
-      // Create an image object from the path
-      const originalImage = new Image();
-      originalImage.src = imageSrc;
-      originalImage.crossOrigin = "anonymous";
+      try {
+        // Create an image object from the path
+        const originalImage = new Image();
+        originalImage.src = imageSrc;
+        originalImage.crossOrigin = "anonymous";
 
-      // Get a reference to the canvas
-      const canvas = document.getElementById('canvas');
-      const ctx = canvas.getContext('2d');
+        // Handle CORS or loading error
+        originalImage.addEventListener('error', () => {
+          console.error("Failed to load image:", imageSrc);
+          resolve(imageSrc);
+        });
 
-      // Wait for the image to load
-      originalImage.addEventListener('load', () => {
-        // Get the original image size and aspect ratio
-        const originalWidth = originalImage.naturalWidth;
-        const originalHeight = originalImage.naturalHeight;
-        const aspectRatio = originalWidth/originalHeight;
-        var newWidth = 200;
-        var newHeight = 200;
+        // Get a reference to the canvas
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
-        // Resize image while keeping the Ratio
-        if (originalWidth > originalHeight) {
-          newHeight = newWidth / aspectRatio;
-        } else {
-          newWidth = newHeight * aspectRatio;
-        }
+        // Wait for the image to load
+        originalImage.addEventListener('load', () => {
+          // Get the original image size and aspect ratio
+          const originalWidth = originalImage.naturalWidth;
+          const originalHeight = originalImage.naturalHeight;
+          const aspectRatio = originalWidth/originalHeight;
+          var newWidth = 200;
+          var newHeight = 200;
 
-        // Set the canvas size
-        canvas.width = newWidth;
-        canvas.height = newHeight;
+          // Resize image while keeping the Ratio
+          if (originalWidth > originalHeight) {
+            newHeight = newWidth / aspectRatio;
+          } else {
+            newWidth = newHeight * aspectRatio;
+          }
 
-        // Render the image
-        ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
-        const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
-        console.log(base64); // DEBUG
-        resolve(base64);
-      });
+          // Set the canvas size
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+
+          // Render the image
+          ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+          const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
+          console.log(base64); // DEBUG
+          resolve(base64);
+        });
+      } catch (error) {
+        console.error("Image couldn't be loaded properly:", error);
+        resolve(imageSrc);
+      }
     });
   }
 }
