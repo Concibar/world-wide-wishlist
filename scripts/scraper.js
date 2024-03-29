@@ -28,7 +28,6 @@ class Scraper {
   title = "";
   url = "";
   imageArray = [];
-  price = 0;
 
   constructor() {}
   // TODO: Filter SRC for evil scripts
