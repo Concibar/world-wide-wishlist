@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   scraperConnection();
   wishConnection();
   wishlistConnection();
-  storageTestingConnection();
   dbManagerConnection();
 
   // Check if Database needs to be set or updated

@@ -5,10 +5,9 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   wishConnection();
   wishlistConnection();
   dbManagerConnection();
-  storageTestingConnection();
 
-  // DEBUG:
-  // await setTestDatabase();
+  const dbManager = new DBManager();
+  await dbManager.checkDatabase();
 
   await setupDatabase();
   // TODO: update check/functionality
