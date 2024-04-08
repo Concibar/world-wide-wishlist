@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   myWishlistViewConnection();
   wishConnection();
   wishlistConnection();
-  dbSetupConnection();
+  dbManagerConnection();
   storageTestingConnection();
 
   // DEBUG:

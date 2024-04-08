@@ -1,18 +1,14 @@
-function dbSetupConnection() {
-  console.log("dbSetup.js is connected");
+function dbManagerConnection() {
+  console.log("dbManager.js is connected");
 }
 
-// Setting the Max Length of Names and Notes for frontend checks
-const nameMinLength = 1;
-const maxWishNameLength = 200;
-const maxWishDisplayLength = 50;
-const maxWishlistNameLength = 30;
-const maxNoteLength = 2000;
-const maxPriceLength = 20;
-const maxQuantity = 100;
-
 const manifest = chrome.runtime.getManifest();
-const versionNumber = manifest.version;
+const manifestVersionNumber = manifest.version;
+
+class dbManager {
+
+}
+
 // verify DB via settings if false check every part and set accordingly
 // TODO: make sure the default first time starter setup of the DB serves as a tutorial
 // TODO: the update functionality should export the DB before updating
@@ -51,4 +47,21 @@ async function setupDatabase() {
       console.log("wishes set to default");
     }
   }
+}
+
+async function updateDatabase() {
+
+}
+
+async function exportDatabase() {
+  // TODO:
+  // 1) read wishlists and wishes
+  // 2) parse both into text-data
+}
+
+async function importDatabase() {
+  // TODO:
+  // 1) parse giant text input as json
+  // 2) for-each through wishlists; check ID doubling and save non-doubles
+  // 3) for-each through wishes; check ID doubling and save non-doubles
 }

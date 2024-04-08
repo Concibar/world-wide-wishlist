@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   wishConnection();
   wishlistConnection();
   storageTestingConnection();
-  dbSetupConnection();
+  dbManagerConnection();
 
   // Check if Database needs to be set or updated
   // TODO: make DB-setup update functionality
