@@ -5,11 +5,11 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   wishConnection();
   wishlistConnection();
   dbManagerConnection();
+  UUIDv7Connection();
 
   const dbManager = new DBManager();
   await dbManager.checkDatabase();
 
-  await setupDatabase();
   // TODO: update check/functionality
   const view = new MyWishlistView();
   const wishlistsContainer = document.getElementById('wishlists');
@@ -52,9 +52,14 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
 
   // any click outside of dropdown closes current active dropdowns
-  document.body.addEventListener('click', () => {
+  document.body.addEventListener('click', (event) => {
+    if (event.target.matches(".move-wish")) {
+      return;
+    }
     let openDropdown = document.querySelector(".dropdown.is-active");
-    openDropdown.classList.remove('is-active');
+    if (openDropdown != null) {
+      openDropdown.classList.remove('is-active');
+    }
   });
 
   // listen to go to website; move wish; edit wish; delete Wish; undo-delete
