@@ -6,10 +6,12 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   wishConnection();
   wishlistConnection();
   dbManagerConnection();
+  UUID7Connection();
 
   // Check if Database needs to be set or updated
-  // TODO: make DB-setup update functionality
-  setupDatabase();
+  const dbManager = new DBManager();
+  await dbManager.checkDatabase();
+
 
   // Exit function
   const escapeButton = document.getElementById('escape-button');

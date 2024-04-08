@@ -5,12 +5,11 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   wishConnection();
   wishlistConnection();
   dbManagerConnection();
-  UUIDv7Connection();
+  UUID7Connection();
 
   const dbManager = new DBManager();
   await dbManager.checkDatabase();
 
-  // TODO: update check/functionality
   const view = new MyWishlistView();
   const wishlistsContainer = document.getElementById('wishlists');
   const wishesContainer = document.getElementById('wishes');
