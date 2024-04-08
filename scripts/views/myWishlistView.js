@@ -267,7 +267,7 @@ class MyWishlistView{
             </div>
 
             <div class="ml-3">
-            <div class="container">
+            <div class="container button-container">
               <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
                   <div class="dropdown-trigger">
                     <button data-wish-id="${wish.id}" class="button move-wish is-link" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -317,7 +317,7 @@ class MyWishlistView{
             </div>
 
             <div class="ml-3">
-              <div class="container">
+              <div class="container button-container">
                 <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
                     <div class="dropdown-trigger">
                       <button data-wish-id="${wish.id}" class="button move-wish is-link" aria-haspopup="true" aria-controls="dropdown-menu">

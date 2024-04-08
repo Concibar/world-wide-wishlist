@@ -4,6 +4,10 @@
   background-color: #7de2d1;
 }
 
+.button-container{
+  min-width:203px;
+}
+
 .wish-image{
   max-height: 128px;
   max-width: 128px;
