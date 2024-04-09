@@ -12,9 +12,9 @@ export default class Wish {
   #url;
   #wishlistId;
 
-  constructor({wishlistId,name,url,image,price,quantity,note,date,id}) {
-    this.#date = new Date(date);
+  constructor({wishlistId,name,url,image,price,quantity,note,id}) {
     this.#id = id;
+    this.#date = uuidToName(this.id);
     this.#image = (image == undefined) ? "images/whoopsie.png" : image;
     this.#name = name;
     this.#note = note;
@@ -39,14 +39,10 @@ export default class Wish {
     let wishes = wishesResult.wishes;
 
     if (this.#id == null) {
-      let idTrackerResult = await chrome.storage.local.get(['idTracker']);
-      this.#id = idTrackerResult.idTracker;
-      let newId = this.#id + 1;
-      await chrome.storage.local.set({'idTracker': newId});
+      this.#id = uuid();
     }
 
     let wishData = {
-      "date": this.#date.toISOString(),
       "id": this.#id,
       "image": this.#image,
       "name": this.#name,
@@ -86,7 +82,7 @@ export default class Wish {
     let wishes = result.wishes;
     let filteredWishes = wishes.filter(wish => wish.wishlistId == wishlistId);
     filteredWishes = filteredWishes.map((wish) => new Wish(wish));
-    let wishesSortedByDate = filteredWishes.sort((a,b) => b.date.getTime()-a.date.getTime());
+    let wishesSortedByDate = filteredWishes.sort((a,b) => b.id-a.id); // TODO: Test this
     return wishesSortedByDate;
   }
 

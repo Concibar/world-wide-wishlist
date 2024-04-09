@@ -23,10 +23,7 @@ export default class Wishlist {
     let wishlists = wishlistsResult.wishlists;
 
     if (this.#id == null) {
-      let idTrackerResult = await chrome.storage.local.get(['idTracker']);
-      this.#id = idTrackerResult.idTracker;
-      let newId = this.#id + 1;
-      await chrome.storage.local.set({'idTracker': newId});
+      this.#id = uuid();
     }
 
     let wishlistData = {

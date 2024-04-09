@@ -77,7 +77,6 @@ export default class PopupView {
     let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
     var formData = {};
         formData.image       = await this.#convertImage(activeSrc);
-        formData.date        = new Date();
         formData.url         = this.wishUrl;
         formData.wishlistId  = document.getElementById('wishlists').value;
         formData.name        = wishName;

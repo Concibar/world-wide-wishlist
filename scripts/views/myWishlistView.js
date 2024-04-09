@@ -175,8 +175,7 @@ export default class MyWishlistView{
       'price': price,
       'quantity': quantity,
       'note': note,
-      'wishlistId': this.#currentWishlistId,
-      'date': new Date()
+      'wishlistId': this.#currentWishlistId
     };
     return formData;
   }
