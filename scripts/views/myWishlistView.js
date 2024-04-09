@@ -1,8 +1,14 @@
-function myWishlistViewConnection() {
-  console.log("myWishlistView.js is connected");
-}
+import {
+  nameMinLength,
+  maxWishNameLength,
+  maxWishDisplayLength,
+  maxWishlistNameLength,
+  maxNoteLength,
+  maxPriceLength,
+  maxQuantity
+} from '../databaseHandling/dbConfig.js'
 
-class MyWishlistView{
+export default class MyWishlistView{
   #currentWishlistId;
 
   constructor() {}

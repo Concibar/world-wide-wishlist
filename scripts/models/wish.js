@@ -1,8 +1,6 @@
-function wishConnection() {
-  console.log("wish.js is connected");
-}
+import uuid, {extractTimeFromUUIDv7 as uuidToName} from '../databaseHandling/uuid7.js'
 
-class Wish {
+export default class Wish {
   static LAST_DELETED_WISH;
   #date;
   #id;

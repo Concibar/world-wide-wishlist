@@ -1,17 +1,12 @@
+import Wish from '../models/wish.js'
+import Wishlist from '../models/wishlist.js'
+import View from '../views/popupView.js'
+import checkDBschema from '../databaseHandling/dbManager.js'
+import Scraper from '../scraper.js'
+
 document.addEventListener('DOMContentLoaded', async function () { // this waits for the popup.html to fully load
-
-  // Check the js connections
-  popupViewConnection();
-  scraperConnection();
-  wishConnection();
-  wishlistConnection();
-  dbManagerConnection();
-  UUID7Connection();
-
   // Check if Database needs to be set or updated
-  const dbManager = new DBManager();
-  await dbManager.checkDatabase();
-
+  await checkDBschema();
 
   // Exit function
   const escapeButton = document.getElementById('escape-button');
@@ -39,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   // Scrapes active tab for title,url and images
   const scraper = new Scraper;
   await scraper.scrape();
-  const view = new PopupView(scraper);
+  const view = new View(scraper);
   await displayDefault();
 
   async function displayDefault() {

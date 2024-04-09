@@ -1,24 +1,20 @@
+import Wish from '../models/wish.js'
+import Wishlist from '../models/wishlist.js'
+import View from '../views/myWishlistView.js'
+import checkDBschema from '../databaseHandling/dbManager.js'
+
 document.addEventListener('DOMContentLoaded', async function () { // this waits for the html to fully load
 
-  // Check js scripts connections
-  myWishlistViewConnection();
-  wishConnection();
-  wishlistConnection();
-  dbManagerConnection();
-  UUID7Connection();
+  await checkDBschema();
 
-  const dbManager = new DBManager();
-  await dbManager.checkDatabase();
-
-  const view = new MyWishlistView();
+  const view = new View();
   const wishlistsContainer = document.getElementById('wishlists');
   const wishesContainer = document.getElementById('wishes');
   const createWishlistButton = document.getElementById('create-new-wishlist');
+  const editWishlistButton = document.getElementById('edit-wishlist');
   const addIdeaButton = document.getElementById('add-an-idea');
   const settings = document.getElementById('settings');
   const donate = document.getElementById('donate');
-  const editWishlistButton = document.getElementById('edit-wishlist');
-
 
   const editWishlistModalSave = document.getElementById('edit-wishlist-modal-save');
   const editWishlistModalDelete = document.getElementById('edit-wishlist-modal-delete');

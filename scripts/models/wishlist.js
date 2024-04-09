@@ -1,8 +1,7 @@
-function wishlistConnection() {
-  console.log("wishlist.js connected");
-}
+import uuid from '../databaseHandling/uuid7.js'
+import Wish from '../models/wish.js'
 
-class Wishlist {
+export default class Wishlist {
   #id;
   #name = "unnamed wishlist";
 

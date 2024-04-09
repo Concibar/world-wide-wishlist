@@ -13,13 +13,12 @@ function random(bits) {
   return Math.floor(Math.random() * Math.pow(2, bits));
 }
 
-function uuid7() {
+export default function uuid7() {
 
   let uuid = "";
 
   // generate time chars
   let milli = (new Date()).getTime();
-  console.log(milli);
   let time = hex(milli, 12);
 
   // cat time and random chars
@@ -44,7 +43,7 @@ function uuid7() {
   return uuid;
 }
 
-function extractTimeFromUUIDv7(uuid) {
+export function extractTimeFromUUIDv7(uuid) {
   const cleanedUUID = uuid.replace(/-/g, '');
   const timeInHex = cleanedUUID.substring(0, 12);
   const timeInDecimal = parseInt(timeInHex, 16);

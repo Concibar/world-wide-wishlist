@@ -1,8 +1,14 @@
-function popupViewConnection() {
-  console.log("popupView.js connected");
-}
+import {
+  nameMinLength,
+  maxWishNameLength,
+  maxWishDisplayLength,
+  maxWishlistNameLength,
+  maxNoteLength,
+  maxPriceLength,
+  maxQuantity
+} from '../databaseHandling/dbConfig.js'
 
-class PopupView {
+export default class PopupView {
   wishUrl = "";
   imageArray = [];
   price = 0;
