@@ -1,10 +1,9 @@
-function wishlistConnection() {
-  console.log("wishlist.js connected");
-}
+import uuid from '../databaseHandling/uuid7.js'
+import Wish from '../models/wish.js'
 
-class Wishlist {
+export default class Wishlist {
   #id;
-  #name = "unnamed wishlist";
+  #name;
 
   constructor({id, name}) {
     this.#id = id;
@@ -24,10 +23,7 @@ class Wishlist {
     let wishlists = wishlistsResult.wishlists;
 
     if (this.#id == null) {
-      let idTrackerResult = await chrome.storage.local.get(['idTracker']);
-      this.#id = idTrackerResult.idTracker;
-      let newId = this.#id + 1;
-      await chrome.storage.local.set({'idTracker': newId});
+      this.#id = uuid();
     }
 
     let wishlistData = {
@@ -71,6 +67,7 @@ class Wishlist {
   }
 
   async setAsDefaultWishlist() {
+    await this.save();
     await chrome.storage.local.set({'defaultWishlistId': this.#id});
   }
 

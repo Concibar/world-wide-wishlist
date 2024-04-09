@@ -1,8 +1,14 @@
-function popupViewConnection() {
-  console.log("popupView.js connected");
-}
+import {
+  nameMinLength,
+  maxWishNameLength,
+  maxWishDisplayLength,
+  maxWishlistNameLength,
+  maxNoteLength,
+  maxPriceLength,
+  maxQuantity
+} from '../databaseHandling/dbConfig.js'
 
-class PopupView {
+export default class PopupView {
   wishUrl = "";
   imageArray = [];
   price = 0;
@@ -71,7 +77,6 @@ class PopupView {
     let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
     var formData = {};
         formData.image       = await this.#convertImage(activeSrc);
-        formData.date        = new Date();
         formData.url         = this.wishUrl;
         formData.wishlistId  = document.getElementById('wishlists').value;
         formData.name        = wishName;

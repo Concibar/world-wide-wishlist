@@ -1,26 +1,20 @@
+import Wish from '../models/wish.js'
+import Wishlist from '../models/wishlist.js'
+import View from '../views/myWishlistView.js'
+import checkDBschema from '../databaseHandling/dbManager.js'
+
 document.addEventListener('DOMContentLoaded', async function () { // this waits for the html to fully load
 
-  // Check js scripts connections
-  myWishlistViewConnection();
-  wishConnection();
-  wishlistConnection();
-  dbSetupConnection();
-  storageTestingConnection();
+  await checkDBschema();
 
-  // DEBUG:
-  // await setTestDatabase();
-
-  await setupDatabase();
-  // TODO: update check/functionality
-  const view = new MyWishlistView();
+  const view = new View();
   const wishlistsContainer = document.getElementById('wishlists');
   const wishesContainer = document.getElementById('wishes');
   const createWishlistButton = document.getElementById('create-new-wishlist');
+  const editWishlistButton = document.getElementById('edit-wishlist');
   const addIdeaButton = document.getElementById('add-an-idea');
   const settings = document.getElementById('settings');
   const donate = document.getElementById('donate');
-  const editWishlistButton = document.getElementById('edit-wishlist');
-
 
   const editWishlistModalSave = document.getElementById('edit-wishlist-modal-save');
   const editWishlistModalDelete = document.getElementById('edit-wishlist-modal-delete');
@@ -43,8 +37,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
 
   // Wishlist clicked -> Display according wishes
   wishlistsContainer.addEventListener("mousedown", (event) => {
-    let dataWishlistId = event.target.dataset.wishlistId;
-    let wishlistId = parseInt(dataWishlistId, 10);
+    let wishlistId = event.target.dataset.wishlistId;
     Wishlist.readAll().then(wishlists => {
       Wish.readWishesOnWishlist(wishlistId).then(wishes => {
         view.displayWishes(wishes, wishlistId, wishlists);
@@ -53,16 +46,20 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   });
 
   // any click outside of dropdown closes current active dropdowns
-  document.body.addEventListener('click', () => {
+  document.body.addEventListener('click', (event) => {
+    if (event.target.matches(".move-wish")) {
+      return;
+    }
     let openDropdown = document.querySelector(".dropdown.is-active");
-    openDropdown.classList.remove('is-active');
+    if (openDropdown != null) {
+      openDropdown.classList.remove('is-active');
+    }
   });
 
   // listen to go to website; move wish; edit wish; delete Wish; undo-delete
   wishesContainer.addEventListener("click", (event) => {
     if (event.target.nodeName == "BUTTON") {
-      var dataWishId = event.target.dataset.wishId;
-      var wishId = parseInt(dataWishId, 10);
+      var wishId = event.target.dataset.wishId;
       if (event.target.matches(".move-wish")) {
         Wish.read(wishId).then(wish => {
           view.toggleDropdown(wish);
@@ -85,10 +82,8 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         });
       }
     } else if (event.target.nodeName == "A") {
-      let dataWishId = event.target.dataset.wishId;
-      let wishId = parseInt(dataWishId, 10);
-      let dataWishlistId = event.target.dataset.wishlistId;
-      let wishlistId = parseInt(dataWishlistId, 10);
+      let wishId = event.target.dataset.wishId;
+      let wishlistId = event.target.dataset.wishlistId;
 
       Wish.read(wishId).then(wish => {
         wish.update({wishlistId: wishlistId});
@@ -97,8 +92,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     } else if (!event.target.matches(".wishes") ) {
       var closestBox = event.target.closest(".actual-wishcard");
       if (closestBox) {
-        var dataWishId = closestBox.dataset.wishId;
-        var wishId = parseInt(dataWishId, 10);
+        var wishId = closestBox.dataset.wishId;
         Wish.read(wishId).then(wish => {
           window.open(wish.url);
         });

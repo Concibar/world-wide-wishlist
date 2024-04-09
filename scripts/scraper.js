@@ -1,6 +1,12 @@
-function scraperConnection() {
-  console.log("scraper.js is connected");
-}
+import {
+  nameMinLength,
+  maxWishNameLength,
+  maxWishDisplayLength,
+  maxWishlistNameLength,
+  maxNoteLength,
+  maxPriceLength,
+  maxQuantity
+} from './databaseHandling/dbConfig.js'
 
 function grabImages() {
   const images = document.querySelectorAll("img");
@@ -24,14 +30,12 @@ function grabImages() {
   return imageSrcs;
 }
 
-class Scraper {
+export default class Scraper {
   title = "";
   url = "";
   imageArray = [];
-  price = 0;
 
   constructor() {}
-  // TODO: Filter SRC for evil scripts
 
   async scrape() {
     let tabs = await chrome.tabs.query({ currentWindow: true, active: true });

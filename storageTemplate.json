@@ -1,29 +1,26 @@
 {
-
   // This file shows how the JSON safe data is structured in the extension
 
   "versionNumber": 0.1,
-  "defaultWishlistId": 0,
-  "idTracker": 0,
+  "defaultWishlistId": 0,   // Ids are kept unique via uuid7, which also provides the date
 
   "wishlists": [
     {
-      "id": 0,
+      "id": 0,   // Ids are kept unique via uuid7, which also provides the date
       "name": "your first wishlist"
     }
   ],
 
   "wishes": [
     {
-      "id": 0,
-      "wishlistId": 0,
+      "id": 0,   // Ids are kept unique via uuid7, which also provides the date
+      "wishlistId": 0,   // Ids are kept unique via uuid7, which also provides the date
       "name": "foowish",
       "url": "http://www.website.foo",
       "image": "ASCII base64 encoded string",
       "price": "13.54 usd",
       "quantity": 1,
       "note": "this might be a good gift for my grandma :)",
-      "date": "2020.12.17"
     }
   ]
 }

@@ -1,8 +1,6 @@
-function wishConnection() {
-  console.log("wish.js is connected");
-}
+import uuid, {extractTimeFromUUIDv7 as uuidToName} from '../databaseHandling/uuid7.js'
 
-class Wish {
+export default class Wish {
   static LAST_DELETED_WISH;
   #date;
   #id;
@@ -14,8 +12,7 @@ class Wish {
   #url;
   #wishlistId;
 
-  constructor({wishlistId,name,url,image,price,quantity,note,date,id}) {
-    this.#date = new Date(date);
+  constructor({wishlistId,name,url,image,price,quantity,note,id}) {
     this.#id = id;
     this.#image = (image == undefined) ? "images/whoopsie.png" : image;
     this.#name = name;
@@ -34,21 +31,20 @@ class Wish {
   get price() {return this.#price}
   get quantity() {return this.#quantity}
   get note() {return this.#note}
-  get date() {return this.#date}
+  get date() {return uuidToName(this.#id)}
 
   async save() {
     let wishesResult = await chrome.storage.local.get(['wishes']);
     let wishes = wishesResult.wishes;
 
     if (this.#id == null) {
-      let idTrackerResult = await chrome.storage.local.get(['idTracker']);
-      this.#id = idTrackerResult.idTracker;
-      let newId = this.#id + 1;
-      await chrome.storage.local.set({'idTracker': newId});
+      this.#id = uuid();
     }
 
+    console.log("DEBUG: wish is being saved:");
+    console.log(this);
+
     let wishData = {
-      "date": this.#date.toISOString(),
       "id": this.#id,
       "image": this.#image,
       "name": this.#name,
@@ -88,7 +84,7 @@ class Wish {
     let wishes = result.wishes;
     let filteredWishes = wishes.filter(wish => wish.wishlistId == wishlistId);
     filteredWishes = filteredWishes.map((wish) => new Wish(wish));
-    let wishesSortedByDate = filteredWishes.sort((a,b) => b.date.getTime()-a.date.getTime());
+    let wishesSortedByDate = filteredWishes.sort((a,b) => b.id-a.id); // TODO: Test this
     return wishesSortedByDate;
   }
 

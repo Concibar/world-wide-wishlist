@@ -1,8 +1,14 @@
-function myWishlistViewConnection() {
-  console.log("myWishlistView.js is connected");
-}
+import {
+  nameMinLength,
+  maxWishNameLength,
+  maxWishDisplayLength,
+  maxWishlistNameLength,
+  maxNoteLength,
+  maxPriceLength,
+  maxQuantity
+} from '../databaseHandling/dbConfig.js'
 
-class MyWishlistView{
+export default class MyWishlistView{
   #currentWishlistId;
 
   constructor() {}
@@ -57,6 +63,9 @@ class MyWishlistView{
     this.#currentWishlistId = wishlistId;
 
     //change active-wishlist
+    let test = document.querySelector("body");
+    console.log("DEBUG: test is:");
+    console.log(test);
     document.querySelector('.active-wishlist').classList.remove('active-wishlist');
     document.querySelector(`[data-wishlist-id="${wishlistId}"]`).classList.add('active-wishlist');
 
@@ -169,8 +178,7 @@ class MyWishlistView{
       'price': price,
       'quantity': quantity,
       'note': note,
-      'wishlistId': this.#currentWishlistId,
-      'date': new Date()
+      'wishlistId': this.#currentWishlistId
     };
     return formData;
   }
@@ -267,7 +275,7 @@ class MyWishlistView{
             </div>
 
             <div class="ml-3">
-            <div class="container">
+            <div class="container button-container">
               <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
                   <div class="dropdown-trigger">
                     <button data-wish-id="${wish.id}" class="button move-wish is-link" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -317,7 +325,7 @@ class MyWishlistView{
             </div>
 
             <div class="ml-3">
-              <div class="container">
+              <div class="container button-container">
                 <div data-wish-id="${wish.id}" class="dropdown move-wish-dropdown">
                     <div class="dropdown-trigger">
                       <button data-wish-id="${wish.id}" class="button move-wish is-link" aria-haspopup="true" aria-controls="dropdown-menu">
