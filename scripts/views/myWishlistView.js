@@ -63,6 +63,9 @@ export default class MyWishlistView{
     this.#currentWishlistId = wishlistId;
 
     //change active-wishlist
+    let test = document.querySelector("body");
+    console.log("DEBUG: test is:");
+    console.log(test);
     document.querySelector('.active-wishlist').classList.remove('active-wishlist');
     document.querySelector(`[data-wishlist-id="${wishlistId}"]`).classList.add('active-wishlist');
 

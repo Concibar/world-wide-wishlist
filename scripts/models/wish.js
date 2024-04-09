@@ -14,7 +14,6 @@ export default class Wish {
 
   constructor({wishlistId,name,url,image,price,quantity,note,id}) {
     this.#id = id;
-    this.#date = uuidToName(this.id);
     this.#image = (image == undefined) ? "images/whoopsie.png" : image;
     this.#name = name;
     this.#note = note;
@@ -32,7 +31,7 @@ export default class Wish {
   get price() {return this.#price}
   get quantity() {return this.#quantity}
   get note() {return this.#note}
-  get date() {return this.#date}
+  get date() {return uuidToName(this.#id)}
 
   async save() {
     let wishesResult = await chrome.storage.local.get(['wishes']);
@@ -41,6 +40,9 @@ export default class Wish {
     if (this.#id == null) {
       this.#id = uuid();
     }
+
+    console.log("DEBUG: wish is being saved:");
+    console.log(this);
 
     let wishData = {
       "id": this.#id,

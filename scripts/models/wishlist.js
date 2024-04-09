@@ -3,7 +3,7 @@ import Wish from '../models/wish.js'
 
 export default class Wishlist {
   #id;
-  #name = "unnamed wishlist";
+  #name;
 
   constructor({id, name}) {
     this.#id = id;
@@ -67,6 +67,7 @@ export default class Wishlist {
   }
 
   async setAsDefaultWishlist() {
+    await this.save();
     await chrome.storage.local.set({'defaultWishlistId': this.#id});
   }
 
