@@ -15,6 +15,7 @@
       "storage",
       "unlimitedStorage",
       "activeTab",
-      "scripting"
+      "scripting",
+      "downloads"
     ]
 }
