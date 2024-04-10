@@ -1,0 +1,12 @@
+@import '/css/mystyles.css';
+
+.has-no-left-border-radius{
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+.has-light-blue-background{
+  border-style: solid;
+  border-color: rgb(133, 233, 207);
+  border-width: 1px;
+}

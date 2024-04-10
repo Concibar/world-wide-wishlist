@@ -1,8 +1,7 @@
-import uuid, {extractTimeFromUUIDv7 as uuidToName} from '../databaseHandling/uuid7.js'
+import uuid, {extractTimeFromUUIDv7 as uuidToDate} from '../databaseHandling/uuid7.js'
 
 export default class Wish {
   static LAST_DELETED_WISH;
-  #date;
   #id;
   #image = "images/whoopsie.png";
   #name;
@@ -31,7 +30,7 @@ export default class Wish {
   get price() {return this.#price}
   get quantity() {return this.#quantity}
   get note() {return this.#note}
-  get date() {return uuidToName(this.#id)}
+  get date() {return uuidToDate(this.#id)}
 
   async save() {
     let wishesResult = await chrome.storage.local.get(['wishes']);

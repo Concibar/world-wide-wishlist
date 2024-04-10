@@ -4,7 +4,6 @@ import View from '../views/popupView.js'
 import checkDBschema from '../databaseHandling/dbManager.js'
 import Scraper from '../scraper.js'
 
-
 document.addEventListener('DOMContentLoaded', async function () { // this waits for the popup.html to fully load
   // Check if Database needs to be set or updated
   await checkDBschema();
