@@ -48,15 +48,5 @@ export function extractTimeFromUUIDv7(uuid) {
   const timeInHex = cleanedUUID.substring(0, 12);
   const timeInDecimal = parseInt(timeInHex, 16);
   const date = new Date(timeInDecimal);
-  console.log(date);
-  console.log(date.getTime());
   return date;
 }
-
-// console.log("\n[UUIDv7]\n")
-// for (i = 0; i < 10; i++) {
-//   let uuid = uuid7();
-//   console.log(uuid);
-//   let extractedDate = extractTimeFromUUIDv7(uuid);
-//   console.log("Extracted Date:", extractedDate);
-// }
