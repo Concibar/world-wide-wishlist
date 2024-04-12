@@ -48,6 +48,8 @@ export function extractTimeFromUUIDv7(uuid) {
   const timeInHex = cleanedUUID.substring(0, 12);
   const timeInDecimal = parseInt(timeInHex, 16);
   const date = new Date(timeInDecimal);
+  console.log(date);
+  console.log(date.getTime());
   return date;
 }
 

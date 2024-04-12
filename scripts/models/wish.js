@@ -81,9 +81,13 @@ export default class Wish {
   static async readWishesOnWishlist(wishlistId) {
     let result = await chrome.storage.local.get(['wishes']);
     let wishes = result.wishes;
-    let filteredWishes = wishes.filter(wish => wish.wishlistId == wishlistId);
-    filteredWishes = filteredWishes.map((wish) => new Wish(wish));
-    let wishesSortedByDate = filteredWishes.sort((a,b) => b.id-a.id); // TODO: Test this
+    let wishesOnWishlist = wishes.filter(wish => wish.wishlistId == wishlistId);
+    wishesOnWishlist = wishesOnWishlist.map((wish) => new Wish(wish));
+    let wishesSortedByDate = wishesOnWishlist.sort((a,b) => {
+      const dateA = uuidToDate(a.id);
+      const dateB = uuidToDate(b.id);
+      return dateB.getTime() - dateA.getTime(); // Sort descending
+    });
     return wishesSortedByDate;
   }
 

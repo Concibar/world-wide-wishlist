@@ -10,3 +10,15 @@
   border-color: rgb(133, 233, 207);
   border-width: 1px;
 }
+
+.button:hover{
+  box-shadow: 0 0 5px 1px #7de2d1;
+}
+
+.is-inactive{
+  cursor: default !important;
+  box-shadow: none !important;
+  background-color: rgb(147, 142, 142) !important;
+  border-width: 0px !important;
+  z-index: auto !important;
+}
