@@ -2,7 +2,7 @@ import Wish from '../models/wish.js'
 import Wishlist from '../models/wishlist.js'
 
 const manifest = chrome.runtime.getManifest();
-const manifestVersion = manifest.version;
+export const manifestVersion = manifest.version;
 
 export default async function checkDBschema() {
   let result = await chrome.storage.local.get('versionNumber');
@@ -47,6 +47,7 @@ async function seedDatabase() {
     };
     let wish = new Wish(formData);
     await wish.save();
+    await new Promise(resolve => setTimeout(resolve, 1));
   }
 
   for (let i = 0; i < 20; i++) {
@@ -61,6 +62,7 @@ async function seedDatabase() {
     };
     let wish = new Wish(formData);
     await wish.save();
+    await new Promise(resolve => setTimeout(resolve, 1));
   }
 
   for (let i = 0; i < 20; i++) {
@@ -73,6 +75,7 @@ async function seedDatabase() {
     };
     let wish = new Wish(formData);
     await wish.save();
+    await new Promise(resolve => setTimeout(resolve, 1));
   }
 }
 
