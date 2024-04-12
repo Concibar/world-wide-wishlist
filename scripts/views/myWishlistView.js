@@ -237,6 +237,7 @@ export default class MyWishlistView{
   editWishlist(wishlist) {
     document.getElementById("edit-wishlist-name").value = wishlist.name;
     document.getElementById("edit-wishlist-card-title").innerText = `Edit "${wishlist.name}"`
+    document.getElementById("edit-wishlist-new-default-wishlist").checked = false;
     let editWishlistModal = document.getElementById("edit-wishlist-modal");
     this.openModal(editWishlistModal);
   }
