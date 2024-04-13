@@ -64,8 +64,6 @@ export default class MyWishlistView{
 
     //change active-wishlist
     let test = document.querySelector("body");
-    console.log("DEBUG: test is:");
-    console.log(test);
     document.querySelector('.active-wishlist').classList.remove('active-wishlist');
     document.querySelector(`[data-wishlist-id="${wishlistId}"]`).classList.add('active-wishlist');
 
@@ -92,7 +90,14 @@ export default class MyWishlistView{
     document.getElementById("edit-wish-price").value = wish.price;
     document.getElementById("edit-wish-quantity").value = wish.quantity;
     document.getElementById("edit-wish-note").value = wish.note;
-    document.getElementById("edit-wish-image").src = this.#makeHtmlImgSrc(wish);
+    let selectHtmlWish = document.querySelector(`[data-wish-id="${wish.id}"].actual-wishcard`);
+    if (selectHtmlWish) {
+      document.getElementById("edit-wish-image").src = selectHtmlWish.querySelector('img.wish-image').src;
+      document.getElementById("edit-wish-image").alt = `image of ${wish.name}`;
+    } else {
+      document.getElementById("edit-wish-image").src = "/images/whoopsie.png";
+      document.getElementById("edit-wish-image").alt = "image not found"
+    }
     let editWishModal = document.getElementById("edit-wish-modal");
     this.openModal(editWishModal);
   }
@@ -237,6 +242,7 @@ export default class MyWishlistView{
   editWishlist(wishlist) {
     document.getElementById("edit-wishlist-name").value = wishlist.name;
     document.getElementById("edit-wishlist-card-title").innerText = `Edit "${wishlist.name}"`
+    document.getElementById("edit-wishlist-new-default-wishlist").checked = false;
     let editWishlistModal = document.getElementById("edit-wishlist-modal");
     this.openModal(editWishlistModal);
   }
@@ -399,6 +405,7 @@ export default class MyWishlistView{
   async #makeHtmlImgSrc(wish) {
     return new Promise((resolve) => {
       var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+
       function isValidHttpUrl(string) {
         let url;
 

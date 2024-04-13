@@ -21,7 +21,7 @@ export default class PopupView {
     this.price = scraper.price;
   }
 
-  displayScraped(wishlists, defaultWishlistId) {
+  displayScraped(wishlists, defaultWishlist) {
     document.getElementById('wish-name').value = this.wishName;
     // display the images in the gallery
     let gallery = document.getElementById('image-gallery');
@@ -31,7 +31,7 @@ export default class PopupView {
       }
       document.getElementById('0').setAttribute('style', 'display: initial;');
     }
-    this.displayWishlists(wishlists, defaultWishlistId, defaultWishlistId);
+    this.displayWishlists(wishlists, defaultWishlist.id, defaultWishlist);
   }
 
   displayNext() {
@@ -86,18 +86,22 @@ export default class PopupView {
     return formData;
   }
 
-  displayWishlists(wishlists, selectedWishlistId, defaultWishlistId) {
+  displayWishlists(wishlists, selectedWishlistId, defaultWishlist) {
+    // clear selector of old wishes, but not add new
+    let previousOptions = document.querySelectorAll(".regular-wishlist-option");
+    previousOptions.forEach((element) => {element.remove()});
+
     let wishlistsSelector = document.getElementById('wishlists');
-    let defaultWishlist = wishlists.find(wishlist => wishlist.id === defaultWishlistId);
     let remainingWishlists = wishlists.filter(wishlist => wishlist.id !== defaultWishlist.id);
 
+    // insert all wishlists except default after add new
     for (let i = 0; i < remainingWishlists.length; i++) {
-      wishlistsSelector.insertAdjacentHTML("beforeend", `<option value="${remainingWishlists[i].id}" class="wishlist-option">${remainingWishlists[i].name}</option>`);
+      wishlistsSelector.insertAdjacentHTML("beforeend", `<option value="${remainingWishlists[i].id}" class="wishlist-option regular-wishlist-option">${remainingWishlists[i].name}</option>`);
     }
 
-    // insert default wishlist at the top
+    // insert default wishlist at the top, before add new
     wishlistsSelector.insertAdjacentHTML("afterbegin", `
-      <option value="${defaultWishlist.id}" class="wishlist-option has-background-grey-lighter">
+      <option value="${defaultWishlist.id}" class="wishlist-option has-background-grey-lighter regular-wishlist-option">
         ${defaultWishlist.name} (default)
       </option>
     `);
@@ -128,6 +132,10 @@ export default class PopupView {
   }
 
   openModal($modal) {
+    if ($modal == document.getElementById('create-wishlist-modal')) {
+      document.getElementById('create-wishlist-name').value = '';
+      document.getElementById('create-wishlist-new-default-wishlist').checked = false;
+    }
     $modal.classList.add('is-active');
   }
 
@@ -182,7 +190,6 @@ export default class PopupView {
           // Render the image
           ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
           const base64 = canvas.toDataURL("image/jpeg").split(';base64,')[1];
-          console.log(base64); // DEBUG
           resolve(base64);
         });
       } catch (error) {
