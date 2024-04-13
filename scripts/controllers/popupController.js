@@ -40,15 +40,14 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   async function displayDefault() {
     let wishlists = await Wishlist.readAll();
     let defaultWishlist = await Wishlist.getDefaultWishlist();
-    view.displayScraped(wishlists, defaultWishlist.id);
+    view.displayScraped(wishlists, defaultWishlist);
   }
 
   // make new Wishlist
   const wishlists = document.getElementById('wishlists');
   wishlists.addEventListener('change', async () => {
     if (wishlists.value === "WishlistNew") {
-      console.log("make new wishlist clicked");
-      view.openModal(document.getElementById('create-wishlist-modal'))
+      view.openModal(document.getElementById('create-wishlist-modal'));
     }
   });
   const newWishlistSave = document.getElementById('create-wishlist-modal-save');
@@ -62,8 +61,8 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
         await wishlist.setAsDefaultWishlist();
       }
       let wishlists = await Wishlist.readAll();
-      let defaultWishlistId = await Wishlist.getDefaultWishlist();
-      view.displayWishlists(wishlists, wishlist.id, defaultWishlistId);
+      let defaultWishlist = await Wishlist.getDefaultWishlist();
+      view.displayWishlists(wishlists, wishlist.id, defaultWishlist);
     }
   });
 
