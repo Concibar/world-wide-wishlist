@@ -86,7 +86,7 @@ async function setupDatabase() {
   console.log("versionNumber set to " + manifestVersion);
 
   // check and set defaultWishlistId to default
-  let defWishlistResult = chrome.storage.local.get('defaultWishlistId');
+  let defWishlistResult = await chrome.storage.local.get('defaultWishlistId');
   if (defWishlistResult.defaultWishlistId == undefined) {
     await chrome.storage.local.set({'defaultWishlistId': 0});
     console.log("defaultWishlistId set to default");
