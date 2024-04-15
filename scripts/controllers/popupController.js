@@ -1,14 +1,10 @@
 import Wish from '../models/wish.js'
 import Wishlist from '../models/wishlist.js'
 import View from '../views/popupView.js'
-import checkDBschema from '../databaseHandling/dbManager.js'
 import Scraper from '../scraper.js'
 
-document.addEventListener('DOMContentLoaded', async function () { // this waits for the popup.html to fully load
-  // Check if Database needs to be set or updated
-  await checkDBschema();
-
-  // Exit function
+document.addEventListener('DOMContentLoaded', async function () {
+  // Exit the Popup
   const escapeButton = document.getElementById('escape-button');
   escapeButton.addEventListener('click', () => {
     window.close();
@@ -19,7 +15,6 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
   WishlistsButton.addEventListener('click', () => {
     chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
   }, false);
-  // TODO: I'd like to make a way to open a specific wishlist on call, instead of the default
   const successRedirect = document.getElementById('success-go-to-wishlists-button');
   successRedirect.addEventListener('click', () => {
     chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
@@ -31,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     chrome.tabs.create({ url: chrome.runtime.getURL('html/settings.html') });
   }, false);
 
-  // Scrapes active tab for title,url and images
+  // Scrapes active tab for title, url and images
   const scraper = new Scraper;
   await scraper.scrape();
   const view = new View(scraper);

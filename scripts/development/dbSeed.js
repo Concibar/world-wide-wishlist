@@ -7,7 +7,6 @@ export async function clearDatabase() {
   });
 }
 
-
 export async function seedDatabase() {
   // create default Wishlist
   var habenWollen = new Wishlist({'name': "Haben Wollen"});
@@ -19,7 +18,6 @@ export async function seedDatabase() {
   await weihnachten.save();
   var geburtstag = new Wishlist({name: "Geburtstag 2017"});
   await geburtstag.save();
-
 
   for (let i = 0; i < 20; i++) {
     let formData = {
