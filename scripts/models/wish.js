@@ -40,9 +40,6 @@ export default class Wish {
       this.#id = uuid();
     }
 
-    console.log("DEBUG: wish is being saved:");
-    console.log(this);
-
     let wishData = {
       "id": this.#id,
       "image": this.#image,
