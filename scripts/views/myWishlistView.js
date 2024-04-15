@@ -72,7 +72,7 @@ export default class MyWishlistView{
       let wish = wishes[i];
       wishesContainer.insertAdjacentHTML("beforeend", await this.#makeHtmlElementFromWish(wish, wishlists));
     }
-    wishesContainer.insertAdjacentHTML("beforeend", `<div id="platzhalter"></div>`);
+    wishesContainer.insertAdjacentHTML("beforeend", `<div id="bottom-placeholder"></div>`);
   }
 
   toggleDropdown(wish) {
