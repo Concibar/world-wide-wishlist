@@ -52,7 +52,7 @@ export async function importDatabase(file) {
   const fileContent = await readFile(file);
   const data = JSON.parse(fileContent);
   if (manifestVersion != data.versionNumber) {
-    console.log("DEBUG: the versions are different, panic!!!");
+    console.log("The versions are different, migration needs to happen first");
   } else if (manifestVersion == data.versionNumber) {
     const filteredData = await filterDuplicates(data);
     // saving the new Wishlists
@@ -88,7 +88,7 @@ async function filterDuplicates(data) {
   for (let i = 0; i < unfilteredWishlists.length; i++) {
     let wishlist = unfilteredWishlists[i];
     if (wishlists.find(existingWishlist => existingWishlist.id == wishlist.id)) {
-      console.log("DEBUG: skipping wishlist import of ", wishlist);
+      console.log("Skipping wishlist duplicate of ", wishlist);
     } else {
       filteredWishlists.push(wishlist);
     }
@@ -102,7 +102,7 @@ async function filterDuplicates(data) {
   for (let i = 0; i < unfilteredWishes.length; i++) {
     let wish = unfilteredWishes[i];
     if (wishes.find(existingWish => existingWish.id == wish.id)) {
-      console.log("DEBUG: skipping wish import of ", wish);
+      console.log("Skipping wish duplicate of ", wish);
     } else {
       filteredWishes.push(wish);
     }
