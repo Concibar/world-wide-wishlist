@@ -17,7 +17,7 @@ export default class MyWishlistView{
     return this.#currentWishlistId;
   }
 
-  completeLoad(defaultWishlistId, wishes, wishlists) {
+  async completeLoad(defaultWishlistId, wishes, wishlists) {
     // fill with the default wishlist at the top
     // give every wishlist element an id
     let listOfWishlists = document.getElementById('wishlists');
@@ -54,7 +54,7 @@ export default class MyWishlistView{
     }
 
     // fill in the wishes of the default Wishlist
-    this.displayWishes(wishes, defaultWishlist.id, wishlists);
+    await this.displayWishes(wishes, defaultWishlist.id, wishlists);
   }
 
   async displayWishes(wishes, wishlistId, wishlists) {

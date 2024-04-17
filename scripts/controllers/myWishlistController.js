@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     let wishlists = await Wishlist.readAll();
     let defaultWishlist = await Wishlist.getDefaultWishlist();
     let wishes = await Wish.readWishesOnWishlist(defaultWishlist.id);
-    view.completeLoad(defaultWishlist.id, wishes, wishlists);
+    await view.completeLoad(defaultWishlist.id, wishes, wishlists);
   }
   await loadPage();
 
