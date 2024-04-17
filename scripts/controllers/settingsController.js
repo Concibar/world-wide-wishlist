@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       view.unlockImportButton(file.name);
     } else {
       view.lockImportButton();
+      file = "";
     }
   });
 
@@ -39,7 +40,10 @@ document.addEventListener('DOMContentLoaded', async function () {
   importButton.addEventListener("click", async (event) => {
     event.preventDefault();
     if (file && file.name.endsWith('.json')) {
+      view.lockImportButton();
       await importDatabase(file);
+      file = "";
+      view.importSuccess();
     }
   });
 
