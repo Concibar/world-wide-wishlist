@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     event.preventDefault();
     if (file && file.name.endsWith('.json')) {
       view.lockImportButton();
+      view.importProgress();
       await importDatabase(file);
       file = "";
       view.importSuccess();

@@ -49,46 +49,69 @@ function downloadJsonFile(jsonString, filename) {
 }
 
 export async function importDatabase(file) {
+  const fileContent = await readFile(file);
+  const data = JSON.parse(fileContent);
+  if (manifestVersion != data.versionNumber) {
+    console.log("DEBUG: the versions are different, panic!!!");
+  } else if (manifestVersion == data.versionNumber) {
+    const filteredData = await filterDuplicates(data);
+    // saving the new Wishlists
+    const newWishlists = filteredData.wishlists;
+    for (let i = 0; i < newWishlists.length; i++) {
+      let wishlist = new Wishlist(newWishlists[i])
+      await wishlist.save();
+    }
+    // saving the new Wishes
+    const newWishes = filteredData.wishes;
+    for (let i = 0; i < newWishes.length; i++) {
+      let wish = new Wish(newWishes[i])
+      await wish.save();
+    }
+  }
+}
 
-  let resultVersion = await chrome.storage.local.get(['versionNumber']);
-  const versionNumber = resultVersion.versionNumber;
+async function readFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result);
+    reader.onerror = (e) => console.error('Error reading file:', e);
+    reader.readAsText(file);
+  });
+}
 
+async function filterDuplicates(data) {
+  // filtering the Wishlists for duplicates
   let resultWishlists = await chrome.storage.local.get(['wishlists']);
   const wishlists = resultWishlists.wishlists;
+  let unfilteredWishlists = data.wishlists;
+  let filteredWishlists = [];
+  for (let i = 0; i < unfilteredWishlists.length; i++) {
+    let wishlist = unfilteredWishlists[i];
+    if (wishlists.find(existingWishlist => existingWishlist.id == wishlist.id)) {
+      console.log("DEBUG: skipping wishlist import of ", wishlist);
+    } else {
+      filteredWishlists.push(wishlist);
+    }
+  }
 
+  // filtering the Wishes for duplicates
   let resultWishes = await chrome.storage.local.get(['wishes']);
   const wishes = resultWishes.wishes;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const data = JSON.parse(e.target.result);
-
-    if (manifestVersion != data.versionNumber) {
-      console.log("DEBUG: the versions are different, panic!!!");
-    } else if (manifestVersion == data.versionNumber) {
-
-      data.wishlists.forEach(function(wishlistToBeImported) {
-        if (wishlists.find(wishlist => wishlist.id == wishlistToBeImported.id)) {
-          console.log("DEBUG: skipping wishlist import of " + wishlistToBeImported);
-        } else {
-          let wishlist = new Wishlist(wishlistToBeImported);
-          wishlist.save();
-        }
-      })
-
-      data.wishes.forEach(function(wishToBeImported) {
-        if (wishes.find(wish => wish.id == wishToBeImported.id)) {
-          console.log("DEBUG: skipping wish import of " + wishToBeImported);
-        } else {
-          let wish = new Wish(wishToBeImported);
-          wish.save();
-        }
-      })
-
+  let unfilteredWishes = data.wishes;
+  let filteredWishes = [];
+  for (let i = 0; i < unfilteredWishes.length; i++) {
+    let wish = unfilteredWishes[i];
+    if (wishes.find(existingWish => existingWish.id == wish.id)) {
+      console.log("DEBUG: skipping wish import of ", wish);
+    } else {
+      filteredWishes.push(wish);
     }
-  };
-  reader.onerror = function(e) {
-    console.error('Error reading file:', e);
-  };
-  reader.readAsText(file);
+  }
+
+  let filteredData = {
+    wishlists: filteredWishlists,
+    wishes: filteredWishes
+  }
+
+  return filteredData;
 }
