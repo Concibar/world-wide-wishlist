@@ -55,7 +55,7 @@ async function tutorialData() {
     // create 2 more wishlists
     var tutorialWishlist2 = new Wishlist({name: "Hobby needs"});
     await tutorialWishlist2.save();
-    var tutorialWishlist3 = new Wishlist({name: "Gift ideas for Friends"});
+    var tutorialWishlist3 = new Wishlist({name: "Ideas for Friends"});
     await tutorialWishlist3.save();
 
     // create tutorial wishes for default Wishlist
@@ -108,7 +108,7 @@ async function tutorialData() {
     let formData2_4 = {
       'image'       : "oopsie",
       'name'        : "Additional features",
-      'note'        : "Let's look at the last few cool features. Delete all the tutorial wishes here and click on 'gift ideas for friends'",
+      'note'        : "Let's look at the last few cool features. Delete all the tutorial wishes here and click on 'ideas for friends'",
       'price'       : "12.34 USD",
       'quantity'    : 1,
       'url'         : "https://ko-fi.com/H2H2H8OO",
@@ -149,7 +149,7 @@ async function tutorialData() {
     };
     await tutorialSaveWish(formData2_1);
 
-    // Wishlist 3 Tutorial (gift ideas)
+    // Wishlist 3 Tutorial (ideas for friends)
 
     let formData3_4 = {
       'image'       : "oopsie",

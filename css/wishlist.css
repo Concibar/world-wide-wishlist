@@ -31,6 +31,10 @@
   position:relative;
 }
 
+.note{
+  max-width: 530px;
+}
+
 .wish:hover{
   position: relative;
   top: -1px;

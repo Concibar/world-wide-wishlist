@@ -26,11 +26,11 @@ export default class MyWishlistView{
     listOfWishlists.insertAdjacentHTML("afterbegin", `
       <li data-wishlist-id="${defaultWishlist.id}" class="py-2 px-4 is-clickable active-wishlist">
         <div style="pointer-events: none;">
-          <div>
-            <span class="is-unselectable">
+          <div class="level mb-0">
+            <span class="level-item is-unselectable">
               ${defaultWishlist.name}
             </span>
-            <span class="icon is-unselectable">
+            <span class="level-item icon is-unselectable">
               <i class="fa-solid fa-star"></i>
             </span>
           </div>
@@ -319,7 +319,7 @@ export default class MyWishlistView{
         <div data-wish-id="${wish.id}" class="wish box actual-wishcard is-clickable">
           <div class="is-flex">
             <figure class="wish-image-container mr-3">
-              <img class="wish-image" ${await this.#makeHtmlImgSrc(wish)}>
+              <img class="wish-image is-128x128" ${await this.#makeHtmlImgSrc(wish)}>
             </figure>
 
             <div class="is-flex-grow-1">
@@ -380,7 +380,7 @@ export default class MyWishlistView{
   #makeNoteForWish(note) {
     let html = `
     <hr class="has-background-white-ter mt-2 mb-2">
-    <div>
+    <div class="note">
       <h4 class="is-size-6"><strong>Note:</strong></h4>
       <p>${note}</p>
     </div>
