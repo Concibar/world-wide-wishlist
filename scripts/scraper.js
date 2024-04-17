@@ -54,7 +54,6 @@ export default class Scraper {
   }
 
   #cutTitle(title) {
-    // TODO: extract homeDomain stuff from Titles
     if (title.length > maxWishNameLength) {
       title = title.substring(0,  (maxWishNameLength-3)) + "...";
     }
@@ -65,9 +64,6 @@ export default class Scraper {
   #combineFrames(frames) {
     if (!frames || !frames.length) {
       console.log("Error: Couldn't find any images on the specified page");
-      // To-Do: give the no-images-found image placeholder
-      // let imageUrls = ["path/to/placeholder.png"]
-      // return imageUrls
       return;
     }
     return frames.map(frame => frame.result).reduce((r1, r2) => r1.concat(r2));

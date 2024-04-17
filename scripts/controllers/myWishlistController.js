@@ -1,11 +1,8 @@
 import Wish from '../models/wish.js'
 import Wishlist from '../models/wishlist.js'
 import View from '../views/myWishlistView.js'
-import checkDBschema from '../databaseHandling/dbManager.js'
 
-document.addEventListener('DOMContentLoaded', async function () { // this waits for the html to fully load
-
-  await checkDBschema();
+document.addEventListener('DOMContentLoaded', async function () {
 
   const view = new View();
   const createWishlistModal = document.getElementById('create-wishlist-modal');
@@ -17,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
     let wishlists = await Wishlist.readAll();
     let defaultWishlist = await Wishlist.getDefaultWishlist();
     let wishes = await Wish.readWishesOnWishlist(defaultWishlist.id);
-    view.completeLoad(defaultWishlist.id, wishes, wishlists);
+    await view.completeLoad(defaultWishlist.id, wishes, wishlists);
   }
   await loadPage();
 

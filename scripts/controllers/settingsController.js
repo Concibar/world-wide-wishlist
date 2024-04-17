@@ -1,11 +1,7 @@
 import View from "../views/settingsView.js";
 import {exportDatabase, importDatabase} from '../databaseHandling/dbExportImport.js'
-import checkDBschema from '../databaseHandling/dbManager.js'
 
-document.addEventListener('DOMContentLoaded', async function () { // this waits for the popup.html to fully load
-  // Check if Database needs to be set or updated
-  await checkDBschema();
-
+document.addEventListener('DOMContentLoaded', async function () {
   const view = new View();
   var file;
 
@@ -35,14 +31,25 @@ document.addEventListener('DOMContentLoaded', async function () { // this waits 
       view.unlockImportButton(file.name);
     } else {
       view.lockImportButton();
+      file = "";
     }
   });
 
+  // Import Database
   const importButton = document.getElementById('import-button');
   importButton.addEventListener("click", async (event) => {
     event.preventDefault();
     if (file && file.name.endsWith('.json')) {
+      view.lockImportButton();
       await importDatabase(file);
+      file = "";
+      view.importSuccess();
     }
   });
+
+  // Open GitHub Issues in new Tab
+  const FeedbackButton = document.getElementById('feedback-button');
+  FeedbackButton.addEventListener('click', () => {
+    chrome.tabs.create({ url: 'https://github.com/Concibar/world-wide-wishlist/issues' });
+  }, false);
 });

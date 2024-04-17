@@ -4,14 +4,25 @@
     "manifest_version": 3,
     "description": "Save any product from any website to one unified wishlist.",
     "author": "Jan Plewa",
+    "minimum_chrome_version": "92",
 
     "action": {
-        "default_icon": "images/icon.png",
-        "default_title": "Save to your World Wide Wishlist",
-        "default_popup": "html/popup.html"
+      "default_icon": "images/icon324.png",
+      "default_title": "Save to your World Wide Wishlist",
+      "default_popup": "html/popup.html"
     },
 
+    "icons": {
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    },
+
+    "background": { "service_worker": "background.js", "type": "module" },
+
     "permissions": [
+      "contextMenus",
       "storage",
       "unlimitedStorage",
       "activeTab",
