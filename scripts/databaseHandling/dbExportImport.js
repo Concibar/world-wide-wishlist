@@ -1,6 +1,6 @@
 import Wish from '../models/wish.js'
 import Wishlist from '../models/wishlist.js'
-import checkDBschema, { manifestVersion } from '../databaseHandling/dbManager.js'
+import { manifestVersion } from '../databaseHandling/dbManager.js'
 
 export async function exportDatabase() {
   const jsonString = await generateJsonData();
@@ -71,8 +71,8 @@ export async function importDatabase(file) {
         if (wishlists.find(wishlist => wishlist.id == wishlistToBeImported.id)) {
           console.log("DEBUG: skipping wishlist import of " + wishlistToBeImported);
         } else {
-          let wish = new Wish(wishlistToBeImported);
-          wish.save();
+          let wishlist = new Wishlist(wishlistToBeImported);
+          wishlist.save();
         }
       })
 

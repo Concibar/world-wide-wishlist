@@ -6,7 +6,6 @@ const manifest = chrome.runtime.getManifest();
 export const manifestVersion = manifest.version;
 
 export async function checkDBschema() {
-  console.log("Testestest hello there?");
   let result = await chrome.storage.local.get('versionNumber');
   let databaseVersion = result.versionNumber;
   if (databaseVersion == undefined) {

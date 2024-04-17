@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   });
 
+  // Import Database
   const importButton = document.getElementById('import-button');
   importButton.addEventListener("click", async (event) => {
     event.preventDefault();
@@ -41,4 +42,10 @@ document.addEventListener('DOMContentLoaded', async function () {
       await importDatabase(file);
     }
   });
+
+  // Open GitHub Issues in new Tab
+  const FeedbackButton = document.getElementById('feedback-button');
+  FeedbackButton.addEventListener('click', () => {
+    chrome.tabs.create({ url: 'https://github.com/Concibar/world-wide-wishlist/issues' });
+  }, false);
 });
