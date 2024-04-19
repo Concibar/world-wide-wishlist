@@ -18,6 +18,26 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
   await loadPage();
 
+  // When Tab comes back into focus, reload with saved position to get new wishes/wishlists
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      let scroll = wishesContainer.scrollTop;
+      let scrollHeight = wishesContainer.scrollHeight;
+      console.log(scrollHeight);
+      let wishlistId = view.currentWishlistId;
+      loadPage().then(() => {
+        Wishlist.readAll().then(wishlists => {
+          Wish.readWishesOnWishlist(wishlistId).then(wishes => {
+            view.displayWishes(wishes, wishlistId, wishlists).then( () => {
+              // if the wishes container is unchanged, scroll down to previous position, otherwise scroll to top
+              wishesContainer.scrollTop = (scrollHeight == wishesContainer.scrollHeight) ? scroll : 0;
+            });
+          });
+        });
+      });
+    }
+  });
+
   // Wishlist clicked -> Display according wishes
   const wishlistsContainer = document.getElementById('wishlists');
   wishlistsContainer.addEventListener("mousedown", (event) => {
