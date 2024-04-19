@@ -74,7 +74,8 @@ export default class PopupView {
       return false;
     }
     let gallery = document.getElementById('image-gallery');
-    let activeSrc = gallery.querySelector('[style="display: initial;"]').getAttribute('src');
+    let element = gallery.querySelector('[style="display: initial;"]');
+    let activeSrc = element ? element.getAttribute('src') : "no img found";
     var formData = {};
         formData.image       = await this.#convertImage(activeSrc);
         formData.url         = this.wishUrl;
