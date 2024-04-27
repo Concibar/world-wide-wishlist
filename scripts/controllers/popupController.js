@@ -17,7 +17,11 @@ document.addEventListener('DOMContentLoaded', async function () {
   }, false);
   const successRedirect = document.getElementById('success-go-to-wishlists-button');
   successRedirect.addEventListener('click', () => {
-    chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      var tab = tabs[0];
+      chrome.tabs.update(tab.id, {url: chrome.runtime.getURL('html/mywishlist.html')});
+    });
+    window.close();
   });
 
   // Settings

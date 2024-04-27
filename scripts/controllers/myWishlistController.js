@@ -121,7 +121,10 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Settings Button
   const settingsButton = document.getElementById('settings');
   settingsButton.addEventListener("click", () => {
-    chrome.tabs.create({ url: chrome.runtime.getURL('html/settings.html') });
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      var tab = tabs[0];
+      chrome.tabs.update(tab.id, {url: chrome.runtime.getURL('html/settings.html')});
+    });
   });
 
   // Donate to the Developer Button
