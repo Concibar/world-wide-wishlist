@@ -19,12 +19,16 @@ export default class Wishlist {
   }
 
   async save() {
+    if (this.#id == null) {
+      this.#id = uuid();
+    } else {
+      console.debug("Error: Save was used on an existing wishlist; please use update instead;");
+      return
+    };
+
     let wishlistsResult = await chrome.storage.local.get(['wishlists']);
     let wishlists = wishlistsResult.wishlists;
 
-    if (this.#id == null) {
-      this.#id = uuid();
-    }
 
     let wishlistData = {
       "id": this.#id,
@@ -47,7 +51,7 @@ export default class Wishlist {
     let result = await chrome.storage.local.get(['defaultWishlistId']);
     let defaultWishlistId = result.defaultWishlistId;
     if (defaultWishlistId == this.#id) {
-      console.log("error: you cannot delete your default wishlist. Set another one first!");
+      console.debug("error: you cannot delete your default wishlist. Set another one first!");
       return false
     } else {
       let wishes = await Wish.readWishesOnWishlist(this.#id);
@@ -67,7 +71,10 @@ export default class Wishlist {
   }
 
   async setAsDefaultWishlist() {
-    await this.save();
+    if (this.#id == null) {
+      console.debug('you cannot set an unsaved wishlist as default')
+      return
+    };
     await chrome.storage.local.set({'defaultWishlistId': this.#id});
   }
 
