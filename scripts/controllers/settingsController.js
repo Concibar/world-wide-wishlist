@@ -11,10 +11,20 @@ document.addEventListener('DOMContentLoaded', async function () {
     window.open("https://ko-fi.com/H2H2H8OO");
   });
 
-  // Open MyWishlists in new Tab
-  const WishlistsButton = document.getElementById('go-to-wishlists-button');
-  WishlistsButton.addEventListener('click', () => {
-    chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
+  // Open MyWishlists in current Tab
+  function openWishlists() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      var tab = tabs[0];
+      chrome.tabs.update(tab.id, {url: chrome.runtime.getURL('html/mywishlist.html')});
+    });
+  };
+  const wishlistsButton = document.getElementById('go-to-wishlists-button');
+  const settingsLogo = document.getElementById('logo-and-title');
+  wishlistsButton.addEventListener('click', () => {
+    openWishlists();
+  }, false);
+  settingsLogo.addEventListener('click', () => {
+    openWishlists();
   }, false);
 
   // Export and download the database
