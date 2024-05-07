@@ -42,15 +42,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     view.displayScraped(wishlists, defaultWishlist);
   }
 
-  // make new Wishlist
+  // open create Wishlist Modal
   const wishlists = document.getElementById('wishlists');
   wishlists.addEventListener('change', async () => {
     if (wishlists.value === "WishlistNew") {
       view.openModal(document.getElementById('create-wishlist-modal'));
     }
   });
-  const newWishlistSave = document.getElementById('create-wishlist-modal-save');
-  newWishlistSave.addEventListener('click', async () => {
+
+  // Save new Wishlist
+  async function saveWishlist() {
     let formData = view.getCreateWishlistFormData();
     if (formData) {
       view.closeModal(document.getElementById('create-wishlist-modal'))
@@ -63,6 +64,15 @@ document.addEventListener('DOMContentLoaded', async function () {
       let defaultWishlist = await Wishlist.getDefaultWishlist();
       view.displayWishlists(wishlists, wishlist.id, defaultWishlist);
     }
+  }
+  const newWishlistSaveButton = document.getElementById('create-wishlist-modal-save');
+  newWishlistSaveButton.addEventListener('click', saveWishlist);
+  const createWishlistForm = document.getElementById('create-wishlist-name');
+  createWishlistForm.addEventListener('keydown', async (event) => {
+    if(event.key === "Enter") {
+      event.preventDefault();
+      await saveWishlist()
+    }
   });
 
   // Prev-Next Gallery
@@ -72,9 +82,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   const next = document.getElementById('next-image');
   next.addEventListener('click', view.displayNext, false);
 
-  // Save Button Submit Form
-  const saveButton = document.getElementById('save-wish');
-  saveButton.addEventListener('click', async () => {
+  // Save Wish
+  async function saveWish() {
     let formData = await view.getFormData();
     if (formData) {
       let wish = new Wish(formData);
@@ -82,7 +91,16 @@ document.addEventListener('DOMContentLoaded', async function () {
       view.closeAllModals();
       view.confirmSave();
     }
-  }, false);
+  };
+  const saveButton = document.getElementById('save-wish');
+  saveButton.addEventListener('click', saveWish);
+  const wishForm = document.getElementById('wish-form');
+  wishForm.addEventListener('keydown', async (event) => {
+    if(event.key === "Enter") {
+      event.preventDefault();
+      await saveWish();
+    }
+  });
 
   // General closing Modal listeners
   document.addEventListener('keydown', async (event) => {

@@ -21,14 +21,10 @@ export default class Wishlist {
   async save() {
     if (this.#id == null) {
       this.#id = uuid();
-    } else {
-      console.debug("Error: Save was used on an existing wishlist; please use update instead;");
-      return
     };
 
     let wishlistsResult = await chrome.storage.local.get(['wishlists']);
     let wishlists = wishlistsResult.wishlists;
-
 
     let wishlistData = {
       "id": this.#id,
@@ -42,6 +38,7 @@ export default class Wishlist {
 
   async update(name) {
     this.#name = name;
+    console.log(this);
     await this.#deleteWithoutIdCheck();
     await this.save();
     return this;
