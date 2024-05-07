@@ -3,7 +3,7 @@ import { checkDBschema } from './scripts/databaseHandling/dbManager.js';
 chrome.runtime.onInstalled.addListener((details) => {
   if(details.reason == "install"){
     checkDBschema();
-    chrome.tabs.create({ url: chrome.runtime.getURL('html/mywishlist.html') });
+    chrome.tabs.create({ url: chrome.runtime.getURL('html/tutorial.html') });
   }else if(details.reason == "update"){
     checkDBschema();
   }
