@@ -29,7 +29,6 @@ export default class Wishlist {
     let wishlistsResult = await chrome.storage.local.get(['wishlists']);
     let wishlists = wishlistsResult.wishlists;
 
-
     let wishlistData = {
       "id": this.#id,
       "name": this.#name
