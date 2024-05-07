@@ -4,7 +4,9 @@ import { manifestVersion } from '../databaseHandling/dbManager.js'
 
 export async function exportDatabase() {
   const jsonString = await generateJsonData();
-  downloadJsonFile(jsonString, 'world-wide-wishlist-export.json');
+  const currentDate = new Date().toISOString().slice(0, 10);
+  const filename = `world-wide-wishlist-export-${currentDate}.json`;
+  downloadJsonFile(jsonString, filename);
 }
 
 async function generateJsonData() {
