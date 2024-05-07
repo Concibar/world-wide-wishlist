@@ -145,10 +145,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   // --- MODAL STUFF ---
 
+
+
+
   // Create Wishlist Save
-  const createWishlistModalSave = document.getElementById('create-wishlist-modal-save');
-  createWishlistModalSave.addEventListener("click", async function () {
-    var formData = view.getCreateWishlistFormData();
+  async function createWishlistSave() {
+    let formData = view.getCreateWishlistFormData();
     if (formData) {
       view.closeModal(createWishlistModal);
       let wishlist = new Wishlist(formData);
@@ -160,12 +162,20 @@ document.addEventListener('DOMContentLoaded', async function () {
       await loadPage();
       view.displayWishes([], wishlist.id, wishlists);
     }
+  };
+  const createWishlistModalSave = document.getElementById('create-wishlist-modal-save');
+  createWishlistModalSave.addEventListener("click", createWishlistSave);
+  const createWishlistNameField = document.getElementById('create-wishlist-name');
+  createWishlistNameField.addEventListener("keydown", async (event) => {
+    if(event.key === "Enter") {
+      event.preventDefault();
+      await createWishlistSave();
+    }
   });
 
   // Edit Wishlist Save
-  const editWishlistModalSaveButton = document.getElementById('edit-wishlist-modal-save');
-  editWishlistModalSaveButton.addEventListener('click', async function() {
-    var formData = view.getEditWishlistFormData();
+  async function editWishlistSave() {
+    let formData = view.getEditWishlistFormData();
     if (formData) {
       view.closeModal(document.getElementById('edit-wishlist-modal'));
       if (formData.newDefault) {
@@ -177,12 +187,20 @@ document.addEventListener('DOMContentLoaded', async function () {
       await loadPage();
       view.displayWishes(wishes, wishlistToBeEdited.id, wishlists);
     }
+  };
+  const editWishlistModalSaveButton = document.getElementById('edit-wishlist-modal-save');
+  editWishlistModalSaveButton.addEventListener('click', editWishlistSave);
+  const editWishlistNameField = document.getElementById('edit-wishlist-name');
+  editWishlistNameField.addEventListener("keydown", async (event) => {
+    if(event.key === "Enter") {
+      event.preventDefault();
+      await editWishlistSave();
+    }
   });
 
   // Add Idea Save
-  const addIdeaModalSaveButton = document.getElementById('add-idea-modal-save');
-  addIdeaModalSaveButton.addEventListener('click', () => {
-    var formData = view.getAddIdeaFormData();
+  function addIdeaSave() {
+    let formData = view.getAddIdeaFormData();
     if (formData) {
       let wish = new Wish(formData);
       view.closeModal(addIdeaModal);
@@ -194,9 +212,17 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
       });
     }
+  };
+  const addIdeaModalSaveButton = document.getElementById('add-idea-modal-save');
+  addIdeaModalSaveButton.addEventListener('click', addIdeaSave);
+  const addIdeaForm = document.getElementById('add-idea-form');
+  addIdeaForm.addEventListener('keydown', (event) => {
+    if(event.key === "Enter") {
+      addIdeaSave()
+    }
   });
 
-  // Edit Wishhlist delete
+  // Edit Wishlist delete
   const editWishlistModalDeleteButton = document.getElementById('edit-wishlist-modal-delete');
   editWishlistModalDeleteButton.addEventListener('click', async function() {
     let defaultWishlist = await Wishlist.getDefaultWishlist();
@@ -209,9 +235,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   });
 
   // Edit Wish Save
-  const editWishModalSaveButton = document.getElementById('edit-wish-modal-save');
-  editWishModalSaveButton.addEventListener('click', () => {
-    var formData = view.getEditWishFormData();
+  function editWishSave() {
+    let formData = view.getEditWishFormData();
     if (formData) {
       Wishlist.readAll().then(wishlists => {
         wishToBeEdited.update(formData).then((wish) => {
@@ -219,6 +244,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
       });
       view.closeModal(document.getElementById('edit-wish-modal'));
+    }
+  };
+  const editWishModalSaveButton = document.getElementById('edit-wish-modal-save');
+  editWishModalSaveButton.addEventListener('click', editWishSave);
+  const editWishForm = document.getElementById('edit-wish-form');
+  editWishForm.addEventListener('keydown', (event) => {
+    if(event.key === "Enter") {
+      editWishSave()
     }
   });
 
