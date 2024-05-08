@@ -88,7 +88,7 @@ export default class MyWishlistView{
   editWish(wish) {
     document.getElementById("edit-wish-name").value = wish.name;
     document.getElementById("edit-wish-price").value = wish.price;
-    document.getElementById("edit-wish-quantity").value = wish.quantity;
+    document.getElementById("edit-wish-quantity").value = wish.quantity.toString();
     document.getElementById("edit-wish-note").value = wish.note;
     let selectHtmlWish = document.querySelector(`[data-wish-id="${wish.id}"].actual-wishcard`);
     if (selectHtmlWish) {
@@ -105,7 +105,7 @@ export default class MyWishlistView{
   getEditWishFormData() {
     let name = document.getElementById("edit-wish-name").value;
     let price = document.getElementById("edit-wish-price").value;
-    let quantity = document.getElementById("edit-wish-quantity").value;
+    let quantity = parseInt(document.getElementById("edit-wish-quantity").value, 10);
     let note = document.getElementById("edit-wish-note").value;
     if (name.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
@@ -161,7 +161,7 @@ export default class MyWishlistView{
     let name = document.getElementById("add-idea-name").value;
     let note = document.getElementById("add-idea-note").value;
     let price = document.getElementById("add-idea-price").value;
-    let quantity = document.getElementById("add-idea-quantity").value;
+    let quantity = parseInt(document.getElementById("edit-wish-quantity").value, 10);
     if (name.length < nameMinLength) {
       window.alert("Name cannot be empty, please enter a name!");
       return false
