@@ -38,3 +38,4 @@ What did I learn?
 - got more used to git
 - the Chrome API
 - UUID
+- semantic Versioning

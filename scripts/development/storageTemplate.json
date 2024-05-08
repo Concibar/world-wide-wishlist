@@ -1,20 +1,20 @@
 {
   // This file shows how the JSON safe data is structured in the extension
 
-  "versionNumber": 0.1,
-  "defaultWishlistId": 0,   // Ids are kept unique via uuid7, which also provides the date
+  "versionNumber": "0.1",
+  "defaultWishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943",
 
   "wishlists": [
     {
-      "id": 0,   // Ids are kept unique via uuid7, which also provides the date
+      "id": "018f5331-cf2f-777e-b6f6-beecc5fec943",
       "name": "your first wishlist"
     }
   ],
 
   "wishes": [
     {
-      "id": 0,   // Ids are kept unique via uuid7, which also provides the date
-      "wishlistId": 0,   // Ids are kept unique via uuid7, which also provides the date
+      "id": "018f5951-2cd5-7db2-96ae-300d8eb6230b",
+      "wishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943",
       "name": "foowish",
       "url": "http://www.website.foo",
       "image": "ASCII base64 encoded string",
