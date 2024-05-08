@@ -54,21 +54,20 @@ export async function importDatabase(file) {
   const fileContent = await readFile(file);
   const data = JSON.parse(fileContent);
   if (manifestVersion != data.versionNumber) {
-    console.log("The versions are different, migration needs to happen first");
-  } else if (manifestVersion == data.versionNumber) {
-    const filteredData = await filterDuplicates(data);
-    // saving the new Wishlists
-    const newWishlists = filteredData.wishlists;
-    for (let i = 0; i < newWishlists.length; i++) {
-      let wishlist = new Wishlist(newWishlists[i])
-      await wishlist.save();
-    }
-    // saving the new Wishes
-    const newWishes = filteredData.wishes;
-    for (let i = 0; i < newWishes.length; i++) {
-      let wish = new Wish(newWishes[i])
-      await wish.save();
-    }
+    console.log("The versions are different, migration needs to happen here");
+  }
+  const filteredData = await filterDuplicates(data);
+  // saving the new Wishlists
+  const newWishlists = filteredData.wishlists;
+  for (let i = 0; i < newWishlists.length; i++) {
+    let wishlist = new Wishlist(newWishlists[i])
+    await wishlist.save();
+  }
+  // saving the new Wishes
+  const newWishes = filteredData.wishes;
+  for (let i = 0; i < newWishes.length; i++) {
+    let wish = new Wish(newWishes[i])
+    await wish.save();
   }
 }
 
