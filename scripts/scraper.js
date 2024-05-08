@@ -21,12 +21,14 @@ function grabImages() {
     if (element.width <= 50) return false;
     if (element.naturalWidth <= 50) return false;
     if (element.offsetWidth <= 50) return false;
+    let ratio = element.height / element.width;
+    if (ratio >= 3 || ratio <= 1/3) return false;
     if (window.getComputedStyle(element).visibility === "hidden") return false;
     if (window.getComputedStyle(element).display === "none") return false;
     if (hasWeirdPictureExtension(element)) return false;
     return true;
   }
-  let imageSrcs = Array.from(images).filter(isProperPicture).map(image=>image.src);
+  let imageSrcs = Array.from(images).filter(isProperPicture).map(image=>image.currentSrc);
   return imageSrcs;
 }
 
