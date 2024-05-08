@@ -38,7 +38,6 @@ export default class Wishlist {
 
   async update(name) {
     this.#name = name;
-    console.log(this);
     await this.#deleteWithoutIdCheck();
     await this.save();
     return this;
@@ -48,7 +47,7 @@ export default class Wishlist {
     let result = await chrome.storage.local.get(['defaultWishlistId']);
     let defaultWishlistId = result.defaultWishlistId;
     if (defaultWishlistId == this.#id) {
-      console.debug("error: you cannot delete your default wishlist. Set another one first!");
+      console.log("error: cannot delete default wishlist");
       return false
     } else {
       let wishes = await Wish.readWishesOnWishlist(this.#id);
@@ -69,7 +68,7 @@ export default class Wishlist {
 
   async setAsDefaultWishlist() {
     if (this.#id == null) {
-      console.debug('you cannot set an unsaved wishlist as default')
+      console.log('error: cannot set an unsaved wishlist as default wishlist')
       return
     };
     await chrome.storage.local.set({'defaultWishlistId': this.#id});

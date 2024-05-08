@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (document.visibilityState === "visible") {
       let scroll = wishesContainer.scrollTop;
       let scrollHeight = wishesContainer.scrollHeight;
-      console.log(scrollHeight);
       let wishlistId = view.currentWishlistId;
       loadPage().then(() => {
         Wishlist.readAll().then(wishlists => {

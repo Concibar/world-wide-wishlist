@@ -1,7 +1,3 @@
-function UUID7Connection() {
-  console.log("UUID7.js is connected");
-}
-
 function hex(number, len) {
   return number.toString(16).padStart(len, '0');
 }

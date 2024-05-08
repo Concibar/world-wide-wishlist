@@ -3,7 +3,7 @@ import Wishlist from '../models/wishlist.js'
 
 export async function clearDatabase() {
   await chrome.storage.local.clear(() => {
-    console.log("DEBUG: storage cleared");
+    console.log("storage cleared");
   });
 }
 
