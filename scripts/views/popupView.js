@@ -1,7 +1,6 @@
 import {
   nameMinLength,
   maxWishNameLength,
-  maxWishDisplayLength,
   maxWishlistNameLength,
   maxNoteLength,
   maxPriceLength,
@@ -32,6 +31,7 @@ export default class PopupView {
       document.getElementById('0').setAttribute('style', 'display: initial;');
     }
     this.displayWishlists(wishlists, defaultWishlist.id, defaultWishlist);
+    document.querySelector('#wish-quantity').max = maxQuantity;
   }
 
   displayNext() {
@@ -53,26 +53,37 @@ export default class PopupView {
   }
 
   async getFormData() {
+    (document.querySelectorAll('.form-input-warning') || []).forEach((warning) => {
+      warning.innerText = "";
+    });
+    let formInputFaulty = false;
     let wishName = document.getElementById('wish-name').value;
     let wishNote = document.getElementById('wish-note').value;
     let wishPrice = document.getElementById('wish-price').value;
     let wishQuantity = parseInt(document.getElementById('wish-quantity').value, 10);
     if (wishName.length < nameMinLength) {
-      window.alert("Name cannot be empty, please enter a name!");
-      return false;
+      document.getElementById('wish-name-warning').innerText = "* Name cannot be empty, please enter a name!";
+      formInputFaulty = true;
     } else if (wishName.length > maxWishNameLength) {
-      window.alert("Name longer than " + maxWishNameLength + " letters, please enter a shorter name!");
-      return false;
-    } else if (wishNote.length > maxNoteLength) {
-      window.alert("Note longer than " + maxNoteLength + " letters, please enter a shorter note!");
-      return false;
-    } else if (wishPrice.length > maxPriceLength) {
-      window.alert("Price longer than " + maxPriceLength + " characters, please enter a shorter price!");
-      return false;
-    } else if (wishQuantity > maxQuantity) {
-      window.alert("Quantity bigger than " + maxQuantity + ", please enter a lower quantity!");
-      return false;
+      document.getElementById('wish-name-warning').innerText = "* Name longer than " + maxWishNameLength + " letters, please enter a shorter name!";
+      formInputFaulty = true;
     }
+    if (wishNote.length > maxNoteLength) {
+      document.getElementById('wish-note-warning').innerText = "* Note longer than " + maxNoteLength + " letters, please enter a shorter note!";
+      formInputFaulty = true;
+    }
+    if (wishPrice.length > maxPriceLength) {
+      document.getElementById('wish-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
+      formInputFaulty = true;
+    }
+    if (isNaN(wishQuantity)) {
+      document.getElementById('wish-quantity-warning').innerText = "* Quantity cannot be empty, please enter a quantity!";
+      formInputFaulty = true;
+    } else if (wishQuantity > maxQuantity) {
+      document.getElementById('wish-quantity-warning').innerText = "* Quantity bigger than " + maxQuantity + ", please enter a lower quantity!";
+      formInputFaulty = true;
+    }
+    if (formInputFaulty) return false;
     let gallery = document.getElementById('image-gallery');
     let element = gallery.querySelector('[style="display: initial;"]');
     let activeSrc = element ? element.getAttribute('src') : "no img found";
@@ -111,20 +122,20 @@ export default class PopupView {
   }
 
   getCreateWishlistFormData() {
+    document.getElementById('create-wishlist-name-warning').innerText = "";
     let name = document.getElementById("create-wishlist-name").value;
     if (name.length < nameMinLength) {
-      window.alert("Name cannot be empty, please enter a name!");
-      return false
+      document.getElementById('create-wishlist-name-warning').innerText = "* Name cannot be empty, please enter a name!";
+      return false;
     } else if (name.length > maxWishlistNameLength) {
-      window.alert("Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!");
-      return false
-    } else {
-      let formData = {
-        'name': name,
-        'newDefault': document.getElementById("create-wishlist-new-default-wishlist").checked
-      };
-      return formData;
+      document.getElementById('create-wishlist-name-warning').innerText = "* Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!";
+      return false;
     }
+    let formData = {
+      'name': name,
+      'newDefault': document.getElementById("create-wishlist-new-default-wishlist").checked
+    };
+    return formData;
   }
 
   confirmSave() {
@@ -142,6 +153,9 @@ export default class PopupView {
 
   closeModal($modal) {
     $modal.classList.remove('is-active');
+    ($modal.querySelectorAll('.form-input-warning') || []).forEach((warning) => {
+      warning.innerText = "";
+    });
   }
 
   closeAllModals() {

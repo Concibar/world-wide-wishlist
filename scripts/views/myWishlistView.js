@@ -55,6 +55,10 @@ export default class MyWishlistView{
 
     // fill in the wishes of the default Wishlist
     await this.displayWishes(wishes, defaultWishlist.id, wishlists);
+
+    // set the max quantity for the add-idea and edit-wish modal
+    document.querySelector('#edit-wish-quantity').max = maxQuantity;
+    document.querySelector('#add-idea-quantity').max = maxQuantity;
   }
 
   async displayWishes(wishes, wishlistId, wishlists) {
@@ -88,7 +92,7 @@ export default class MyWishlistView{
   editWish(wish) {
     document.getElementById("edit-wish-name").value = wish.name;
     document.getElementById("edit-wish-price").value = wish.price;
-    document.getElementById("edit-wish-quantity").value = wish.quantity.toString();
+    document.getElementById("edit-wish-quantity").value = wish.quantity;
     document.getElementById("edit-wish-note").value = wish.note;
     let selectHtmlWish = document.querySelector(`[data-wish-id="${wish.id}"].actual-wishcard`);
     if (selectHtmlWish) {
@@ -103,26 +107,37 @@ export default class MyWishlistView{
   }
 
   getEditWishFormData() {
+    (document.querySelectorAll('.form-input-warning') || []).forEach((warning) => {
+      warning.innerText = "";
+    });
+    let formInputFaulty = false;
     let name = document.getElementById("edit-wish-name").value;
     let price = document.getElementById("edit-wish-price").value;
     let quantity = parseInt(document.getElementById("edit-wish-quantity").value, 10);
     let note = document.getElementById("edit-wish-note").value;
     if (name.length < nameMinLength) {
-      window.alert("Name cannot be empty, please enter a name!");
-      return false
+      document.querySelector('#edit-wish-name-warning').innerText = "* Name cannot be empty, please enter a name!";
+      formInputFaulty = true;
     } else if (name.length > maxWishNameLength) {
-      window.alert("Name longer than " + maxWishNameLength + " letters, please enter a shorter name!");
-      return false
-    } else if (note.length > maxNoteLength) {
-      window.alert("Note longer than " + maxNoteLength + " letters, please enter a shorter note!");
-      return false;
-    } else if (price.length > maxPriceLength) {
-      window.alert("Price longer than " + maxPriceLength + " characters, please enter a shorter price!");
-      return false;
-    } else if (quantity > maxQuantity) {
-      window.alert("Quantity bigger than " + maxQuantity + ", please enter a lower quantity!");
-      return false;
+      document.querySelector('#edit-wish-name-warning').innerText = "* Name longer than " + maxWishNameLength + " letters, please enter a shorter name!";
+      formInputFaulty = true;
     }
+    if (note.length > maxNoteLength) {
+      document.querySelector('#edit-wish-note-warning').innerText = "* Note longer than " + maxNoteLength + " letters, please enter a shorter note!";
+      formInputFaulty = true;
+    }
+    if (price.length > maxPriceLength) {
+      document.querySelector('#edit-wish-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
+      formInputFaulty = true;
+    }
+    if (isNaN(quantity)) {
+      document.querySelector('#edit-wish-quantity-warning').innerText = "* Quantity cannot be empty, please enter a quantity!";
+      formInputFaulty = true;
+    } else if (quantity > maxQuantity) {
+      document.querySelector('#edit-wish-quantity-warning').innerText = "* Quantity bigger than " + maxQuantity + ", please enter a lower quantity!";
+      formInputFaulty = true;
+    }
+    if (formInputFaulty) return false;
     let formData = {
       'name': name,
       'price': price,
@@ -133,12 +148,15 @@ export default class MyWishlistView{
   }
 
   getEditWishlistFormData() {
+    (document.querySelectorAll('.form-input-warning') || []).forEach((warning) => {
+      warning.innerText = "";
+    });
     let name = document.getElementById("edit-wishlist-name").value;
     if (name.length < nameMinLength) {
-      window.alert("Name cannot be empty, please enter a name!");
+      document.querySelector('#edit-wishlist-name-warning').innerText = "* Name cannot be empty, please enter a name!";
       return false
     } else if (name.length > maxWishlistNameLength) {
-      window.alert("Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!");
+      document.querySelector('#edit-wishlist-name-warning').innerText = "* Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!";
       return false
     } else {
       let formData = {
@@ -158,26 +176,37 @@ export default class MyWishlistView{
   }
 
   getAddIdeaFormData() {
+    (document.querySelectorAll('.form-input-warning') || []).forEach((warning) => {
+      warning.innerText = "";
+    });
+    let formInputFaulty = false;
     let name = document.getElementById("add-idea-name").value;
     let note = document.getElementById("add-idea-note").value;
     let price = document.getElementById("add-idea-price").value;
     let quantity = parseInt(document.getElementById("edit-wish-quantity").value, 10);
     if (name.length < nameMinLength) {
-      window.alert("Name cannot be empty, please enter a name!");
-      return false
+      document.querySelector('#add-idea-name-warning').innerText = "* Name cannot be empty, please enter a name!";
+      formInputFaulty = true;
     } else if (name.length > maxWishNameLength) {
-      window.alert("Name longer than " + maxWishNameLength + " letters, please enter a shorter name!");
-      return false
-    } else if (note.length > maxNoteLength) {
-      window.alert("Note longer than " + maxNoteLength + " letters, please enter a shorter note!");
-      return false;
-    } else if (price.length > maxPriceLength) {
-      window.alert("Price longer than " + maxPriceLength + " characters, please enter a shorter price!");
-      return false;
-    } else if (quantity > maxQuantity) {
-      window.alert("Quantity bigger than " + maxQuantity + ", please enter a lower quantity!");
-      return false;
+      document.querySelector('#add-idea-name-warning').innerText = "* Name longer than " + maxWishNameLength + " letters, please enter a shorter name!";
+      formInputFaulty = true;
     }
+    if (note.length > maxNoteLength) {
+      document.querySelector('#add-idea-note-warning').innerText = "* Note longer than " + maxNoteLength + " letters, please enter a shorter note!";
+      formInputFaulty = true;
+    }
+    if (price.length > maxPriceLength) {
+      document.querySelector('#add-idea-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
+      formInputFaulty = true;
+    }
+    if (isNaN(quantity)) {
+      document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity cannot be empty, please enter a quantity!";
+      formInputFaulty = true;
+    } else if (quantity > maxQuantity) {
+      document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity bigger than " + maxQuantity + ", please enter a lower quantity!";
+      formInputFaulty = true;
+    }
+    if (formInputFaulty) return false;
     let formData = {
       'name': name,
       'price': price,
@@ -189,12 +218,15 @@ export default class MyWishlistView{
   }
 
   getCreateWishlistFormData() {
+    (document.querySelectorAll('.form-input-warning') || []).forEach((warning) => {
+      warning.innerText = "";
+    });
     let name = document.getElementById("create-wishlist-name").value;
     if (name.length < nameMinLength) {
-      window.alert("Name cannot be empty, please enter a name!");
+      document.querySelector('#create-wishlist-name-warning').innerText = "* Name cannot be empty, please enter a name!";
       return false
     } else if (name.length > maxWishlistNameLength) {
-      window.alert("Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!");
+      document.querySelector('#create-wishlist-name-warning').innerText = "* Name longer than " + maxWishlistNameLength + " letters, please enter a shorter name!";
       return false
     } else {
       let formData = {
@@ -255,6 +287,9 @@ export default class MyWishlistView{
     $modal.classList.remove('is-active');
     ($modal.querySelectorAll('input') || []).forEach((inputField) => {
       inputField.value = "";
+    });
+    ($modal.querySelectorAll('.form-input-warning') || []).forEach((warning) => {
+      warning.innerText = "";
     });
   }
 

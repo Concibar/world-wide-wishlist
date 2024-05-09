@@ -107,13 +107,16 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Create Wishlist Button
   const createWishlistButton = document.getElementById('create-new-wishlist');
   createWishlistButton.addEventListener("click", () => {
+    // TODO refactor this like in popopview.js openmodal()
+    document.getElementById("create-wishlist-new-default-wishlist").checked = false;
     view.openModal(createWishlistModal);
   });
 
   // Add Idea Button
   const addIdeaButton = document.getElementById('add-an-idea');
   addIdeaButton.addEventListener("click", () => {
-    addIdeaModal.querySelector('#add-idea-quantity').value = 1;
+    // TODO refactor this like in popopview.js openmodal()
+    document.getElementById('add-idea-quantity').value = 1;
     view.openModal(addIdeaModal);
   });
 
@@ -143,9 +146,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   });
 
   // --- MODAL STUFF ---
-
-
-
 
   // Create Wishlist Save
   async function createWishlistSave() {
