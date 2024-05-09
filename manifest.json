@@ -1,10 +1,10 @@
 {
     "name": "World Wide Wishlist",
-    "version": "0.2",
+    "version": "1.0.0-beta",
     "manifest_version": 3,
     "description": "Save any product from any website to one unified wishlist.",
     "author": "Jan Plewa",
-    "minimum_chrome_version": "92",
+    "minimum_chrome_version": "124",
 
     "action": {
       "default_icon": "images/icon324.png",
