@@ -113,7 +113,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Add Idea Button
   const addIdeaButton = document.getElementById('add-an-idea');
   addIdeaButton.addEventListener("click", () => {
-    addIdeaModal.querySelector('#add-idea-quantity').value = 1;
     view.openModal(addIdeaModal);
   });
 
@@ -143,9 +142,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   });
 
   // --- MODAL STUFF ---
-
-
-
 
   // Create Wishlist Save
   async function createWishlistSave() {
