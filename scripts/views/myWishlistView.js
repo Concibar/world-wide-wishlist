@@ -280,6 +280,12 @@ export default class MyWishlistView{
   }
 
   openModal($modal) {
+    if ($modal == document.getElementById('create-wishlist-modal')) {
+      document.getElementById('create-wishlist-new-default-wishlist').checked = false;
+    }
+    if ($modal == document.getElementById('add-idea-modal')) {
+      document.getElementById('add-idea-quantity').value = 1;
+    }
     $modal.classList.add('is-active');
   }
 
