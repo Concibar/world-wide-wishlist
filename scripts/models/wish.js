@@ -65,10 +65,10 @@ export default class Wish {
   }
 
   async update({name,note,price,quantity,wishlistId}) {
-    if (name) {this.#name = name}
-    if (note) {this.#note = note}
-    if (price) {this.#price = price}
-    if (quantity) {this.#quantity = quantity}
+    if (name != null) {this.#name = name}
+    if (note != null) {this.#note = note}
+    if (price != null) {this.#price = price}
+    if (quantity != null) {this.#quantity = quantity}
     if (!(wishlistId ===  undefined)) {this.#wishlistId = wishlistId}
     await this.delete();
     await this.save();
