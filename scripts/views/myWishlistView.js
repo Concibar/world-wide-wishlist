@@ -482,8 +482,9 @@ export default class MyWishlistView{
   }
 
   #makeHtmlMoveWishDropdown(wish, wishlists) {
-    let htmlDropdownlist = ""
-    wishlists.forEach((list) => {
+    let htmlDropdownlist = "";
+    let filteredWishlists = wishlists.filter((list) => list.id != wish.wishlistId);
+    filteredWishlists.forEach((list) => {
       htmlDropdownlist = htmlDropdownlist + `
         <a data-wishlist-id="${list.id}" data-wish-id="${wish.id}" class="dropdown-item">
           ${list.name}
