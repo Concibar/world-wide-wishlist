@@ -1,7 +1,7 @@
 {
   // This file shows how the JSON safe data is structured in the extension
 
-  "versionNumber": "0.1",
+  "versionNumber": "1.0.1",
   "defaultWishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943",
 
   "wishlists": [
