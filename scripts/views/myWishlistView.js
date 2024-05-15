@@ -130,11 +130,8 @@ export default class MyWishlistView{
       document.querySelector('#edit-wish-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
       formInputFaulty = true;
     }
-    if (isNaN(quantity)) {
-      document.querySelector('#edit-wish-quantity-warning').innerText = "* Quantity cannot be empty, please enter a quantity!";
-      formInputFaulty = true;
-    } else if (quantity > maxQuantity) {
-      document.querySelector('#edit-wish-quantity-warning').innerText = "* Quantity bigger than " + maxQuantity + ", please enter a lower quantity!";
+    if (isNaN(quantity) || (quantity > maxQuantity)) {
+      document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity invalid, please enter a quantity between 0 and " + maxQuantity + "!";
       formInputFaulty = true;
     }
     if (formInputFaulty) return false;
@@ -183,7 +180,7 @@ export default class MyWishlistView{
     let name = document.getElementById("add-idea-name").value;
     let note = document.getElementById("add-idea-note").value;
     let price = document.getElementById("add-idea-price").value;
-    let quantity = parseInt(document.getElementById("edit-wish-quantity").value, 10);
+    let quantity = parseInt(document.getElementById("add-idea-quantity").value, 10);
     if (name.length < nameMinLength) {
       document.querySelector('#add-idea-name-warning').innerText = "* Name cannot be empty, please enter a name!";
       formInputFaulty = true;
@@ -199,11 +196,8 @@ export default class MyWishlistView{
       document.querySelector('#add-idea-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
       formInputFaulty = true;
     }
-    if (isNaN(quantity)) {
-      document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity cannot be empty, please enter a quantity!";
-      formInputFaulty = true;
-    } else if (quantity > maxQuantity) {
-      document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity bigger than " + maxQuantity + ", please enter a lower quantity!";
+    if (isNaN(quantity) || (quantity > maxQuantity)) {
+      document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity invalid, please enter a quantity between 0 and " + maxQuantity + "!";
       formInputFaulty = true;
     }
     if (formInputFaulty) return false;
@@ -482,8 +476,9 @@ export default class MyWishlistView{
   }
 
   #makeHtmlMoveWishDropdown(wish, wishlists) {
-    let htmlDropdownlist = ""
-    wishlists.forEach((list) => {
+    let htmlDropdownlist = "";
+    let filteredWishlists = wishlists.filter((list) => list.id != wish.wishlistId);
+    filteredWishlists.forEach((list) => {
       htmlDropdownlist = htmlDropdownlist + `
         <a data-wishlist-id="${list.id}" data-wish-id="${wish.id}" class="dropdown-item">
           ${list.name}
