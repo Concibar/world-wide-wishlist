@@ -62,9 +62,9 @@ async function migrateDatabase() {
   let result = await chrome.storage.local.get('versionNumber');
   let databaseVersion = result.versionNumber;
   console.log("Update detected, migration started from version " + databaseVersion + " to version " + manifestVersion);
-  if (databaseVersion <= '1.0.1') {
+  if (databaseVersion <= '1.0.2') {
     let oldVersion = databaseVersion;
-    databaseVersion = '1.0.1';
+    databaseVersion = '1.0.2';
     console.log("starting migration from " + oldVersion + " to " + databaseVersion);
     await chrome.storage.local.set({'versionNumber': databaseVersion});
     console.log("migration from " + oldVersion + " to " + databaseVersion + " finished");

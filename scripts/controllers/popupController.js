@@ -19,9 +19,10 @@ document.addEventListener('DOMContentLoaded', async function () {
   successRedirect.addEventListener('click', () => {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       var tab = tabs[0];
-      chrome.tabs.update(tab.id, {url: chrome.runtime.getURL('html/mywishlist.html')});
+      chrome.tabs.update(tab.id, {url: chrome.runtime.getURL('html/mywishlist.html')}, function() {
+        window.close();
+      });
     });
-    window.close();
   });
 
   // Settings

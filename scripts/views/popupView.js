@@ -76,8 +76,8 @@ export default class PopupView {
       document.getElementById('wish-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
       formInputFaulty = true;
     }
-    if (isNaN(quantity) || (quantity > maxQuantity)) {
-      document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity invalid, please enter a quantity between 0 and " + maxQuantity + "!";
+    if (isNaN(wishQuantity) || (wishQuantity > maxQuantity)) {
+      document.getElementById('wish-quantity-warning').innerText = "* Quantity invalid, please enter a quantity between 0 and " + maxQuantity + "!";
       formInputFaulty = true;
     }
     if (formInputFaulty) return false;
