@@ -1,4 +1,4 @@
-import uuid, {extractTimeFromUUIDv7 as uuidToDate} from '../databaseHandling/uuid7.js'
+import uuid, {extractTimeFromUUIDv7 as uuidToDate} from '../databaseHandling/uuid7.mjs'
 
 export default class Wish {
   static LAST_DELETED_WISH;

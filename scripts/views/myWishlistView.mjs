@@ -6,7 +6,7 @@ import {
   maxNoteLength,
   maxPriceLength,
   maxQuantity
-} from '../databaseHandling/dbConfig.js'
+} from '../databaseHandling/dbConfig.mjs'
 
 export default class MyWishlistView{
   #currentWishlistId;

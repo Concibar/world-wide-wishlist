@@ -1,7 +1,7 @@
-import Wish from '../models/wish.js'
-import Wishlist from '../models/wishlist.js'
-import View from '../views/popupView.js'
-import Scraper from '../scraper.js'
+import Wish from '../models/wish.mjs'
+import Wishlist from '../models/wishlist.mjs'
+import View from '../views/popupView.mjs'
+import Scraper from '../scraper.mjs'
 
 document.addEventListener('DOMContentLoaded', async function () {
   // Exit the Popup

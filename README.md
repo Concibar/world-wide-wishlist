@@ -57,8 +57,6 @@ The chrome storage api is evil because it only allows you to store to a big sing
 
 The storage is only to be accessed from models and databaseHandling.
 
-If you need/want to quickly seed or clear your database dbSeed.js is already exporting it's functionality into the dbManager.js
-
 ### Understanding the rest
 I am currently not convinced people will want to contribute, so for now I'll not explain every single function, but more the structure of what is happening.
 If you actually want to do that please let me know and I'll be glad to explain anything you don't understand (and write more thorough docs).
@@ -70,36 +68,36 @@ Each **View** only displays data to or retrieves data from the user. The Each **
 
 For now the program structure is as follows:
 
-#### Background.js
-On install or update the background.js calls the dbManager.js to setup the database. Apart from that the background.js makes the context menu entries happen that live in the right-click extension icon menu.
+#### Background.mjs
+On install or update the background.mjs calls the dbManager.mjs to setup the database. Apart from that the background.mjs makes the context menu entries happen that live in the right-click extension icon menu.
 
-#### dbManager.js
-Called from the background.js on install to setup the local storage json in order for the db to work.
+#### dbManager.mjs
+Called from the background.mjs on install to setup the local storage json in order for the db to work.
 If you want to change the functionality of the db structure, migrations on update also would happen here.
 
-#### dbConfig.js
+#### dbConfig.mjs
 Here all the limits (min and max values) for database values live.
 
-#### uuid7.js
+#### uuid7.mjs
 The extension uses uuid v7 which means the id starts with a unix timestamp and continues with a random number. This is important for import data properly (i.e. unique data is actually unique).
 
-#### dbExportImport.js
+#### dbExportImport.mjs
 You guessed it this file rules how to import and export of data. It's the reason this extension uses the download permission. The user access that functionality only from the settings page.
 
-#### wish.js & wishlist.js
+#### wish.mjs & wishlist.mjs
 These files are classes that handle the CRUD operations on wish and wishlist objects.
 
-#### settingsController.js & settingsView.js
-The settingsController.js right now only really serves to call the export import functionality (plus the button links). Currently there are no settings but maybe you could change that!
+#### settingsController.mjs & settingsView.mjs
+The settingsController.mjs right now only really serves to call the export import functionality (plus the button links). Currently there are no settings but maybe you could change that!
 
-#### myWishlistController.js & myWishlistView.js
+#### myWishlistController.mjs & myWishlistView.mjs
 The user interacts with mywishlist.html via these 2 files. Editing, deleting, undo deleting, moving wishes, creating wishlists is all happening here.
 
-#### popupController.js & popupView.js
-If the popup is clicked, the controller calls the scraper.js and with the data the scraper retrieved the View then fills the popup so the user can decide which picture to save and what info to add.
+#### popupController.mjs & popupView.mjs
+If the popup is clicked, the controller calls the scraper.mjs and with the data the scraper retrieved the View then fills the popup so the user can decide which picture to save and what info to add.
 Once the user has done that the view gets that data, converts the corresponding picture into base64 and responds back to the controller to save.
 
-#### scraper.js
+#### scraper.mjs
 The scraper injects code into the website from where the popup is opened to return the images. I tried grabbing the price but I quickly learned that the price is often not much more than a text field (or multiple).
 The images are slightly filtered to remove images that are definately not product images. I have decided against injecting this into every iframe on a page because I ran [into issues on the amazon.de website](https://stackoverflow.com/questions/77901068/difference-in-behavior-when-injecting-javascript-code-into-frames-using-allfra "stackoverflow question"). If you know why that issue exists please make my day and tell me.
 

@@ -6,7 +6,7 @@ import {
   maxNoteLength,
   maxPriceLength,
   maxQuantity
-} from './databaseHandling/dbConfig.js'
+} from './databaseHandling/dbConfig.mjs'
 
 function grabImages() {
   const images = document.querySelectorAll("img");

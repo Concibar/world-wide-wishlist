@@ -1,4 +1,4 @@
-import Wishlist from '../models/wishlist.js'
+import Wishlist from '../models/wishlist.mjs'
 
 const manifest = chrome.runtime.getManifest();
 export const manifestVersion = manifest.version;
