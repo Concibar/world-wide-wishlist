@@ -1,0 +1,7 @@
+- remove Dev line from dbManager.js
+- remove key from manifest.json
+- remove node_modules folder
+- remove sass folder
+- remove package-lock.json and package.json
+- remove test.mjs
+- delete development folder
