@@ -1,5 +1,5 @@
-import Wish from '../models/wish.js'
-import Wishlist from '../models/wishlist.js'
+import Wish from '../scripts/models/wish.js'
+import Wishlist from '../scripts/models/wishlist.js'
 
 export async function clearDatabase() {
   await chrome.storage.local.clear(() => {

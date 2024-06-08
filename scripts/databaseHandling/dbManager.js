@@ -1,5 +1,4 @@
 import Wishlist from '../models/wishlist.js'
-import { clearDatabase, seedDatabase } from '../development/dbSeed.js' // DEVELOPMENT
 
 const manifest = chrome.runtime.getManifest();
 export const manifestVersion = manifest.version;
