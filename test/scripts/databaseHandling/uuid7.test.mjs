@@ -13,19 +13,19 @@ describe("uuid7.js", function () {
     };
 
     it("should return a string", function () {
-      assert.typeOf(testUuid, 'string', "apiudbgapüefhgitoalbfd");
+      assert.typeOf(testUuid, 'string');
     });
     it("should be 36 letters long", function () {
       assert.lengthOf(testUuid, 36);
     });
     it(`should always(testing ${testDepth} times) follow the structure 8-4-4-4-12 and each non-hyphon should be from 0123456789abcdef`, function () {
-      var hexaDigits = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"];
+      var hexDigits = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"];
       arrayOfUuids.forEach((uuid) => {
         for (let i = 0; i < 36; i++) {
           if ([8,13,18,23].includes(i)) {
             assert.strictEqual(uuid[i], "-");
           } else {
-            assert.include(hexaDigits, uuid[i]);
+            assert.include(hexDigits, uuid[i]);
           };
         };
       });
