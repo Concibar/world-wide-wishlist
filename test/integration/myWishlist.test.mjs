@@ -7,10 +7,11 @@
 
 // const extensionPath = "/home/jan/code/Concibar/world-wide-wishlist/";
 // const extensionID = "albijmjlliljdkdfnhbkjlifhhgcpmme";
-// const myWishlistHtml = "html/mywishlist.html"
+// const myWishlistHtml = `chrome-extension://${extensionID}/html/mywishlist.html`;
 
+// // launch the testing browser
 // const browser = await puppeteer.launch({
-//   headless: false, // headless: new
+//   headless: false, // headless: new; because it defaults to old headless which isn't working for our chrome extension context
 //   defaultViewport: null,
 //   args: [
 //     `--disable-extensions-except=${extensionPath}`,
@@ -18,17 +19,23 @@
 //     `--start-maximized`
 //   ]
 // });
-// await setTimeout(2000);
+// await setTimeout(2000); // necessary regretibly
 
+// // go to the myWishlist.html page
 // const myWishlist = await browser.newPage();
-// await myWishlist.goto(`chrome-extension://${extensionID}/${myWishlistHtml}`);
+// await myWishlist.goto(myWishlistHtml);
 
+// // access the background worker for everything chrome.api
 // const workerTarget = await browser.waitForTarget(
 //   target => target.type() === 'service_worker'
 // );
 // const worker = await workerTarget.worker();
-// const value = await worker.evaluate(async () => {
-//   let thingy = await chrome.storage.local.get('wishlists');
-//   return thingy;
+// const wishlists = await worker.evaluate(async () => {
+//   let wishlistsResult = await chrome.storage.local.get('wishlists');
+//   return wishlistsResult;
 // });
-// console.log(value);
+// console.log(wishlists);
+
+// await worker.evalutate(async () => {
+
+// })
