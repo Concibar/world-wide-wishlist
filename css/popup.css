@@ -2,6 +2,8 @@
 
 body{
   min-width: 770px;
+  height: 370px;
+  transition: height 0.5s ease-in-out;
 }
 
 #image-gallery{
