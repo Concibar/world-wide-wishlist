@@ -1,5 +1,5 @@
-import Wish from '../models/wish.js'
-import Wishlist from '../models/wishlist.js'
+import Wish from '../scripts/models/wish.mjs'
+import Wishlist from '../scripts/models/wishlist.mjs'
 
 export async function clearDatabase() {
   await chrome.storage.local.clear(() => {
@@ -7,7 +7,7 @@ export async function clearDatabase() {
   });
 }
 
-export async function seedDatabase() {
+export async function seed() {
   // create default Wishlist
   var habenWollen = new Wishlist({'name': "Haben Wollen"});
   await habenWollen.save();

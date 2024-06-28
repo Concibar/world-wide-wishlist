@@ -1,5 +1,5 @@
-import View from "../views/settingsView.js";
-import {exportDatabase, importDatabase} from '../databaseHandling/dbExportImport.js'
+import View from "../views/settingsView.mjs";
+import {exportDatabase, importDatabase} from '../databaseHandling/dbExportImport.mjs'
 
 document.addEventListener('DOMContentLoaded', async function () {
   const view = new View();

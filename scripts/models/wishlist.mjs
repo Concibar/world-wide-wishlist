@@ -1,5 +1,5 @@
-import uuid from '../databaseHandling/uuid7.js'
-import Wish from '../models/wish.js'
+import uuid from '../databaseHandling/uuid7.mjs'
+import Wish from './wish.mjs'
 
 export default class Wishlist {
   #id;

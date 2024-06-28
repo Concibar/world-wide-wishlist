@@ -1,6 +1,6 @@
-import Wish from '../models/wish.js'
-import Wishlist from '../models/wishlist.js'
-import View from '../views/myWishlistView.js'
+import Wish from '../models/wish.mjs'
+import Wishlist from '../models/wishlist.mjs'
+import View from '../views/myWishlistView.mjs'
 
 document.addEventListener('DOMContentLoaded', async function () {
 

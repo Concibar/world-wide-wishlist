@@ -1,12 +1,6 @@
 import {
-  nameMinLength,
-  maxWishNameLength,
-  maxWishDisplayLength,
-  maxWishlistNameLength,
-  maxNoteLength,
-  maxPriceLength,
-  maxQuantity
-} from './databaseHandling/dbConfig.js'
+  maxWishNameLength
+} from './databaseHandling/dbConfig.mjs'
 
 function grabImages() {
   const images = document.querySelectorAll("img");
@@ -42,6 +36,7 @@ export default class Scraper {
   async scrape() {
     let tabs = await chrome.tabs.query({ currentWindow: true, active: true });
     let tab = tabs[0];
+    await this.#ensureTabHasLoaded(tab);
 
     let frames = await chrome.scripting.executeScript({
       target:{tabId: tab.id, frameIds: [0]},
@@ -54,6 +49,20 @@ export default class Scraper {
     this.url = tab.url;
     this.imageArray = srcArray;
   }
+
+  async #ensureTabHasLoaded(tab) {
+    return new Promise((resolve) => {
+        if (tab.status === 'complete') {
+            resolve(true);
+        } else {
+            chrome.tabs.onUpdated.addListener((id, info, tab) => {
+                if (info.status === 'complete' && id === tab.id) {
+                  resolve(true);
+                }
+            });
+        }
+    });
+}
 
   #cutTitle(title) {
     if (title.length > maxWishNameLength) {

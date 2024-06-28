@@ -1,4 +1,4 @@
-import { checkDBschema } from './scripts/databaseHandling/dbManager.js';
+import { checkDBschema } from './scripts/databaseHandling/dbManager.mjs';
 
 chrome.runtime.onInstalled.addListener((details) => {
   if(details.reason == "install"){

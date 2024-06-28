@@ -1,6 +1,6 @@
-import Wish from '../models/wish.js'
-import Wishlist from '../models/wishlist.js'
-import { manifestVersion } from '../databaseHandling/dbManager.js'
+import Wish from '../models/wish.mjs'
+import Wishlist from '../models/wishlist.mjs'
+import { manifestVersion } from './dbManager.mjs'
 
 export async function exportDatabase() {
   const jsonString = await generateJsonData();

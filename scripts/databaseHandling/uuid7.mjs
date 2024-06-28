@@ -5,7 +5,7 @@ function hex(number, len) {
 function random(bits) {
   // IEEE-754 mantissa: 52 bits
   if (bits > 52) { bits = 52 };
-  // `Math.random()` is not cryptographically secure
+  // "Math.random()" is not cryptographically secure
   return Math.floor(Math.random() * Math.pow(2, bits));
 }
 
