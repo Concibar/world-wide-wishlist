@@ -11,18 +11,18 @@ document.addEventListener('DOMContentLoaded', async function () {
   }, false);
 
   // Compress-Shrink the Extension when the cursor is outside the window and extend it again on mouseenter
-  var mouseIn = 1;
+  var mouseIn = true;
   document.addEventListener('mouseleave', () => {
-    mouseIn = 0;
+    mouseIn = false;
     setTimeout(function () {
-      if (mouseIn == 0) {
+      if (mouseIn == false) {
         document.getElementById('content').setAttribute('style', 'display: none !important;');
         document.body.style.height = "100px"
       }
     }, 500);
   })
   document.addEventListener('mouseenter', () => {
-    mouseIn = 1;
+    mouseIn = true;
     setTimeout(function () {
       document.body.style.height = "370px"
       document.getElementById('content').setAttribute('style', 'display: initial;');
