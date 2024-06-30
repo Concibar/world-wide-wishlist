@@ -4,7 +4,8 @@
   "description": "A Chrome Extension that can save products from any shop website to one unified local wishlist",
   "main": "popupController.mjs",
   "scripts": {
-    "test": "mocha --timeout 15000 'test/**/*.test.mjs'",
+    "full-test": "mocha --timeout 15000 'test/**/*.test.mjs'",
+    "unit-test": "mocha --timeout 15000 'test/scripts/**/*.test.mjs'",
     "css-build": "node-sass --omit-source-map-url sass/mystyles.scss css/mystyles.css",
     "css-watch": "npm run css-build -- --watch",
     "start": "npm run css-watch"

@@ -1,10 +1,12 @@
 {
-    "name": "World Wide Wishlist",
+    "name": "World Wide Wishlist testing",
     "version": "1.0.2",
     "manifest_version": 3,
     "description": "Save any product from any website to one unified wishlist.",
     "author": "Jan Plewa",
     "minimum_chrome_version": "124",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvf/Udw8BjYkPPKD+1tTWSe8LAk2E5S6HN31mqe9TUCZIovyslSt9SlE+9zcbbSYhqZMD/yyRG6ScJoEU+TvVlcP25fBxNecgTUBt5LpzE8NzFAnhtPGcQWta+G6otxK5l5kaxgdmQoHkqSedy4Uh9vyEIl3oo5czrZ/B8FY5TuIXk+i223Z83dEgHNWpY/w/S535L7KoOYGi4bfACtfx4GpyGlD7Rgd9nAczEEMl2AgO11bMy8tCnAcInIslcB/RIJf8ERD79jJzhKjBPP4pCeY+RFeJr/GQKNZY3zP6MZoACc/VxiU/8Zo0MGpGo9Wf2NLAzvKzGNM0TLs3Eu3KcQIDAQAB",
+
     "action": {
       "default_icon": "images/icon324.png",
       "default_title": "Save to your World Wide Wishlist",
@@ -27,5 +29,9 @@
       "activeTab",
       "scripting",
       "downloads"
+    ],
+
+    "host_permissions": [
+      "<all_urls>"
     ]
 }
