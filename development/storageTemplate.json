@@ -7,7 +7,8 @@
   "defaultCurrencyId": "01906b48-2808-7f5d-bf00-6c8c92bc8940",
 
   "settings": {
-    "currencyConversion": false
+    "currencyConversion": false,
+    "convertToCurrencyId": "EUR"
   },
 
   "wishlists": [
