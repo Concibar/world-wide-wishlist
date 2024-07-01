@@ -5,7 +5,7 @@ import {
   openPopup,
   openBrowser,
   testHtml
-} from "./utils.mjs"
+} from "../utils.mjs"
 
   describe("Popup tries loading data from page", async function () {
 
