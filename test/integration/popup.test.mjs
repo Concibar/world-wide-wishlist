@@ -1,5 +1,4 @@
 import puppeteer from 'puppeteer';
-import { assert } from 'chai';
 import { setTimeout } from "timers/promises";
 import {
   openPopup,
@@ -7,33 +6,40 @@ import {
   testHtml
 } from "../utils.mjs"
 
-  describe("Popup tries loading data from page", async function () {
+describe("Popup tries loading data from page", async function () {
 
-    before(async () => {
-      global.assert = assert;
-      global.browser = await openBrowser();
-      global.testPage = await browser.newPage();
-      await testPage.goto(testHtml);
-      await testPage.setViewport( { width: 1920, height: 1040} );
-      global.popup = await openPopup(browser);
-    });
-
-    after(async function () {
-      await testPage.close();
-      await browser.close();
-      console.log("headless browser terminated");
-    });
-
-    it("name should be prefilled with a string", async function () {
-      let name = await popup.$eval('#wish-name', el => el.value);
-      console.log(name);
-      assert.isNotEmpty(name);
-    })
-
-    // it("gallery should have an image", function () {
-
-    // })
+  before(async () => {
+    global.assert = assert
+    global.browser = await openBrowser()
+    global.testPage = await browser.newPage()
+    await testPage.goto(testHtml)
+    await testPage.setViewport( { width: 1920, height: 1040} )
+    global.popup = await openPopup(browser)
   })
+
+  after(async function () {
+    await testPage.close();
+    await browser.close();
+    console.log("headless browser terminated");
+  })
+
+  it("should fill name with a string", async function () {
+    let name = await popup.$eval('#wish-name', el => el.value)
+    console.log(name)
+    expect(typeof name).toBe("String")
+    assert.isNotEmpty(name)
+  })
+
+  it("should fill name with a not-empty string", async function () {
+    let name = await popup.$eval('#wish-name', el => el.value)
+    console.log(name)
+    expect(name.length).toBeGreaterThan(0)
+  })
+
+  // it("gallery should have an image", function () {
+
+  // })
+})
 
 
 //   describe("User can enter/edit data", function () {
