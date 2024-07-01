@@ -10,13 +10,8 @@ export default class Wishlist {
     this.#name = name;
   }
 
-  get id() {
-    return this.#id;
-  }
-
-  get name() {
-    return this.#name;
-  }
+  get id() {return this.#id;}
+  get name() {return this.#name;}
 
   async save() {
     if (this.#id == null) {
