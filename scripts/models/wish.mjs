@@ -6,20 +6,22 @@ export default class Wish {
   #image = "images/whoopsie.png";
   #name;
   #note;
-  #price;
+  #price = 0;
+  #currencyId;
   #quantity = 1;
   #url;
   #wishlistId;
 
-  constructor({wishlistId,name,url,image,price,quantity,note,id}) {
-    this.#id = id;
+  constructor({wishlistId,name,url,image,price,currencyId,quantity,note,id}) {
+    this.#id = id
     this.#image = (image == undefined) ? "images/whoopsie.png" : image;
-    this.#name = name;
-    this.#note = note;
-    this.#price = price;
-    this.#quantity = quantity;
-    this.#url = url;
-    this.#wishlistId = wishlistId;
+    this.#name = name
+    this.#note = note
+    this.#price = price
+    this.#currencyId = currencyId
+    this.#quantity = quantity
+    this.#url = url
+    this.#wishlistId = wishlistId
   }
 
   get id() {return this.#id}
@@ -28,6 +30,7 @@ export default class Wish {
   get url() {return this.#url}
   get image() {return this.#image}
   get price() {return this.#price}
+  get currencyId() {return this.#currencyId}
   get quantity() {return this.#quantity}
   get note() {return this.#note}
   get date() {return uuidToDate(this.#id)}
@@ -46,6 +49,7 @@ export default class Wish {
       "name": this.#name,
       "note": this.#note,
       "price": this.#price,
+      "currencyId": this.#currencyId,
       "quantity": this.#quantity,
       "url": this.#url,
       "wishlistId": this.#wishlistId
@@ -64,10 +68,11 @@ export default class Wish {
     await chrome.storage.local.set({'wishes': filteredwishes});
   }
 
-  async update({name,note,price,quantity,wishlistId}) {
+  async update({name,note,price,currencyId,quantity,wishlistId}) {
     if (name != null) {this.#name = name}
     if (note != null) {this.#note = note}
     if (price != null) {this.#price = price}
+    if (currencyId != null) {this.#currencyId = currencyId}
     if (quantity != null) {this.#quantity = quantity}
     if (!(wishlistId ===  undefined)) {this.#wishlistId = wishlistId}
     await this.delete();

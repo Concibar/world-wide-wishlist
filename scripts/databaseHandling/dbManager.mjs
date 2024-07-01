@@ -1,39 +1,39 @@
 import Wishlist from '../models/wishlist.mjs'
 
-const manifest = chrome.runtime.getManifest();
-export const manifestVersion = manifest.version;
+const manifest = chrome.runtime.getManifest()
+export const manifestVersion = manifest.version
 
 export async function checkDBschema() {
-  let result = await chrome.storage.local.get('versionNumber');
+  let result = await chrome.storage.local.get('versionNumber')
   let databaseVersion = result.versionNumber;
   if (databaseVersion == undefined) {
-    await setupDatabase();
+    await setupDatabase()
   } else if (databaseVersion < manifestVersion) {
-    await migrateDatabase();
+    await migrateDatabase()
   } else if (databaseVersion == manifestVersion) {
-    console.log("database is up to date, no update required");
+    console.log("database is up to date, no update required")
   }
 }
 
 async function setupDatabase() {
   // check and set VersionNumber
-  console.log("setup of local storage started");
-  await chrome.storage.local.set({'versionNumber': manifestVersion});
-  console.log("versionNumber set to " + manifestVersion);
+  console.log("setup of local storage started")
+  await chrome.storage.local.set({'versionNumber': manifestVersion})
+  console.log("versionNumber set to " + manifestVersion)
 
   // check and set settings
-  let settingsResult = await chrome.storage.local.get('settings');
+  let settingsResult = await chrome.storage.local.get('settings')
   if (settingsResult.settings == undefined) {
     await chrome.storage.local.set({'settings': {
       "currencyConversion": false,
       "convertToCurrencyId": "EUR"
-    }});
-    console.log("settings set to default");
+    }})
+    console.log("settings set to default")
   }
 
 
   // check and set currencies
-  let currenciesResult = await chrome.storage.local.get('currencies');
+  let currenciesResult = await chrome.storage.local.get('currencies')
   if (currenciesResult.currencies == undefined) {
     await chrome.storage.local.set({'currencies': [
       {
@@ -253,47 +253,46 @@ async function setupDatabase() {
         "sign": "€",
         "favorite": true
       }
-    ]});
-    console.log("currencies set to default");
+    ]})
+    console.log("currencies set to default")
   }
 
   // check and set defaultCurrencyId
-  let defCurrencyResult = await chrome.storage.local.get('defaultCurrencyId');
+  let defCurrencyResult = await chrome.storage.local.get('defaultCurrencyId')
   if (defCurrencyResult.defaultCurrencyId == undefined) {
-    await chrome.storage.local.set({'defaultCurrencyId': 'EUR'});
-    console.log("defaultCurrencyId set to default");
+    await chrome.storage.local.set({'defaultCurrencyId': 'EUR'})
+    console.log("defaultCurrencyId set to default")
   }
 
   // check and set defaultWishlistId
-  let defWishlistResult = await chrome.storage.local.get('defaultWishlistId');
+  let defWishlistResult = await chrome.storage.local.get('defaultWishlistId')
   if (defWishlistResult.defaultWishlistId == undefined) {
-    await chrome.storage.local.set({'defaultWishlistId': ''});
-    console.log("defaultWishlistId set to writeable");
+    await chrome.storage.local.set({'defaultWishlistId': ''})
+    console.log("defaultWishlistId set to writeable")
   }
 
   // check and set wishlists
-  let wishlistsResult = await chrome.storage.local.get('wishlists');
+  let wishlistsResult = await chrome.storage.local.get('wishlists')
   if (wishlistsResult.wishlists == undefined) {
-    await chrome.storage.local.set({'wishlists': []});
-    console.log("wishlists set to writeable");
+    await chrome.storage.local.set({'wishlists': []})
+    console.log("wishlists set to writeable")
   }
 
   // check and set wishes
-  let wishesResult = await chrome.storage.local.get('wishes');
+  let wishesResult = await chrome.storage.local.get('wishes')
   if (wishesResult.wishes == undefined) {
-    await chrome.storage.local.set({'wishes': []});
-    console.log("wishes set to writeable");
+    await chrome.storage.local.set({'wishes': []})
+    console.log("wishes set to writeable")
   }
 
   // create 3 starting Wishlists and set default Wishlist
-  let defaultWishlist = new Wishlist({'name': "World Wide Wishlist"});
-  await defaultWishlist.save();
+  let defaultWishlist = new Wishlist({'name': "World Wide Wishlist"})
+  await defaultWishlist.save()
   await defaultWishlist.setAsDefaultWishlist();
-  let secondWishlist = new Wishlist({name: "Hobby needs"});
-  await secondWishlist.save();
-  let thirdWishlist = new Wishlist({name: "Ideas for Friends"});
-  await thirdWishlist.save();
-
+  let secondWishlist = new Wishlist({name: "Hobby needs"})
+  await secondWishlist.save()
+  let thirdWishlist = new Wishlist({name: "Ideas for Friends"})
+  await thirdWishlist.save()
 }
 
 async function migrateDatabase() {
