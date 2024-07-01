@@ -2,7 +2,13 @@
   // This file shows how the JSON safe data is structured in the extension
 
   "versionNumber": "1.0.2",
+
   "defaultWishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943",
+  "defaultCurrencyId": "01906b48-2808-7f5d-bf00-6c8c92bc8940",
+
+  "settings": {
+    "currencyConversion": false
+  },
 
   "wishlists": [
     {
@@ -19,8 +25,27 @@
       "url": "http://www.website.foo",
       "image": "ASCII base64 encoded string",
       "price": "13.54 usd",
+      "currencyId": "EUR",
       "quantity": 1,
-      "note": "this might be a good gift for my grandma :)",
+      "note": "this might be a good gift for my grandma :)"
+    }
+  ],
+
+  "currencies": [
+    {
+      "id": "EUR",
+      "name": "Euro",
+      "code": "EUR",
+      "sign": "€",
+      "favorite": true
+    },
+
+    {
+      "id": "01906b48-2808-7f5d-bf00-6c8c92bc8940",
+      "name": "Custom",
+      "code": "CUS",
+      "sign": "¬",
+      "favorite": true
     }
   ]
 }
