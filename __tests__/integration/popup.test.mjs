@@ -4,7 +4,7 @@ import {
   openPopup,
   openBrowser,
   testHtml
-} from "../utils.mjs"
+} from "../../development/puppeteerUtils.mjs"
 
 describe("Popup tries loading data from page", async function () {
 

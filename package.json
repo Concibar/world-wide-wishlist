@@ -4,12 +4,10 @@
   "description": "A Chrome Extension that can save products from any shop website to one unified local wishlist",
   "main": "popupController.mjs",
   "scripts": {
-    "test:full": "jest --verbose",
-    "test:unit": "jest --verbose ./test/scripts",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "css-build": "node-sass --omit-source-map-url sass/mystyles.scss css/mystyles.css",
     "css-watch": "npm run css-build -- --watch",
-    "start": "npm run css-watch",
-    "test": "jest"
+    "start": "npm run css-watch"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,5 @@
-import uuid, {extractTimeFromUUIDv7 as uuidToDate} from '../../../scripts/databaseHandling/uuid7.mjs'
+import uuid, {extractTimeFromUUIDv7 as uuidToDate} from '../../../../scripts/databaseHandling/uuid7.mjs'
+import {jest} from '@jest/globals'
 
 describe("uuid7.js", function () {
 
@@ -41,21 +42,21 @@ describe("uuid7.js", function () {
     });
     it("should be tied to a date", function() {
       arrayOfUuids.forEach((uuid) => {
-        expect(typeof uuidToDate(uuid)).toBe("Date");
+        expect(uuidToDate(uuid) instanceof Date).toBeTruthy()
       });
     });
     it("should read the current date(year, month, day)", function () {
-      var currentDate = new Date();
+      var currentDate = new Date()
       arrayOfUuids.forEach((uuid) => {
-        expect(uuidToDate(uuid).getFullYear()).toBe(currentDate.getFullYear());
-        expect(uuidToDate(uuid).getMonth()).toBe(currentDate.getMonth());
-        expect(uuidToDate(uuid).getDate()).toBe(currentDate.getDate());
+        expect(uuidToDate(uuid).getFullYear()).toBe(currentDate.getFullYear())
+        expect(uuidToDate(uuid).getMonth()).toBe(currentDate.getMonth())
+        expect(uuidToDate(uuid).getDate()).toBe(currentDate.getDate())
       });
     });
     it(`should always(testing ${testDepth} times) be unique`, function () {
       arrayOfUuids.forEach((uuid, i) => {
-        let uniqueArray = arrayOfUuids;
-        uniqueArray.splice(i, 1);
+        let uniqueArray = arrayOfUuids
+        uniqueArray.splice(i, 1)
         expect(uniqueArray).not.toContain(uuid)
       });
     })
@@ -63,12 +64,13 @@ describe("uuid7.js", function () {
 
   describe("extractTimeFromUUIDv7(uuid)", function () {
     it("should return a Date Object", function () {
-      expect(typeof uuidToDate("01904b95-88f8-7ade-899b-6e0dd379a692")).toBe("Date");
+      let result = uuidToDate("01904b95-88f8-7ade-899b-6e0dd379a692")
+      expect(result instanceof Date).toBeTruthy()
     })
     it("should read the correct date", function () {
-      var uuidDate = uuidToDate("01904b95-88f8-7ade-899b-6e0dd379a692");
-      var actualDate = new Date(1719255009528);
-      expect(uuidDate.getTime()).toBe(actualDate.getTime());
+      var uuidDate = uuidToDate("01904b95-88f8-7ade-899b-6e0dd379a692")
+      var actualDate = new Date(1719255009528)
+      expect(uuidDate.getTime()).toBe(actualDate.getTime())
     })
   })
 });

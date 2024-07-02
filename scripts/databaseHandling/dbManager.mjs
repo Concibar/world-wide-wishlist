@@ -1,6 +1,6 @@
 import Wishlist from '../models/wishlist.mjs'
 
-const manifest = chrome.runtime.getManifest()
+const manifest = await chrome.runtime.getManifest()
 export const manifestVersion = manifest.version
 
 export async function checkDBschema() {
