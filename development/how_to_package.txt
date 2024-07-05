@@ -4,6 +4,7 @@
 - remove .gitignore
 - remove jest config file
 - remove sass folder
-- remove test folder
+- remove __tests__ folder
+- remove __mocks__ folder
 - remove node_modules folder
 - remove development folder
