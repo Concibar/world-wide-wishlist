@@ -42,6 +42,10 @@ export default class Wish {
     if (this.#id == null) {
       this.#id = uuid();
     }
+    if ((this.#name == null) || (this.#wishlistId == null)) {
+      console.log("error: tried to save a wish without name or wishlistId")
+      return
+    }
 
     let wishData = {
       "id": this.#id,
