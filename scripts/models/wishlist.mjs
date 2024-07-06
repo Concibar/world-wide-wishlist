@@ -17,6 +17,10 @@ export default class Wishlist {
     if (this.#id == null) {
       this.#id = uuid();
     };
+    if ((this.#name == null)) {
+      console.log("error: tried to save a wishlist without name")
+      return
+    }
 
     let wishlistsResult = await chrome.storage.local.get(['wishlists']);
     let wishlists = wishlistsResult.wishlists;
