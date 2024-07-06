@@ -133,7 +133,7 @@ const config = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: ['<rootDir>/__mocks__/mock-extension-apis.js'],
+  setupFiles: ['<rootDir>/mocks/mock-extension-apis.js'],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
@@ -155,8 +155,8 @@ const config = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    "**/__tests__/**/*.[jt]s?(x)",
-    "**/__tests__/**/*.test.mjs",
+    "**/tests/**/*.[jt]s?(x)",
+    "**/tests/**/*.test.mjs",
     "**/?(*.)+(spec|test).[tj]s?(x)"
   ],
 

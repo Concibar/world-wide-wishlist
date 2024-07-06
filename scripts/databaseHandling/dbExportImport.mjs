@@ -1,6 +1,5 @@
 import Wish from '../models/wish.mjs'
 import Wishlist from '../models/wishlist.mjs'
-import { manifestVersion } from './dbManager.mjs'
 
 export async function exportDatabase() {
   const jsonString = await generateJsonData();
@@ -53,7 +52,7 @@ function downloadJsonFile(jsonString, filename) {
 export async function importDatabase(file) {
   const fileContent = await readFile(file);
   const data = JSON.parse(fileContent);
-  if (manifestVersion != data.versionNumber) {
+  if (chrome.runtime.getManifest().version != data.versionNumber) {
     console.log("The versions are different, migration needs to happen here");
   }
   const filteredData = await filterDuplicates(data);

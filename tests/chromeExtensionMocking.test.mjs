@@ -1,4 +1,4 @@
-import { chromeSetVersion, chromeLoadVersion, chromeManifest } from "../../../../development/chromeExtensionMocking.mjs"
+import { chromeSetVersion, chromeLoadVersion, chromeManifest } from "../development/chromeExtensionMocking.mjs"
 import {jest} from '@jest/globals'
 
 describe("Trying out testing for global methods Mockingjay", () => {

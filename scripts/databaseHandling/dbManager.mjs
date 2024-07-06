@@ -1,7 +1,6 @@
 import Wishlist from '../models/wishlist.mjs'
 
-const manifest = await chrome.runtime.getManifest()
-export const manifestVersion = manifest.version
+const manifestVersion = chrome.runtime.getManifest().version
 
 export async function checkDBschema() {
   let result = await chrome.storage.local.get('versionNumber')
@@ -21,6 +20,20 @@ async function setupDatabase() {
   await chrome.storage.local.set({'versionNumber': manifestVersion})
   console.log("versionNumber set to " + manifestVersion)
 
+  // check and set defaultWishlistId
+  let defWishlistResult = await chrome.storage.local.get('defaultWishlistId')
+  if (defWishlistResult.defaultWishlistId == undefined) {
+    await chrome.storage.local.set({'defaultWishlistId': ''})
+    console.log("defaultWishlistId set to writeable")
+  }
+
+  // check and set defaultCurrencyId
+  let defCurrencyResult = await chrome.storage.local.get('defaultCurrencyId')
+  if (defCurrencyResult.defaultCurrencyId == undefined) {
+    await chrome.storage.local.set({'defaultCurrencyId': 'EUR'})
+    console.log("defaultCurrencyId set to default")
+  }
+
   // check and set settings
   let settingsResult = await chrome.storage.local.get('settings')
   if (settingsResult.settings == undefined) {
@@ -30,7 +43,6 @@ async function setupDatabase() {
     }})
     console.log("settings set to default")
   }
-
 
   // check and set currencies
   let currenciesResult = await chrome.storage.local.get('currencies')
@@ -255,20 +267,6 @@ async function setupDatabase() {
       }
     ]})
     console.log("currencies set to default")
-  }
-
-  // check and set defaultCurrencyId
-  let defCurrencyResult = await chrome.storage.local.get('defaultCurrencyId')
-  if (defCurrencyResult.defaultCurrencyId == undefined) {
-    await chrome.storage.local.set({'defaultCurrencyId': 'EUR'})
-    console.log("defaultCurrencyId set to default")
-  }
-
-  // check and set defaultWishlistId
-  let defWishlistResult = await chrome.storage.local.get('defaultWishlistId')
-  if (defWishlistResult.defaultWishlistId == undefined) {
-    await chrome.storage.local.set({'defaultWishlistId': ''})
-    console.log("defaultWishlistId set to writeable")
   }
 
   // check and set wishlists

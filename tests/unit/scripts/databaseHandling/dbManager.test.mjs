@@ -20,20 +20,23 @@ import {jest} from '@jest/globals'
 
 // }
 
-global.chrome ={
-  runtime: {
-    getManifest: () => ({version: "123.456.789"})
-  }
-};
+describe("dbManager.mjs", () => {
+  describe("manifestVersion", () => {
 
-describe("dbManager.mjs", function () {
-  describe("manifestVersion", function () {
-    const mockManifest = chrome.runtime.getManifest()
-    export const mockManifestVersion = manifest.version
     it("should return 123.456.789", async function () {
-      console.log(mockManifestVersion);
-      expect(mockManifestVersion).toBe("123.456.789")
+      expect(manifestVersion).toBe("123.456.789")
     })
 
+  })
+
+  describe("setupDatabase", () => {
+    beforeEach(() => {
+
+    })
+    afterEach(jest.clearAllMocks)
+    it("should set", async () => {
+      jest.spyOn(chrome.runtime, "getManifest").mockReturnValue({version: "1.2.3"})
+      await checkDBschema()
+    })
   })
 })

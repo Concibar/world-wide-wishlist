@@ -11,6 +11,24 @@
     "convertToCurrencyId": "EUR"
   },
 
+  "currencies": [
+    {
+      "id": "EUR",
+      "name": "Euro",
+      "code": "EUR",
+      "sign": "€",
+      "favorite": true
+    },
+
+    {
+      "id": "01906b48-2808-7f5d-bf00-6c8c92bc8940",
+      "name": "Custom",
+      "code": "CUS",
+      "sign": "¬",
+      "favorite": true
+    }
+  ],
+
   "wishlists": [
     {
       "id": "018f5331-cf2f-777e-b6f6-beecc5fec943",
@@ -29,24 +47,6 @@
       "currencyId": "EUR",
       "quantity": 1,
       "note": "this might be a good gift for my grandma :)"
-    }
-  ],
-
-  "currencies": [
-    {
-      "id": "EUR",
-      "name": "Euro",
-      "code": "EUR",
-      "sign": "€",
-      "favorite": true
-    },
-
-    {
-      "id": "01906b48-2808-7f5d-bf00-6c8c92bc8940",
-      "name": "Custom",
-      "code": "CUS",
-      "sign": "¬",
-      "favorite": true
     }
   ]
 }
