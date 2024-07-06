@@ -35,7 +35,7 @@ async function setupDatabase() {
     console.log("defaultCurrencyId set to default")
   }
 
-  // check and set settings
+  // check and set settings to default
   let settingsResult = await chrome.storage.local.get('settings')
   if (settingsResult.settings == undefined) {
     await chrome.storage.local.set({'settings': {
