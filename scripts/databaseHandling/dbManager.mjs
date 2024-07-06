@@ -3,6 +3,7 @@ import Wishlist from '../models/wishlist.mjs'
 const manifestVersion = chrome.runtime.getManifest().version
 
 export async function checkDBschema() {
+  console.log(manifestVersion);
   let result = await chrome.storage.local.get('versionNumber')
   let databaseVersion = result.versionNumber;
   if (databaseVersion == undefined) {

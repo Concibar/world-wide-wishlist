@@ -1,42 +1,53 @@
-import { manifestVersion, checkDBschema } from '../../../../scripts/databaseHandling/dbManager.mjs'
+import { checkDBschema } from '../../../../scripts/databaseHandling/dbManager.mjs'
 import {jest} from '@jest/globals'
 
-// let chrome;
-// let mockStorage;
-// let mockLocal;
-// let mockGet;
-// function setUpChromeMocks() {
-//   //res.status(200).json({ foo: 'bar' });
-//   mockStorage = jest.fn();
-//   mockLocal = jest.fn();
-//   mockGet = jest.fn((searchterm) => {versionNumber: "123.456.789"});
-//   chrome = {
-//     storage: mockStorage,
-//     local: mockLocal,
-//     get: mockGet
-//   }
-//   mockStorage.mockImplementation(() => chrome);
-//   mockLocal.mockImplementation(() => chrome);
-
-// }
+//
 
 describe("dbManager.mjs", () => {
-  describe("manifestVersion", () => {
 
-    it("should return 123.456.789", async function () {
-      expect(manifestVersion).toBe("123.456.789")
+  describe("checkDBschema encounters empty chrome storage", () => {
+
+    afterAll(jest.clearAllMocks)
+
+    it("should set 11 times", async () => {
+      await checkDBschema()
+      console.log(chrome.storage.local.get());
     })
+
+    // storage should return versionNumber
+    // storage should return defaultWishlistId
+    // storage should return defaultCurrencyId
+    // storage should return settings
+    // storage should return currencies
+    // storage should return wishes
+    // storage should return wishlists
 
   })
 
-  describe("setupDatabase", () => {
-    beforeEach(() => {
+  describe("checkDBschema encounters matching chrome storage", () => {
 
+    afterAll(jest.clearAllMocks)
+
+    it("should not set anything", async () => {
+      await checkDBschema()
+      //TODO
     })
-    afterEach(jest.clearAllMocks)
-    it("should set", async () => {
-      jest.spyOn(chrome.runtime, "getManifest").mockReturnValue({version: "1.2.3"})
+
+    it("should print to console", async () => {
       await checkDBschema()
     })
+
+  })
+
+  describe("checkDBschema encounters migratable chrome storage", () => {
+
+    afterAll(jest.clearAllMocks)
+
+    it("TODO", async () => {
+
+    })
+
   })
 })
+
+//

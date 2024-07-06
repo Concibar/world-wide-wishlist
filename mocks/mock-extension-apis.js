@@ -6,7 +6,7 @@ global.chrome = {
     getManifest: () => {
       return {
         "name": "Mock Mide Midlist",
-        "version": "123.456.789",
+        "version": "1.1.0",
         "manifest_version": 3,
         "description": "Mock any product from any website to one unified midlist.",
         "author": "Mock Mewa",
@@ -46,7 +46,7 @@ global.chrome = {
 
         var returnObject = {}
         keys.forEach(key => {
-          if (!this._mockStorage[key]) {throw new Error("key for mockStorage not found")}
+          if (!this._mockStorage[key]) {return undefined}
           returnObject[key] = this._mockStorage[key]
         });
         return Promise.resolve(returnObject)
