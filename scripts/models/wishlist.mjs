@@ -2,16 +2,22 @@ import uuid from '../databaseHandling/uuid7.mjs'
 import Wish from './wish.mjs'
 
 export default class Wishlist {
+  #customOrder = 0;
   #id;
   #name;
+  #orderedBy = "alphaNumAscending"; // valid inputs are "alphaNumAscending", "alphaNumDescending", "dateAscending", "dateDescending", "custom"
 
-  constructor({id, name}) {
+  constructor({customOrder, id, name, orderedBy}) {
+    this.#customOrder = customOrder;
     this.#id = id;
     this.#name = name;
+    this.#orderedBy = orderedBy;
   }
 
-  get id() {return this.#id;}
-  get name() {return this.#name;}
+  get customOrder() {return this.#customOrder;};
+  get id() {return this.#id;};
+  get name() {return this.#name;};
+  get orderedBy() {return this.#orderedBy;};
 
   async save() {
     if (this.#id == null) {
@@ -26,8 +32,10 @@ export default class Wishlist {
     let wishlists = wishlistsResult.wishlists;
 
     let wishlistData = {
+      "customOrder": this.#customOrder,
       "id": this.#id,
-      "name": this.#name
+      "name": this.#name,
+      "orderedBy": this.#orderedBy
     };
 
     wishlists.push(wishlistData);
@@ -35,8 +43,10 @@ export default class Wishlist {
     return this;
   }
 
-  async update(name) {
-    this.#name = name;
+  async update({customOrder,name,orderedBy}) {
+    if (customOrder != null) {this.#customOrder = customOrder};
+    if (name != null) {this.#name = name};
+    if (orderedBy != null) {this.#orderedBy = orderedBy};
     await this.#deleteWithoutIdCheck();
     await this.save();
     return this;

@@ -4,9 +4,11 @@
   "versionNumber": "1.0.2",
 
   "defaultWishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943",
-  "defaultCurrencyId": "01906b48-2808-7f5d-bf00-6c8c92bc8940",
+  "defaultCurrencyId": "EUR",
+  "conversionCurrencyId": "EUR",
 
   "settings": {
+    "orderWishlistsBy": "alphaNumAscending",
     "currencyConversion": false,
     "convertToCurrencyId": "EUR"
   },
@@ -17,15 +19,7 @@
       "name": "Euro",
       "code": "EUR",
       "sign": "€",
-      "favorite": true
-    },
-
-    {
-      "id": "01906b48-2808-7f5d-bf00-6c8c92bc8940",
-      "name": "Custom",
-      "code": "CUS",
-      "sign": "¬",
-      "favorite": true
+      "favored": true
     }
   ],
 

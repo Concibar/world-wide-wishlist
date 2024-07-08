@@ -6,89 +6,21 @@ export default class Currency {
   #name;
   #code;
   #sign = "";
-  #favorite = false;
+  #favored = false;
 
-  constructor({id,name,code,sign,favorite}) {
+  constructor({id,name,code,sign,favored}) {
     this.#id = id;
     this.#name = name;
     this.#code = code;
     this.#sign = sign;
-    this.#favorite = favorite;
+    this.#favored = favored;
   }
 
   get id() {return this.#id}
   get name() {return this.#name}
   get code() {return this.#code}
   get sign() {return this.#sign}
-  get favorite() {return this.#favorite}
-
-  async save() {
-    if (!(this.#id == null)) {
-      console.log("error: tried to save a currency with existing id")
-      return
-    }
-    if ((this.#name == null) || (this.#code == null)) {
-      console.log("error: tried to save a currency without name or code")
-      return
-    }
-
-    this.#id = uuid()
-
-    let currencyData = {
-      "id": this.#id,
-      "name": this.#name,
-      "code": this.#code,
-      "sign": this.#sign,
-      "favorite": this.#favorite
-    }
-
-    let currenciesResult = await chrome.storage.local.get(['currencies']);
-    let currencies = currenciesResult.currencies;
-
-    currencies.push(currencyData);
-    await chrome.storage.local.set({'currencies': currencies});
-    return this;
-  }
-
-  async delete() {
-    if ((this.#id.length == 3) || (this.#id == null)) {
-      console.log("error: currency couldn't be deleted due to non proper id");
-      return
-    }
-    // TODO: reset prices of wishes with this currency
-    let currenciesResult = await chrome.storage.local.get(['currencies']);
-    let currencies = currenciesResult.currencies;
-    let filteredCurrencies = currencies.filter(obj => obj.id !== this.#id);
-    await chrome.storage.local.set({'currencies': filteredCurrencies});
-  }
-
-  async update({name,code,sign,favorite}) {
-    if ((this.#id.length == 3) || (this.#id == null)) {
-      console.log("error: currency couldn't be updated due to improper id")
-      return
-    }
-
-    let currenciesResult = await chrome.storage.local.get(['currencies']);
-    let currencies = currenciesResult.currencies;
-
-    if (name != null) {this.#name = name}
-    if (code != null) {this.#code = code}
-    if (sign != null) {this.#sign = sign}
-    if (favorite != null) {this.#favorite = favorite}
-
-    let currencyData = {
-      "id": this.#id,
-      "name": this.#name,
-      "code": this.#code,
-      "sign": this.#sign,
-      "favorite": this.#favorite
-    }
-
-    let filteredCurrencies = currencies.filter(obj => obj.id !== this.#id);
-    filteredCurrencies.push(currencyData);
-    await chrome.storage.local.set({'currencies': filteredCurrencies});
-    return this;
-  }
+  get favored() {return this.#favored}
 
   async setAsDefaultCurrency() {
     if (this.#id == null) {
@@ -107,6 +39,13 @@ export default class Currency {
     return defaultCurrency;
   }
 
+  static async getConversionCurrency() {
+    let result = await chrome.storage.local.get('conversionCurrencyId');
+    let conversionCurrencyId = result.conversionCurrencyId;
+    let conversionCurrency = await Currency.read(conversionCurrencyId);
+    return conversionCurrency;
+  }
+
   static async read(currencyId) {
     let currenciesResult = await chrome.storage.local.get(['currencies']);
     let currencies = currenciesResult.currencies;
@@ -114,22 +53,50 @@ export default class Currency {
     return new Currency(currencyData);
   }
 
-  static async readAll() {
+  static async getCurrenciesByType() {
+    const sortByCodeDesc = (a,z) => a.code.localeCompare(z.code);
+    let defaultCurrency = await Currency.getDefaultCurrency();
+
     let currenciesResult = await chrome.storage.local.get(['currencies']);
     let currencies = currenciesResult.currencies;
+    currencies.splice(currencies.findIndex((currency) => {return currency.id === defaultCurrency.id}), 1);
 
-    function sortByCodeDesc(a,z) { a.code.localeCompare(z.code) };
+    let favoredCurrencies = currencies.filter(currency => currency.favored == true);
+    let sortedFavoredCurrencies = favoredCurrencies.sort(sortByCodeDesc);
+    let nonFavoredCurrencies = currencies.filter(currency => currency.favored == false);
+    let sortedNonFavoredCurrencies = nonFavoredCurrencies.sort(sortByCodeDesc);
 
-    let favoriteCurrencies = currencies.filter(currency => currency.favorite == true);
-    let sortedFavoriteCurrencies = favoriteCurrencies.sort(sortByCodeDesc(a,z));
-    let nonFavoriteCurrencies = currencies.filter(currency => currency.favorite == false);
-    let sortedNonFavoriteCurrencies = nonFavoriteCurrencies.sort(sortByCodeDesc(a,z));
-
-    let filteredCurrencies = {
-      favorite: sortedFavoriteCurrencies,
-      nonFavorite: sortedNonFavoriteCurrencies
+    let currenciesbyType = {
+      default: defaultCurrency,
+      favored: sortedFavoredCurrencies,
+      nonFavored: sortedNonFavoredCurrencies
     };
+    return currenciesbyType;
+  }
 
-    return filteredCurrencies;
+  static async getAllCurrencies() {
+    const sortByCodeDesc = (a,z) => a.code.localeCompare(z.code);
+    let currenciesResult = await chrome.storage.local.get(['currencies']);
+    let currencies = currenciesResult.currencies;
+    let sortedCurrencies = currencies.sort(sortByCodeDesc);
+    return sortedCurrencies;
+  }
+
+  static async getFavoredCurrencies() {
+    const sortByCodeDesc = (a,z) => a.code.localeCompare(z.code);
+    let currenciesResult = await chrome.storage.local.get(['currencies']);
+    let currencies = currenciesResult.currencies;
+    let favoredCurrencies = currencies.filter(currency => currency.favored == true);
+    let sortedFavoredCurrencies = favoredCurrencies.sort(sortByCodeDesc);
+    return sortedFavoredCurrencies;
+  }
+
+  static async getNonFavoredCurrencies() {
+    const sortByCodeDesc = (a,z) => a.code.localeCompare(z.code);
+    let currenciesResult = await chrome.storage.local.get(['currencies']);
+    let currencies = currenciesResult.currencies;
+    let nonFavoredCurrencies = currencies.filter(currency => currency.favored == false);
+    let sortedNonFavoredCurrencies = nonFavoredCurrencies.sort(sortByCodeDesc);
+    return sortedNonFavoredCurrencies;
   }
 }

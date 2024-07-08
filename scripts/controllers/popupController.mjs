@@ -1,7 +1,8 @@
-import Wish from '../models/wish.mjs'
-import Wishlist from '../models/wishlist.mjs'
-import View from '../views/popupView.mjs'
-import Scraper from '../scraper.mjs'
+import Wish from '../models/wish.mjs';
+import Wishlist from '../models/wishlist.mjs';
+import View from '../views/popupView.mjs';
+import Scraper from '../scraper.mjs';
+import Currency from '../models/currency.mjs'
 
 document.addEventListener('DOMContentLoaded', async function () {
   // Exit the Popup
@@ -59,7 +60,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   async function displayDefault() {
     let wishlists = await Wishlist.readAll();
     let defaultWishlist = await Wishlist.getDefaultWishlist();
-    view.displayScraped(wishlists, defaultWishlist);
+    let currenciesbyType = await Currency.getCurrenciesByType();
+    view.displayScraped(wishlists, defaultWishlist, currenciesbyType);
   }
 
   // open create Wishlist Modal

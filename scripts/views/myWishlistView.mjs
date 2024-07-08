@@ -4,24 +4,23 @@ import {
   maxWishDisplayLength,
   maxWishlistNameLength,
   maxNoteLength,
-  maxPriceLength,
+  maxPrice,
   maxQuantity
-} from '../databaseHandling/dbConfig.mjs'
+} from '../databaseHandling/dbConfig.mjs';
+import Currency from '../models/currency.mjs';
 
 export default class MyWishlistView{
   #currentWishlistId;
 
   constructor() {}
 
-  get currentWishlistId() {
-    return this.#currentWishlistId;
-  }
+  get currentWishlistId() {return this.#currentWishlistId}
 
   async completeLoad(defaultWishlistId, wishes, wishlists) {
-    // fill with the default wishlist at the top
-    // give every wishlist element an id
+    // reset Wishlists
     let listOfWishlists = document.getElementById('wishlists');
     listOfWishlists.innerHTML = '';
+    // fill with the default wishlist at the top
     let defaultWishlist = wishlists.find(wishlist => wishlist.id === defaultWishlistId);
     listOfWishlists.insertAdjacentHTML("afterbegin", `
       <li data-wishlist-id="${defaultWishlist.id}" class="py-2 px-4 is-clickable active-wishlist">
@@ -56,9 +55,14 @@ export default class MyWishlistView{
     // fill in the wishes of the default Wishlist
     await this.displayWishes(wishes, defaultWishlist.id, wishlists);
 
-    // set the max quantity for the add-idea and edit-wish modal
+    // set the max quantity & price for the add-idea and edit-wish modal
     document.querySelector('#edit-wish-quantity').max = maxQuantity;
     document.querySelector('#add-idea-quantity').max = maxQuantity;
+    document.querySelector('#edit-wish-price').max = maxPrice;
+    document.querySelector('#add-idea-price').max = maxPrice;
+
+    let currenciesByType = await Currency.getCurrenciesByType();
+    this.displayCurrencies(currenciesByType);
   }
 
   async displayWishes(wishes, wishlistId, wishlists) {
@@ -79,6 +83,47 @@ export default class MyWishlistView{
     wishesContainer.insertAdjacentHTML("beforeend", `<div id="bottom-placeholder"></div>`);
   }
 
+  displayCurrencies(currenciesbyType) {
+    let defaultCurrency = currenciesbyType.default;
+    let favoredCurrencies = currenciesbyType.favored;
+    let nonFavoredCurrencies = currenciesbyType.nonFavored;
+
+    let addIdeaFavoredCurrenciesSelector = document.getElementById('add-idea-favored-currencies');
+    let addIdeaNonFavoredCurrenciesSelector = document.getElementById('add-idea-non-favored-currencies');
+    let editWishFavoredCurrenciesSelector = document.getElementById('edit-wish-favored-currencies');
+    let editWishNonFavoredCurrenciesSelector = document.getElementById('edit-wish-non-favored-currencies');
+    // insert the default currency to add idea
+    addIdeaFavoredCurrenciesSelector.insertAdjacentHTML("afterbegin", `
+      <option selected value="${defaultCurrency.id}" class="currency-option">
+        ${defaultCurrency.code}${defaultCurrency.sign ? " " + defaultCurrency.sign : ""} ★
+      </option>
+    `);
+    // insert the default currency to edit wish
+    editWishFavoredCurrenciesSelector.insertAdjacentHTML("afterbegin", `
+      <option selected value="${defaultCurrency.id}" class="currency-option">
+        ${defaultCurrency.code}${defaultCurrency.sign ? " " + defaultCurrency.sign : ""} ★
+      </option>
+    `);
+
+    // insert the rest of the favored currencies to add idea
+    for (let i = 0; i < favoredCurrencies.length; i++) {
+      addIdeaFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${favoredCurrencies[i].id}" class="currency-option">${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}</option>`);
+    };
+    // insert the rest of the favored currencies to edit wish
+    for (let i = 0; i < favoredCurrencies.length; i++) {
+      editWishFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${favoredCurrencies[i].id}" class="currency-option">${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}</option>`);
+    };
+
+    //insert the non-favored currencies to add idea
+    for (let i = 0; i < nonFavoredCurrencies.length; i++) {
+      addIdeaNonFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${nonFavoredCurrencies[i].id}" class="currency-option">${nonFavoredCurrencies[i].code}${nonFavoredCurrencies[i].sign ? " " + nonFavoredCurrencies[i].sign : ""}</option>`);
+    };
+    //insert the non-favored currencies to editWish
+    for (let i = 0; i < nonFavoredCurrencies.length; i++) {
+      editWishNonFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${nonFavoredCurrencies[i].id}" class="currency-option">${nonFavoredCurrencies[i].code}${nonFavoredCurrencies[i].sign ? " " + nonFavoredCurrencies[i].sign : ""}</option>`);
+    };
+  }
+
   toggleDropdown(wish) {
     let dropdown = document.querySelector(`[data-wish-id="${wish.id}"].dropdown`);
     dropdown.classList.toggle('is-active');
@@ -94,6 +139,7 @@ export default class MyWishlistView{
     document.getElementById("edit-wish-price").value = wish.price;
     document.getElementById("edit-wish-quantity").value = wish.quantity;
     document.getElementById("edit-wish-note").value = wish.note;
+    document.getElementById('edit-wish-currency-id').value = wish.currencyId;
     let selectHtmlWish = document.querySelector(`[data-wish-id="${wish.id}"].actual-wishcard`);
     if (selectHtmlWish) {
       document.getElementById("edit-wish-image").src = selectHtmlWish.querySelector('img.wish-image').src;
@@ -111,8 +157,9 @@ export default class MyWishlistView{
       warning.innerText = "";
     });
     let formInputFaulty = false;
+    let currencyId = document.getElementById('edit-wish-currency-id').value;
     let name = document.getElementById("edit-wish-name").value;
-    let price = document.getElementById("edit-wish-price").value;
+    let price = parseFloat(document.getElementById('edit-wish-price').value);
     let quantity = parseInt(document.getElementById("edit-wish-quantity").value, 10);
     let note = document.getElementById("edit-wish-note").value;
     if (name.length < nameMinLength) {
@@ -126,20 +173,21 @@ export default class MyWishlistView{
       document.querySelector('#edit-wish-note-warning').innerText = "* Note longer than " + maxNoteLength + " letters, please enter a shorter note!";
       formInputFaulty = true;
     }
-    if (price.length > maxPriceLength) {
-      document.querySelector('#edit-wish-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
+    if (isNaN(price) || (price > maxPrice) || (price < 0)) {
+      document.getElementById('wish-price-warning').innerText = "* Price invalid, please enter a quantity between 0 and " + maxPrice + "!";
       formInputFaulty = true;
     }
-    if (isNaN(quantity) || (quantity > maxQuantity)) {
+    if (isNaN(quantity) || (quantity > maxQuantity) || (quantity < 0)) {
       document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity invalid, please enter a quantity between 0 and " + maxQuantity + "!";
       formInputFaulty = true;
     }
     if (formInputFaulty) return false;
     let formData = {
+      'currencyId': currencyId,
       'name': name,
+      'note': note,
       'price': price,
-      'quantity': quantity,
-      'note': note
+      'quantity': quantity
     };
     return formData;
   }
@@ -177,9 +225,10 @@ export default class MyWishlistView{
       warning.innerText = "";
     });
     let formInputFaulty = false;
+    let currencyId = document.getElementById('add-idea-currency-id').value;
     let name = document.getElementById("add-idea-name").value;
     let note = document.getElementById("add-idea-note").value;
-    let price = document.getElementById("add-idea-price").value;
+    let price = parseFloat(document.getElementById('add-idea-price').value);
     let quantity = parseInt(document.getElementById("add-idea-quantity").value, 10);
     if (name.length < nameMinLength) {
       document.querySelector('#add-idea-name-warning').innerText = "* Name cannot be empty, please enter a name!";
@@ -192,16 +241,17 @@ export default class MyWishlistView{
       document.querySelector('#add-idea-note-warning').innerText = "* Note longer than " + maxNoteLength + " letters, please enter a shorter note!";
       formInputFaulty = true;
     }
-    if (price.length > maxPriceLength) {
-      document.querySelector('#add-idea-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
+    if (isNaN(price) || (price > maxPrice) || (price < 0)) {
+      document.getElementById('wish-price-warning').innerText = "* Price invalid, please enter a quantity between 0 and " + maxPrice + "!";
       formInputFaulty = true;
     }
-    if (isNaN(quantity) || (quantity > maxQuantity)) {
+    if (isNaN(quantity) || (quantity > maxQuantity) || (quantity < 0)) {
       document.querySelector('#add-idea-quantity-warning').innerText = "* Quantity invalid, please enter a quantity between 0 and " + maxQuantity + "!";
       formInputFaulty = true;
     }
     if (formInputFaulty) return false;
     let formData = {
+      'currencyId': currencyId,
       'name': name,
       'price': price,
       'quantity': quantity,
@@ -302,6 +352,7 @@ export default class MyWishlistView{
   // Private Methods
 
   async #makeHtmlElementFromWish(wish, wishlists) {
+    let currency = await Currency.read(wish.currencyId)
     if (wish.url == null) {
       // this creates a note card instead of a regular wish card
       return `
@@ -310,7 +361,7 @@ export default class MyWishlistView{
 
             <div class="is-flex-grow-1">
               ${this.#makeWishName(wish.name)}
-              ${this.#makeWishPrice(wish.price)}
+              ${this.#makeWishPrice(wish.price, currency)}
               <h4 class="is-size-6"><strong>Quantity:</strong> ${wish.quantity}</h4>
               ${this.#makeNoteForWish(wish.note)}
             </div>
@@ -360,7 +411,7 @@ export default class MyWishlistView{
             <div class="is-flex-grow-1">
               ${this.#makeWishName(wish.name)}
               <h4 class="is-size-6"><strong>From:</strong> ${this.#makeHomeUrl(wish.url)}</h4>
-              ${this.#makeWishPrice(wish.price)}
+              ${this.#makeWishPrice(wish.price, currency)}
               <h4 class="is-size-6"><strong>Quantity:</strong> ${wish.quantity}</h4>
               ${this.#makeNoteForWish(wish.note)}
             </div>
@@ -404,10 +455,10 @@ export default class MyWishlistView{
   #makeWishName(name) {
     var nameElement;
     if (name.length <= maxWishDisplayLength) {
-      nameElement = `<h3 class="subtitle is-5">${name}</h3>`
+      nameElement = `<h3 class="subtitle is-5">${name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</h3>`
     } else {
       let shortName = name.substring(0,  (maxWishDisplayLength-3)) + "...";
-      nameElement = `<h3 class="subtitle is-5">${shortName}<span class="tooltiptext p-1 is-underlined is-italic is-light is-family-sans-serif is-size-7">${name}</span></h3>`
+      nameElement = `<h3 class="subtitle is-5">${shortName.replace(/</g, "&lt;").replace(/>/g, "&gt;")}<span class="tooltiptext p-1 is-underlined is-italic is-light is-family-sans-serif is-size-7">${name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span></h3>`
     }
     return nameElement;
   }
@@ -417,17 +468,23 @@ export default class MyWishlistView{
     <hr class="has-background-white-ter mt-2 mb-2">
     <div class="note">
       <h4 class="is-size-6"><strong>Note:</strong></h4>
-      <p>${note}</p>
+      <p>${note.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
     </div>
     `;
     return note ? html : '';
   }
 
-  #makeWishPrice(price) {
-    if (price == "") {
+  #makeWishPrice(price, currency) {
+    if (price == 0) {
       return ""
     } else {
-      return `<h4 class="is-size-6"><strong>Price:</strong> ${price}</h4>`
+      let code = currency.code;
+      console.log(currency);
+      console.log(typeof price);
+      console.log(price);
+      const formatter = new Intl.NumberFormat(navigator.language,{style: 'currency',currency: code});
+      let formattedPrice = formatter.format(price)
+      return `<h4 class="is-size-6"><strong>Price:</strong> ${formattedPrice}</h4>`
     }
   }
 

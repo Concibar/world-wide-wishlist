@@ -3,25 +3,25 @@ import {
   maxWishNameLength,
   maxWishlistNameLength,
   maxNoteLength,
-  maxPriceLength,
+  maxPrice,
   maxQuantity
 } from '../databaseHandling/dbConfig.mjs'
 
 export default class PopupView {
+  wishName = "";
   wishUrl = "";
   imageArray = [];
-  price = 0;
-  wishName = "";
 
   constructor (scraper) {
     this.wishName = scraper.title;
     this.wishUrl = scraper.url;
     this.imageArray = scraper.imageArray;
-    this.price = scraper.price;
   }
 
-  displayScraped(wishlists, defaultWishlist) {
+  displayScraped(wishlists, defaultWishlist, currenciesbyType) {
     document.getElementById('wish-name').value = this.wishName;
+    document.querySelector('#wish-quantity').max = maxQuantity;
+    document.querySelector('#wish-price').max = maxPrice;
     // display the images in the gallery
     let gallery = document.getElementById('image-gallery');
     if (this.imageArray.length > 0) {
@@ -31,6 +31,7 @@ export default class PopupView {
       document.getElementById('0').setAttribute('style', 'display: initial;');
     }
     this.displayWishlists(wishlists, defaultWishlist.id, defaultWishlist);
+    this.displayCurrencies(currenciesbyType);
     document.querySelector('#wish-quantity').max = maxQuantity;
   }
 
@@ -57,10 +58,12 @@ export default class PopupView {
       warning.innerText = "";
     });
     let formInputFaulty = false;
+    let wishCurrencyId = document.getElementById('wish-currency-id').value;
     let wishName = document.getElementById('wish-name').value;
     let wishNote = document.getElementById('wish-note').value;
-    let wishPrice = document.getElementById('wish-price').value;
+    let wishPrice = parseFloat(document.getElementById('wish-price').value);
     let wishQuantity = parseInt(document.getElementById('wish-quantity').value, 10);
+    console.log(wishQuantity)
     if (wishName.length < nameMinLength) {
       document.getElementById('wish-name-warning').innerText = "* Name cannot be empty, please enter a name!";
       formInputFaulty = true;
@@ -72,11 +75,11 @@ export default class PopupView {
       document.getElementById('wish-note-warning').innerText = "* Note longer than " + maxNoteLength + " letters, please enter a shorter note!";
       formInputFaulty = true;
     }
-    if (wishPrice.length > maxPriceLength) {
-      document.getElementById('wish-price-warning').innerText = "* Price longer than " + maxPriceLength + " characters, please enter a shorter price!";
+    if (isNaN(wishPrice) || (wishPrice > maxPrice) || (wishPrice < 0)) {
+      document.getElementById('wish-price-warning').innerText = "* Price invalid, please enter a quantity between 0 and " + maxPrice + "!";
       formInputFaulty = true;
     }
-    if (isNaN(wishQuantity) || (wishQuantity > maxQuantity)) {
+    if (isNaN(wishQuantity) || (wishQuantity > maxQuantity) || (wishQuantity < 0)) {
       document.getElementById('wish-quantity-warning').innerText = "* Quantity invalid, please enter a quantity between 0 and " + maxQuantity + "!";
       formInputFaulty = true;
     }
@@ -85,13 +88,14 @@ export default class PopupView {
     let element = gallery.querySelector('[style="display: initial;"]');
     let activeSrc = element ? element.getAttribute('src') : "no img found";
     var formData = {};
+        formData.currencyId  = wishCurrencyId;
         formData.image       = await this.#convertImage(activeSrc);
-        formData.url         = this.wishUrl;
-        formData.wishlistId  = document.getElementById('wishlists').value;
         formData.name        = wishName;
+        formData.note        = wishNote;
         formData.price       = wishPrice;
         formData.quantity    = wishQuantity;
-        formData.note        = wishNote;
+        formData.url         = this.wishUrl;
+        formData.wishlistId  = document.getElementById('wishlists').value;
     return formData;
   }
 
@@ -111,11 +115,33 @@ export default class PopupView {
     // insert default wishlist at the top, before add new
     wishlistsSelector.insertAdjacentHTML("afterbegin", `
       <option value="${defaultWishlist.id}" class="wishlist-option has-background-grey-lighter regular-wishlist-option">
-        ${defaultWishlist.name} (default)
+        ${defaultWishlist.name} ★
       </option>
     `);
 
     wishlistsSelector.value = selectedWishlistId;
+  }
+
+  displayCurrencies(currenciesbyType) {
+    let defaultCurrency = currenciesbyType.default;
+    let favoredCurrencies = currenciesbyType.favored;
+    let favoredCurrenciesSelector = document.getElementById('favored-currencies');
+    let nonFavoredCurrencies = currenciesbyType.nonFavored;
+    let nonFavoredCurrenciesSelector = document.getElementById('non-favored-currencies');
+    // insert the default currency
+    favoredCurrenciesSelector.insertAdjacentHTML("afterbegin", `
+      <option selected value="${defaultCurrency.id}" class="currency-option">
+        ${defaultCurrency.code}${defaultCurrency.sign ? " " + defaultCurrency.sign : ""} ★
+      </option>
+    `);
+    // insert the rest of the favored currencies
+    for (let i = 0; i < favoredCurrencies.length; i++) {
+      favoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${favoredCurrencies[i].id}" class="currency-option">${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}</option>`);
+    };
+    //insert the non-favored currencies
+    for (let i = 0; i < nonFavoredCurrencies.length; i++) {
+      nonFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${nonFavoredCurrencies[i].id}" class="currency-option">${nonFavoredCurrencies[i].code}${nonFavoredCurrencies[i].sign ? " " + nonFavoredCurrencies[i].sign : ""}</option>`);
+    };
   }
 
   getCreateWishlistFormData() {

@@ -35,12 +35,19 @@ async function setupDatabase() {
     console.log("defaultCurrencyId set to default")
   }
 
+  // check and set conversionCurrencyId
+  let convCurrencyResult = await chrome.storage.local.get('conversionCurrencyId')
+  if (convCurrencyResult.conversionCurrencyId == undefined) {
+    await chrome.storage.local.set({'conversionCurrencyId': 'EUR'})
+    console.log("conversionCurrencyId set to default")
+  }
+
   // check and set settings to default
   let settingsResult = await chrome.storage.local.get('settings')
   if (settingsResult.settings == undefined) {
     await chrome.storage.local.set({'settings': {
-      "currencyConversion": false,
-      "convertToCurrencyId": "EUR"
+      "orderWishlistsBy": "alphaNumAscending",
+      "currencyConversion": false
     }})
     console.log("settings set to default")
   }
@@ -54,217 +61,217 @@ async function setupDatabase() {
         "name": "United States Dollar",
         "code": "USD",
         "sign": "$",
-        "favorite": true
+        "favored": true
       },
       {
         "id": "JPY",
         "name": "Japanese Yen",
         "code": "JPY",
         "sign": "¥",
-        "favorite": true
+        "favored": true
       },
       {
         "id": "BGN",
         "name": "Bulgarian Lev",
         "code": "BGN",
         "sign": "лв",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "CZK",
         "name": "Czech Koruna",
         "code": "CZK",
         "sign": "Kč",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "DKK",
         "name": "Danish Krone",
         "code": "DKK",
         "sign": "kr",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "GBP",
         "name": "Pound Sterling",
         "code": "GBP",
         "sign": "£",
-        "favorite": true
+        "favored": true
       },
       {
         "id": "HUF",
         "name": "Hungarian Forint",
         "code": "HUF",
         "sign": "Ft",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "PLN",
         "name": "Polish Złoty",
         "code": "PLN",
         "sign": "zł",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "RON",
         "name": "Romanian Leu",
         "code": "RON",
         "sign": false,
-        "favorite": false
+        "favored": false
       },
       {
         "id": "SEK",
         "name": "Swedish Krona",
         "code": "SEK",
         "sign": "kr",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "CHF",
         "name": "Swiss Franc",
         "code": "CHF",
         "sign": false,
-        "favorite": false
+        "favored": false
       },
       {
         "id": "ISK",
         "name": "Icelandic Krona",
         "code": "ISK",
         "sign": "kr",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "NOK",
         "name": "Norwegian Krone",
         "code": "NOK",
         "sign": "kr",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "TRY",
         "name": "Turkish Lira",
         "code": "TRY",
         "sign": "₺",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "AUD",
         "name": "Australian Dollar",
         "code": "AUD",
         "sign": "$",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "BRL",
         "name": "Brazilian Real",
         "code": "BRL",
         "sign": "$",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "CAD",
         "name": "Canadian Dollar",
         "code": "CAD",
         "sign": "$",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "CNY",
         "name": "Chinese Yuan Renminbi",
         "code": "CNY",
         "sign": "¥",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "HKD",
         "name": "Hong Kong Dollar",
         "code": "HKD",
         "sign": "$",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "IDR",
         "name": "Indonesian Rupiah",
         "code": "IDR",
         "sign": "Rp",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "ILS",
         "name": "Israeli Shekel",
         "code": "ILS",
         "sign": "₪",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "INR",
         "name": "Indian Rupee",
         "code": "INR",
         "sign": "₹",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "KRW",
         "name": "South Korean Won",
         "code": "KRW",
         "sign": "₩",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "MXN",
         "name": "Mexican Peso",
         "code": "MXN",
         "sign": "$",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "MYR",
         "name": "Malaysian Ringgit",
         "code": "MYR",
         "sign": "RM",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "NZD",
         "name": "New Zealand Dollar",
         "code": "NZD",
         "sign": "$",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "PHP",
         "name": "Philippine Peso",
         "code": "PHP",
         "sign": "₱",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "SGD",
         "name": "Singapore Dollar",
         "code": "SGD",
         "sign": "$",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "THB",
         "name": "Thai Baht",
         "code": "THB",
         "sign": "฿",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "ZAR",
         "name": "South African Rand",
         "code": "ZAR",
         "sign": "R",
-        "favorite": false
+        "favored": false
       },
       {
         "id": "EUR",
         "name": "Euro",
         "code": "EUR",
         "sign": "€",
-        "favorite": true
+        "favored": true
       }
     ]})
     console.log("currencies set to default")
@@ -294,7 +301,8 @@ async function setupDatabase() {
   await thirdWishlist.save()
 }
 
-async function migrateDatabase() {
+export async function migrateDatabase() {
+  // should take object of storage as input and return corrected object
   let result = await chrome.storage.local.get('versionNumber');
   let databaseVersion = result.versionNumber;
   console.log("Update detected, migration started from version " + databaseVersion + " to version " + manifestVersion);
@@ -305,5 +313,16 @@ async function migrateDatabase() {
     await chrome.storage.local.set({'versionNumber': databaseVersion});
     console.log("migration from " + oldVersion + " to " + databaseVersion + " finished");
   }
-  // TODO: migration for the prices
+
+  // run setupDatabase()
+  // settings
+  // currencies
+  // default currency
+
+  // price from string to num in every wish
+  // currency in every wish
+  // customOrder: 0 in every wish
+  // customOrder: 0 in every wishlist
+  // orderedBy: dateDescending in every wishlist
+  // update version number obvsl.
 }

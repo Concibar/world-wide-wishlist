@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   });
 
-  // Edit Wishlist Save
+  // Edit Wishlist Save TODO: refactor so update takes an object
   async function editWishlistSave() {
     let formData = view.getEditWishlistFormData();
     if (formData) {
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (formData.newDefault) {
         await wishlistToBeEdited.setAsDefaultWishlist();
       };
-      await wishlistToBeEdited.update(formData.name);
+      await wishlistToBeEdited.update(formData);
       let wishes = await Wish.readWishesOnWishlist(wishlistToBeEdited.id);
       let wishlists = await Wishlist.readAll();
       await loadPage();
