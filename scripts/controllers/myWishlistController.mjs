@@ -1,8 +1,10 @@
 import Wish from '../models/wish.mjs'
 import Wishlist from '../models/wishlist.mjs'
 import View from '../views/myWishlistView.mjs'
+import { fetchAndUpdateCurrencyRatesOnceDaily } from '../currencyConverter.mjs';
 
 document.addEventListener('DOMContentLoaded', async function () {
+  await fetchAndUpdateCurrencyRatesOnceDaily();
 
   const view = new View();
   const createWishlistModal = document.getElementById('create-wishlist-modal');

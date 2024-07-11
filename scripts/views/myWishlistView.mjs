@@ -8,6 +8,7 @@ import {
   maxQuantity
 } from '../databaseHandling/dbConfig.mjs';
 import Currency from '../models/currency.mjs';
+import { sumAndConvert } from '../currencyConverter.mjs';
 
 export default class MyWishlistView{
   #currentWishlistId;
@@ -70,7 +71,7 @@ export default class MyWishlistView{
     wishesContainer.innerHTML = '';
     this.#currentWishlistId = wishlistId;
 
-    //change active-wishlist
+    // change active-wishlist
     let test = document.querySelector("body");
     document.querySelector('.active-wishlist').classList.remove('active-wishlist');
     document.querySelector(`[data-wishlist-id="${wishlistId}"]`).classList.add('active-wishlist');
@@ -81,6 +82,30 @@ export default class MyWishlistView{
       wishesContainer.insertAdjacentHTML("beforeend", await this.#makeHtmlElementFromWish(wish, wishlists));
     }
     wishesContainer.insertAdjacentHTML("beforeend", `<div id="bottom-placeholder"></div>`);
+
+    // TODO: insert the summed Prices and the converted Total
+    let sums = await sumAndConvert(wishes);
+    let totalPriceDropdown = document.getElementById('total-content');
+    totalPriceDropdown.innerHTML = '';
+    let conversionCurrency = await Currency.getConversionCurrency();
+    let formatter = new Intl.NumberFormat(navigator.language,{style: 'currency',currency: conversionCurrency.code});
+    let formattedTotal = formatter.format(sums.total)
+    totalPriceDropdown.insertAdjacentHTML('beforeend', `
+      <div class="dropdown-item">
+        <p><strong>Total</strong> ≈ ${formattedTotal}</p>
+      </div>
+      <hr class="dropdown-divider" />
+    `);
+    for(var key in sums) {
+      if (sums[key] > 0 && key.length == 3) {
+        let formatter = new Intl.NumberFormat(navigator.language,{style: 'currency',currency: key});
+        let formattedPrice = formatter.format(sums[key])
+        totalPriceDropdown.insertAdjacentHTML('beforeend', `
+          <div class="dropdown-item">
+            <p>${key}: ${formattedPrice}</p>
+          </div>`);
+      }
+    }
   }
 
   displayCurrencies(currenciesbyType) {
@@ -352,7 +377,7 @@ export default class MyWishlistView{
   // Private Methods
 
   async #makeHtmlElementFromWish(wish, wishlists) {
-    let currency = await Currency.read(wish.currencyId)
+    let currency = await Currency.getCurrency(wish.currencyId)
     if (wish.url == null) {
       // this creates a note card instead of a regular wish card
       return `
@@ -479,9 +504,6 @@ export default class MyWishlistView{
       return ""
     } else {
       let code = currency.code;
-      console.log(currency);
-      console.log(typeof price);
-      console.log(price);
       const formatter = new Intl.NumberFormat(navigator.language,{style: 'currency',currency: code});
       let formattedPrice = formatter.format(price)
       return `<h4 class="is-size-6"><strong>Price:</strong> ${formattedPrice}</h4>`

@@ -1,5 +1,5 @@
 {
-  // This file shows how the JSON safe data is structured in the extension
+  // This file is purely documentary and shows how the JSON safe data is structured in the extension
 
   "versionNumber": "1.0.2",
 
@@ -11,6 +11,7 @@
     "orderWishlistsBy": "alphaNumAscending"
   },
 
+  "conversionRatesDate": "2014-07-22",
   "conversionRates": {
     "EUR": 1,
     "USD": 1.0814,

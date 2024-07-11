@@ -276,6 +276,12 @@ async function setupDatabase() {
     console.log("currencies set to default")
   }
 
+  // check and set conversionRatesDate
+  let conversionRatesDateResult = await chrome.storage.local.get('conversionRatesDate');
+  if (conversionRatesDateResult.conversionRatesDate == undefined) {
+    await chrome.storage.local.set({"conversionRatesDate": "1111-11-11",})
+  }
+
   // check and set conversionRates
   let conversionRatesResult = await chrome.storage.local.get('conversionRates')
   if (conversionRatesResult.conversionRates == undefined) {
