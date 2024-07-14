@@ -1,4 +1,5 @@
 import uuid, {extractTimeFromUUIDv7 as uuidToDate} from '../databaseHandling/uuid7.mjs';
+import Wishlist from './wishlist.mjs';
 
 export default class Wish {
   static LAST_DELETED_WISH;
@@ -90,17 +91,64 @@ export default class Wish {
     return this;
   };
 
-  static async readWishesOnWishlist(wishlistId) {
+  static async readWishesOnWishlist(wishlist) {
     let result = await chrome.storage.local.get(['wishes']);
     let wishes = result.wishes;
-    let wishesOnWishlist = wishes.filter(wish => wish.wishlistId == wishlistId);
+    let wishesOnWishlist = wishes.filter(wish => wish.wishlistId == wishlist.id);
     wishesOnWishlist = wishesOnWishlist.map((wish) => new Wish(wish));
-    let wishesSortedByDate = wishesOnWishlist.sort((a,b) => {
-      const dateA = uuidToDate(a.id);
-      const dateB = uuidToDate(b.id);
-      return dateB.getTime() - dateA.getTime(); // Sort descending
-    });
-    return wishesSortedByDate;
+    let sortedWishes = [];
+    switch (wishlist.orderedBy) {
+      case Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_A_TO_Z: // Sort Name ascending
+        sortedWishes = wishesOnWishlist.sort((a,b) => a.name.localeCompare(b.name));
+        break;
+
+      case Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_Z_TO_A: // Sort Name descending
+        sortedWishes = wishesOnWishlist.sort((a,b) => -1 * a.name.localeCompare(b.name));
+        break;
+
+      case Wishlist.SORT_BY_OPTIONS.DATES_OLD_TO_NEW: // Sort Date ascending
+        sortedWishes = wishesOnWishlist.sort((a,b) => {
+          const dateA = uuidToDate(a.id);
+          const dateB = uuidToDate(b.id);
+          return dateA.getTime() - dateB.getTime();
+        });
+        break;
+
+      case Wishlist.SORT_BY_OPTIONS.DATES_NEW_TO_OLD: // Sort Date descending
+        sortedWishes = wishesOnWishlist.sort((a,b) => {
+          const dateA = uuidToDate(a.id);
+          const dateB = uuidToDate(b.id);
+          return dateB.getTime() - dateA.getTime();
+        });
+        break;
+
+      case Wishlist.SORT_BY_OPTIONS.PRICE_LOW_TO_HIGH: // Sort Price ascending
+        sortedWishes = wishesOnWishlist.sort((a,b) => a.price - b.price);
+        break;
+
+      case Wishlist.SORT_BY_OPTIONS.PRICE_HIGH_TO_LOW: // Sort Price descending
+        sortedWishes = wishesOnWishlist.sort((a,b) => b.price - a.price);
+        break;
+
+      case Wishlist.SORT_BY_OPTIONS.CUSTOM:
+        sortedWishes = sortedWishes.sort((a,b) => {
+          let n = a.customOrder - b.customOrder;
+          if (n !== 0) return n;
+          const dateA = uuidToDate(a.id);
+          const dateB = uuidToDate(b.id);
+          return dateB.getTime() - dateA.getTime();
+        });
+        break;
+
+      default: // Sort by Date descending
+        sortedWishes = wishesOnWishlist.sort((a,b) => {
+          const dateA = uuidToDate(a.id);
+          const dateB = uuidToDate(b.id);
+          return dateB.getTime() - dateA.getTime();
+        });
+        break;
+    }
+    return sortedWishes;
   };
 
   static async read(wishId) {

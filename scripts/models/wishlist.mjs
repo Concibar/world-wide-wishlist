@@ -2,16 +2,27 @@ import uuid from '../databaseHandling/uuid7.mjs'
 import Wish from './wish.mjs'
 
 export default class Wishlist {
+
+  static SORT_BY_OPTIONS = Object.freeze({
+    ALPHA_NUM_A_TO_Z: "alphaNumAscending",
+    ALPHA_NUM_Z_TO_A: "alphaNumDescending",
+    DATES_OLD_TO_NEW: "dateAscending",
+    DATES_NEW_TO_OLD: "dateDescending",
+    PRICE_LOW_TO_HIGH: "priceAscending",
+    PRICE_HIGH_TO_LOW: "priceDescending",
+    CUSTOM: "custom"
+  })
+
   #customOrder = 0;
   #id;
   #name;
-  #orderedBy = "alphaNumAscending"; // valid inputs are "alphaNumAscending", "alphaNumDescending", "dateAscending", "dateDescending", "custom"
+  #orderedBy = Wishlist.SORT_BY_OPTIONS.DATES_NEW_TO_OLD;
 
   constructor({customOrder, id, name, orderedBy}) {
     this.#customOrder = customOrder;
     this.#id = id;
     this.#name = name;
-    this.#orderedBy = orderedBy;
+    if (orderedBy != undefined) this.#orderedBy = orderedBy;
   }
 
   get customOrder() {return this.#customOrder;};
@@ -59,7 +70,7 @@ export default class Wishlist {
       console.log("error: cannot delete default wishlist");
       return false
     } else {
-      let wishes = await Wish.readWishesOnWishlist(this.#id);
+      let wishes = await Wish.readWishesOnWishlist(this);
       for (let i = 0; i < wishes.length; i++) {
         let wish = wishes[i];
         await wish.delete();

@@ -114,14 +114,38 @@
                     </div>
                   </div>
                   <div id="sort-by-content" class="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                      <a class="dropdown-item"> Date new -> old </a>
-                      <a class="dropdown-item"> Date old -> new </a>
+                    <div id="wishes-sort-by" class="dropdown-content">
+                      <a data-sort-by="alphaNumAscending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-down-a-z"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Alphabetical A-Z</span>
+                      </a>
+                      <a data-sort-by="alphaNumDescending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-up-z-a"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Alphabetical Z-A</span>
+                      </a>
                       <hr class="dropdown-divider" />
-                      <a class="dropdown-item"> Alphabetical A-Z </a>
-                      <a class="dropdown-item"> Alphabetical Z-A </a>
+                      <a data-sort-by="dateDescending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-down-9-1"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Date: Newest First</span>
+                      </a>
+                      <a data-sort-by="dateAscending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-up-1-9"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Date: Oldest First</span>
+                      </a>
                       <hr class="dropdown-divider" />
-                      <a class="dropdown-item"> Custom (not yet) </a>
+                      <a data-sort-by="priceDescending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-down-9-1"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Price: High to Low</span>
+                      </a>
+                      <a data-sort-by="priceAscending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-up-1-9"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Price: Low to High</span>
+                      </a>
+                      <hr class="dropdown-divider" />
+                      <a data-sort-by="custom" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-heart"></i></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Custom (coming soon!)</span>
+                      </a>
                     </div>
                   </div>
                 </div>

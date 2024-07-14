@@ -17,12 +17,11 @@ export default class MyWishlistView{
 
   get currentWishlistId() {return this.#currentWishlistId}
 
-  async completeLoad(defaultWishlistId, wishes, wishlists) {
+  async completeLoad(defaultWishlist, wishes, wishlists) {
     // reset Wishlists
     let listOfWishlists = document.getElementById('wishlists');
     listOfWishlists.innerHTML = '';
     // fill with the default wishlist at the top
-    let defaultWishlist = wishlists.find(wishlist => wishlist.id === defaultWishlistId);
     listOfWishlists.insertAdjacentHTML("afterbegin", `
       <li data-wishlist-id="${defaultWishlist.id}" class="py-2 px-4 is-clickable active-wishlist">
         <div style="pointer-events: none;">
@@ -54,7 +53,7 @@ export default class MyWishlistView{
     }
 
     // fill in the wishes of the default Wishlist
-    await this.displayWishes(wishes, defaultWishlist.id, wishlists);
+    await this.displayWishes(wishes, defaultWishlist, wishlists);
 
     // set the max quantity & price for the add-idea and edit-wish modal
     document.querySelector('#edit-wish-quantity').max = maxQuantity;
@@ -66,15 +65,15 @@ export default class MyWishlistView{
     this.displayCurrencies(currenciesByType);
   }
 
-  async displayWishes(wishes, wishlistId, wishlists) {
+  async displayWishes(wishes, wishlist, wishlists) {
     var wishesContainer = document.getElementById('wishes');
     wishesContainer.innerHTML = '';
-    this.#currentWishlistId = wishlistId;
+    this.#currentWishlistId = wishlist.id;
 
     // change active-wishlist
     let test = document.querySelector("body");
     document.querySelector('.active-wishlist').classList.remove('active-wishlist');
-    document.querySelector(`[data-wishlist-id="${wishlistId}"]`).classList.add('active-wishlist');
+    document.querySelector(`[data-wishlist-id="${wishlist.id}"]`).classList.add('active-wishlist');
 
     // insert the new wishes with name, date, url, note and id
     for (let i = 0; i < wishes.length; i++) {
@@ -106,6 +105,13 @@ export default class MyWishlistView{
           </div>`);
       }
     }
+
+    // boldify the sort-by element that is indicating which sorting method is active
+    const sortByTextSpans = document.querySelectorAll('.sort-by-text');
+    sortByTextSpans.forEach(span => span.classList.remove('has-text-weight-bold'));
+    const targetElement = document.querySelector(`[data-sort-by="${wishlist.orderedBy}"]`);
+    const textSpan = targetElement.querySelector('.sort-by-text');
+    textSpan.classList.add('has-text-weight-bold');
   }
 
   displayCurrencies(currenciesbyType) {
@@ -199,7 +205,7 @@ export default class MyWishlistView{
       formInputFaulty = true;
     }
     if (isNaN(price) || (price > maxPrice) || (price < 0)) {
-      document.getElementById('wish-price-warning').innerText = "* Price invalid, please enter a quantity between 0 and " + maxPrice + "!";
+      document.getElementById('edit-wish-price-warning').innerText = "* Price invalid, please enter a quantity between 0 and " + maxPrice + "!";
       formInputFaulty = true;
     }
     if (isNaN(quantity) || (quantity > maxQuantity) || (quantity < 0)) {
@@ -267,7 +273,7 @@ export default class MyWishlistView{
       formInputFaulty = true;
     }
     if (isNaN(price) || (price > maxPrice) || (price < 0)) {
-      document.getElementById('wish-price-warning').innerText = "* Price invalid, please enter a quantity between 0 and " + maxPrice + "!";
+      document.getElementById('add-idea-price-warning').innerText = "* Price invalid, please enter a quantity between 0 and " + maxPrice + "!";
       formInputFaulty = true;
     }
     if (isNaN(quantity) || (quantity > maxQuantity) || (quantity < 0)) {
@@ -354,6 +360,7 @@ export default class MyWishlistView{
     }
     if ($modal == document.getElementById('add-idea-modal')) {
       document.getElementById('add-idea-quantity').value = 1;
+      document.getElementById('add-idea-price').value = 0;
     }
     $modal.classList.add('is-active');
   }

@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   async function loadPage() {
     let wishlists = await Wishlist.readAll();
     let defaultWishlist = await Wishlist.getDefaultWishlist();
-    let wishes = await Wish.readWishesOnWishlist(defaultWishlist.id);
-    await view.completeLoad(defaultWishlist.id, wishes, wishlists);
+    let wishes = await Wish.readWishesOnWishlist(defaultWishlist);
+    await view.completeLoad(defaultWishlist, wishes, wishlists);
   }
   await loadPage();
 
@@ -25,15 +25,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (document.visibilityState === "visible") {
       let scroll = wishesContainer.scrollTop;
       let scrollHeight = wishesContainer.scrollHeight;
-      let wishlistId = view.currentWishlistId;
       loadPage().then(() => {
         Wishlist.readAll().then(wishlists => {
-          Wish.readWishesOnWishlist(wishlistId).then(wishes => {
-            view.displayWishes(wishes, wishlistId, wishlists).then( () => {
-              // if the wishes container is unchanged, scroll down to previous position, otherwise scroll to top
-              wishesContainer.scrollTop = (scrollHeight == wishesContainer.scrollHeight) ? scroll : 0;
+          Wishlist.read(view.currentWishlistId).then(wishlist => {
+            Wish.readWishesOnWishlist(wishlist).then(wishes => {
+              view.displayWishes(wishes, wishlist, wishlists).then( () => {
+                // if the wishes container is unchanged, scroll down to previous position, otherwise scroll to top
+                wishesContainer.scrollTop = (scrollHeight == wishesContainer.scrollHeight) ? scroll : 0;
+              });
             });
-          });
+          })
         });
       });
     }
@@ -44,11 +45,33 @@ document.addEventListener('DOMContentLoaded', async function () {
   wishlistsContainer.addEventListener("mousedown", (event) => {
     let wishlistId = event.target.dataset.wishlistId;
     Wishlist.readAll().then(wishlists => {
-      Wish.readWishesOnWishlist(wishlistId).then(wishes => {
-        view.displayWishes(wishes, wishlistId, wishlists);
-      });
+      Wishlist.read(wishlistId).then(wishlist => {
+        Wish.readWishesOnWishlist(wishlist).then(wishes => {
+          view.displayWishes(wishes, wishlist, wishlists);
+        });
+      })
     });
   });
+
+  // sort function
+  const sortByDropdown = document.getElementById('wishes-sort-by');
+  sortByDropdown.addEventListener('click', async (event) => {
+    let sortBy = event.target.dataset.sortBy;
+    let wishlist = await Wishlist.read(view.currentWishlistId);
+    if (sortBy == Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_A_TO_Z  ||
+        sortBy == Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_Z_TO_A  ||
+        sortBy == Wishlist.SORT_BY_OPTIONS.DATES_NEW_TO_OLD  ||
+        sortBy == Wishlist.SORT_BY_OPTIONS.DATES_OLD_TO_NEW  ||
+        sortBy == Wishlist.SORT_BY_OPTIONS.PRICE_HIGH_TO_LOW ||
+        sortBy == Wishlist.SORT_BY_OPTIONS.PRICE_LOW_TO_HIGH ||
+        sortBy == Wishlist.SORT_BY_OPTIONS.CUSTOM) {
+        console.log(sortBy);
+        await wishlist.update({orderedBy: sortBy});
+        let wishlists = await Wishlist.readAll();
+        let wishes = await Wish.readWishesOnWishlist(wishlist);
+        await view.displayWishes(wishes, wishlist, wishlists);
+      }
+  })
 
   // any click outside of dropdown closes current active dropdowns
   document.body.addEventListener('click', (event) => {
@@ -157,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
       let wishlists = await Wishlist.readAll();
       await loadPage();
-      view.displayWishes([], wishlist.id, wishlists);
+      view.displayWishes([], wishlist, wishlists);
     }
   };
   const createWishlistModalSave = document.getElementById('create-wishlist-modal-save');
@@ -179,10 +202,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         await wishlistToBeEdited.setAsDefaultWishlist();
       };
       await wishlistToBeEdited.update(formData);
-      let wishes = await Wish.readWishesOnWishlist(wishlistToBeEdited.id);
+      let wishes = await Wish.readWishesOnWishlist(wishlistToBeEdited);
       let wishlists = await Wishlist.readAll();
       await loadPage();
-      view.displayWishes(wishes, wishlistToBeEdited.id, wishlists);
+      view.displayWishes(wishes, wishlistToBeEdited, wishlists);
     }
   };
   const editWishlistModalSaveButton = document.getElementById('edit-wishlist-modal-save');
@@ -203,9 +226,11 @@ document.addEventListener('DOMContentLoaded', async function () {
       view.closeModal(addIdeaModal);
       wish.save().then((wish) => {
         Wishlist.readAll().then(wishlists => {
-          Wish.readWishesOnWishlist(wish.wishlistId).then(wishes => {
-            view.displayWishes(wishes, wish.wishlistId, wishlists);
-          });
+          Wishlist.read(wish.wishlistId).then(wishlist => {
+            Wish.readWishesOnWishlist(wishlist).then(wishes => {
+              view.displayWishes(wishes, wishlist, wishlists);
+            });
+          })
         });
       });
     }
