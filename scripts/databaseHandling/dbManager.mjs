@@ -366,6 +366,6 @@ export async function migrateDatabase() {
   // currency in every wish
   // customOrder: 0 in every wish
   // customOrder: 0 in every wishlist
-  // orderedBy: dateDescending in every wishlist
+  // sortBy: dateDescending in every wishlist
   // update version number obvsl.
 }

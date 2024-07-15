@@ -97,7 +97,7 @@ export default class Wish {
     let wishesOnWishlist = wishes.filter(wish => wish.wishlistId == wishlist.id);
     wishesOnWishlist = wishesOnWishlist.map((wish) => new Wish(wish));
     let sortedWishes = [];
-    switch (wishlist.orderedBy) {
+    switch (wishlist.sortBy) {
       case Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_A_TO_Z: // Sort Name ascending
         sortedWishes = wishesOnWishlist.sort((a,b) => a.name.localeCompare(b.name));
         break;

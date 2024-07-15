@@ -109,7 +109,7 @@ export default class MyWishlistView{
     // boldify the sort-by element that is indicating which sorting method is active
     const sortByTextSpans = document.querySelectorAll('.sort-by-text');
     sortByTextSpans.forEach(span => span.classList.remove('has-text-weight-bold'));
-    const targetElement = document.querySelector(`[data-sort-by="${wishlist.orderedBy}"]`);
+    const targetElement = document.querySelector(`[data-sort-by="${wishlist.sortBy}"]`);
     const textSpan = targetElement.querySelector('.sort-by-text');
     textSpan.classList.add('has-text-weight-bold');
   }

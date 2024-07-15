@@ -56,17 +56,16 @@ document.addEventListener('DOMContentLoaded', async function () {
   // sort function
   const sortByDropdown = document.getElementById('wishes-sort-by');
   sortByDropdown.addEventListener('click', async (event) => {
-    let sortBy = event.target.dataset.sortBy;
+    let sortByOption = event.target.dataset.sortBy;
     let wishlist = await Wishlist.read(view.currentWishlistId);
-    if (sortBy == Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_A_TO_Z  ||
-        sortBy == Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_Z_TO_A  ||
-        sortBy == Wishlist.SORT_BY_OPTIONS.DATES_NEW_TO_OLD  ||
-        sortBy == Wishlist.SORT_BY_OPTIONS.DATES_OLD_TO_NEW  ||
-        sortBy == Wishlist.SORT_BY_OPTIONS.PRICE_HIGH_TO_LOW ||
-        sortBy == Wishlist.SORT_BY_OPTIONS.PRICE_LOW_TO_HIGH ||
-        sortBy == Wishlist.SORT_BY_OPTIONS.CUSTOM) {
-        console.log(sortBy);
-        await wishlist.update({orderedBy: sortBy});
+    if (sortByOption == Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_A_TO_Z  ||
+        sortByOption == Wishlist.SORT_BY_OPTIONS.ALPHA_NUM_Z_TO_A  ||
+        sortByOption == Wishlist.SORT_BY_OPTIONS.DATES_NEW_TO_OLD  ||
+        sortByOption == Wishlist.SORT_BY_OPTIONS.DATES_OLD_TO_NEW  ||
+        sortByOption == Wishlist.SORT_BY_OPTIONS.PRICE_HIGH_TO_LOW ||
+        sortByOption == Wishlist.SORT_BY_OPTIONS.PRICE_LOW_TO_HIGH ||
+        sortByOption == Wishlist.SORT_BY_OPTIONS.CUSTOM) {
+        await wishlist.update({sortBy: sortByOption});
         let wishlists = await Wishlist.readAll();
         let wishes = await Wish.readWishesOnWishlist(wishlist);
         await view.displayWishes(wishes, wishlist, wishlists);

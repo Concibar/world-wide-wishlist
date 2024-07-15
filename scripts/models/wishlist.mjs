@@ -16,19 +16,19 @@ export default class Wishlist {
   #customOrder = 0;
   #id;
   #name;
-  #orderedBy = Wishlist.SORT_BY_OPTIONS.DATES_NEW_TO_OLD;
+  #sortBy = Wishlist.SORT_BY_OPTIONS.DATES_NEW_TO_OLD;
 
-  constructor({customOrder, id, name, orderedBy}) {
+  constructor({customOrder, id, name, sortBy}) {
     this.#customOrder = customOrder;
     this.#id = id;
     this.#name = name;
-    if (orderedBy != undefined) this.#orderedBy = orderedBy;
+    if (sortBy != undefined) this.#sortBy = sortBy;
   }
 
   get customOrder() {return this.#customOrder;};
   get id() {return this.#id;};
   get name() {return this.#name;};
-  get orderedBy() {return this.#orderedBy;};
+  get sortBy() {return this.#sortBy;};
 
   async save() {
     if (this.#id == null) {
@@ -46,7 +46,7 @@ export default class Wishlist {
       "customOrder": this.#customOrder,
       "id": this.#id,
       "name": this.#name,
-      "orderedBy": this.#orderedBy
+      "sortBy": this.#sortBy
     };
 
     wishlists.push(wishlistData);
@@ -54,10 +54,10 @@ export default class Wishlist {
     return this;
   }
 
-  async update({customOrder,name,orderedBy}) {
+  async update({customOrder,name,sortBy}) {
     if (customOrder != null) {this.#customOrder = customOrder};
     if (name != null) {this.#name = name};
-    if (orderedBy != null) {this.#orderedBy = orderedBy};
+    if (sortBy != null) {this.#sortBy = sortBy};
     await this.#deleteWithoutIdCheck();
     await this.save();
     return this;

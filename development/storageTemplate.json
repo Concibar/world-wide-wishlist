@@ -59,21 +59,24 @@
   "wishlists": [
     {
       "id": "018f5331-cf2f-777e-b6f6-beecc5fec943",
-      "name": "your first wishlist"
+      "name": "your first wishlist",
+      "customOrder": 0,
+      "sortBy": "dateDescending"
     }
   ],
 
   "wishes": [
     {
-      "id": "018f5951-2cd5-7db2-96ae-300d8eb6230b",
-      "wishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943",
-      "name": "foowish",
-      "url": "http://www.website.foo",
-      "image": "ASCII base64 encoded string",
-      "price": "13.54 usd",
       "currencyId": "EUR",
+      "customOrder": 0,
+      "id": "018f5951-2cd5-7db2-96ae-300d8eb6230b",
+      "image": "ASCII base64 encoded string",
+      "name": "foowish",
+      "note": "this might be a good gift for my grandma :)",
+      "price": 13.54,
       "quantity": 1,
-      "note": "this might be a good gift for my grandma :)"
+      "url": "http://www.website.foo",
+      "wishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943"
     }
   ]
 }
