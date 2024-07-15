@@ -82,7 +82,18 @@ export default class MyWishlistView{
     }
     wishesContainer.insertAdjacentHTML("beforeend", `<div id="bottom-placeholder"></div>`);
 
-    // TODO: insert the summed Prices and the converted Total
+    // insert the summed Prices and the converted Total
+    await this.displayTotal(wishes)
+
+    // boldify the sort-by element that is indicating which sorting method is active
+    const sortByTextSpans = document.querySelectorAll('.sort-by-text');
+    sortByTextSpans.forEach(span => span.classList.remove('has-text-weight-bold'));
+    const targetElement = document.querySelector(`[data-sort-by="${wishlist.sortBy}"]`);
+    const textSpan = targetElement.querySelector('.sort-by-text');
+    textSpan.classList.add('has-text-weight-bold');
+  }
+
+  async displayTotal(wishes) {
     let sums = await sumAndConvert(wishes);
     let totalPriceDropdown = document.getElementById('total-content');
     totalPriceDropdown.innerHTML = '';
@@ -105,13 +116,6 @@ export default class MyWishlistView{
           </div>`);
       }
     }
-
-    // boldify the sort-by element that is indicating which sorting method is active
-    const sortByTextSpans = document.querySelectorAll('.sort-by-text');
-    sortByTextSpans.forEach(span => span.classList.remove('has-text-weight-bold'));
-    const targetElement = document.querySelector(`[data-sort-by="${wishlist.sortBy}"]`);
-    const textSpan = targetElement.querySelector('.sort-by-text');
-    textSpan.classList.add('has-text-weight-bold');
   }
 
   displayCurrencies(currenciesbyType) {

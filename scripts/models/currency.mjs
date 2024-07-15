@@ -23,13 +23,32 @@ export default class Currency {
   get favored() {return this.#favored}
 
   async setAsDefaultCurrency() {
-    if (this.#id == null) {
-      console.log('error: cannot set an unsaved currency as default currency')
-      return
-    };
     await chrome.storage.local.set({'defaultCurrencyId': this.#id});
   }
 
+  async setAsConversionCurrency() {
+    await chrome.storage.local.set({'conversionCurrencyId': this.#id});
+  }
+
+  async update({favored}) {
+    let currenciesResult = await chrome.storage.local.get(['currencies']);
+    let currencies = currenciesResult.currencies;
+
+    if (favored !== undefined) {this.#favored = favored}
+
+    let currencyData = {
+      "id": this.#id,
+      "name": this.#name,
+      "code": this.#code,
+      "sign": this.#sign,
+      "favored": this.#favored
+    }
+
+    let filteredCurrencies = currencies.filter(obj => obj.id !== this.#id);
+    filteredCurrencies.push(currencyData);
+    await chrome.storage.local.set({'currencies': filteredCurrencies});
+    return this;
+  }
   // Class Methods
 
   static async getCurrency(currencyId) {
@@ -67,8 +86,8 @@ export default class Currency {
 
   static async getCurrenciesByType() {
     let defaultCurrency = await Currency.getDefaultCurrency();
+    let conversionCurrency = await Currency.getConversionCurrency();
     let currencies = await Currency.getAllCurrencies();
-    currencies.splice(currencies.findIndex((currency) => {return currency.id === defaultCurrency.id}), 1);
     let favoredCurrencies = [];
     let nonFavoredCurrencies = [];
     currencies.forEach(currency => {
@@ -77,6 +96,7 @@ export default class Currency {
 
     let currenciesbyType = {
       default: defaultCurrency,
+      conversion: conversionCurrency,
       favored: favoredCurrencies,
       nonFavored: nonFavoredCurrencies
     };

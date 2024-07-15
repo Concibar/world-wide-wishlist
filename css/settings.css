@@ -22,3 +22,32 @@
   border-width: 0px !important;
   z-index: auto !important;
 }
+
+
+
+#favored-currency-dropdown, #favored-currencies-tag-container {
+  max-width: 600px;
+}
+
+.dropdown-content {
+  max-height: 13em;
+  overflow: auto;
+}
+
+/* scrollbar Styling */
+.dropdown-content::-webkit-scrollbar {
+  background-color: #FFFAFF;
+  width: 16px;
+}
+.dropdown-content::-webkit-scrollbar-button {
+  display:none;
+}
+.dropdown-content::-webkit-scrollbar-thumb {
+  background-color: #3E92CC;
+  border-radius: 16px;
+  border: 4px solid #FFFAFF;
+}
+.dropdown-content::-webkit-scrollbar-track {
+  background-color: #FFFAFF;
+  border-radius: 16px;
+}

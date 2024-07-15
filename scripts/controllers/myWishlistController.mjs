@@ -109,15 +109,18 @@ document.addEventListener('DOMContentLoaded', async function () {
           });
         });
       }
-    } else if (event.target.nodeName == "A") {
+    } else if (event.target.nodeName == "A") { // move the wish to the clicked wishlist
       let wishId = event.target.dataset.wishId;
       let wishlistId = event.target.dataset.wishlistId;
 
       Wish.read(wishId).then(wish => {
         wish.update({wishlistId: wishlistId});
         view.moveWish(wish);
+        Wish.readWishesOnWishlist(view.currentWishlistId).then(wishes => {
+          view.displayTotal(wishes);
+        })
       });
-    } else if (!event.target.matches(".wishes") ) {
+    } else if (!event.target.matches(".wishes") ) { // open the wish url when wish card is clicked
       var closestBox = event.target.closest(".actual-wishcard");
       if (closestBox) {
         var wishId = closestBox.dataset.wishId;
@@ -192,7 +195,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   });
 
-  // Edit Wishlist Save TODO: refactor so update takes an object
+  // Edit Wishlist Save
   async function editWishlistSave() {
     let formData = view.getEditWishlistFormData();
     if (formData) {
@@ -260,8 +263,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     let formData = view.getEditWishFormData();
     if (formData) {
       Wishlist.readAll().then(wishlists => {
-        wishToBeEdited.update(formData).then((wish) => {
-          view.updateWish(wish, wishlists)
+        wishToBeEdited.update(formData).then(() => {
+          loadPage();
         });
       });
       view.closeModal(document.getElementById('edit-wish-modal'));
