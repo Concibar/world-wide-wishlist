@@ -63,7 +63,6 @@ export default class PopupView {
     let wishNote = document.getElementById('wish-note').value;
     let wishPrice = parseFloat(document.getElementById('wish-price').value);
     let wishQuantity = parseInt(document.getElementById('wish-quantity').value, 10);
-    console.log(wishQuantity)
     if (wishName.length < nameMinLength) {
       document.getElementById('wish-name-warning').innerText = "* Name cannot be empty, please enter a name!";
       formInputFaulty = true;
