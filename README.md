@@ -108,4 +108,4 @@ Thanks to Huddel for providing me with an awesome image-not-found crocodile.
 
 Thanks to all my other friends, family and internet strangers to help with testing.
 
-Thanks to Thor for building an awesome community of programmers and for his permission to use his merch store as my tutorial screenshot material.
+Thanks to Jason Thor Hall for building an awesome community of programmers and for his permission to use his merch store as my tutorial screenshot material.

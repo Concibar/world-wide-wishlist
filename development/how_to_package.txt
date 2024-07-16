@@ -1,6 +1,10 @@
 - remove manifest.json and rename manifest actual to manifest.json and move it to top domain
 - remove package-lock.json and package.json
+- remove README.md
+- remove .gitignore
+- remove jest config file
 - remove sass folder
-- remove test folder
+- remove tests folder
+- remove mocks folder
 - remove node_modules folder
 - remove development folder

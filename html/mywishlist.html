@@ -77,7 +77,7 @@
         <!-- RIGHT -->
         <div class="is-flex-grow-1">
 
-          <!-- level bar with: (sort-by), (share), delete, edit -->
+          <!-- level bar with: total, sort-by, (share), edit -->
 
           <nav id="wishlist-actions" class="navbar" role="toolbar">
             <div class="navbar-menu">
@@ -90,6 +90,65 @@
                     Add an idea
                   </span>
                 </a>
+                <div id="total-hover" class="navbar-item dropdown is-hoverable">
+                  <div class="dropdown-trigger">
+                    <div id="total">
+                      <span class="icon"><i class="fa-solid fa-calculator"></i></span>
+                      <span>Total</span>
+                    </div>
+                  </div>
+                  <div class="dropdown-menu" role="menu">
+                    <div id="total-content" class="dropdown-content">
+                      <div class="dropdown-item">
+                        <p>That's a loooot of money</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="sort-by" class="navbar-item dropdown is-hoverable">
+                  <div class="dropdown-trigger">
+                    <div>
+                      <span class="icon"><i class="fa-solid fa-sort"></i></span>
+                      <span>sort by</span>
+                    </div>
+                  </div>
+                  <div id="sort-by-content" class="dropdown-menu" role="menu">
+                    <div id="wishes-sort-by" class="dropdown-content">
+                      <a data-sort-by="alphaNumAscending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-down-a-z"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Alphabetical A-Z</span>
+                      </a>
+                      <a data-sort-by="alphaNumDescending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-up-z-a"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Alphabetical Z-A</span>
+                      </a>
+                      <hr class="dropdown-divider" />
+                      <a data-sort-by="dateDescending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-down-9-1"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Date: Newest First</span>
+                      </a>
+                      <a data-sort-by="dateAscending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-up-1-9"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Date: Oldest First</span>
+                      </a>
+                      <hr class="dropdown-divider" />
+                      <a data-sort-by="priceDescending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-down-9-1"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Price: High to Low</span>
+                      </a>
+                      <a data-sort-by="priceAscending" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-arrow-up-1-9"></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Price: Low to High</span>
+                      </a>
+                      <hr class="dropdown-divider" />
+                      <a data-sort-by="custom" class="dropdown-item">
+                        <span style="pointer-events: none;" class="icon"><i class="fa-solid fa-heart"></i></i></span>
+                        <span style="pointer-events: none;" class="sort-by-text">Custom (coming soon!)</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div class="navbar-end">
@@ -159,13 +218,29 @@
                   <div class="field-label is-normal">
                     <label for="edit-wish-price" class="label">Price</label>
                   </div>
-                  <div class="field-body is-flex-direction-column">
-                    <div class="field control">
-                      <input id="edit-wish-price" name="edit-wish-price" class="input" type="text" placeholder="e.g. 1.23 $">
+                  <div class="field-body">
+                    <div class="field has-addons is-flex-direction-column">
+                      <div id="edit-wish-price-currency-wrapper" class="field is-horizontal">
+                        <div class="field control is-expanded">
+                          <input id="edit-wish-price" name="edit-wish-price" class="input" type="number" min="0">
+                        </div>
+                        <div class="control">
+                          <div class="select">
+                            <select id="edit-wish-currency-id">
+                              <optgroup id="edit-wish-favored-currencies" label="favored"></optgroup>
+                              <optgroup id="edit-wish-non-favored-currencies" label="---"></optgroup>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="">
+                        <span id="edit-wish-price-warning" class="is-size-7 has-text-danger form-input-warning"></span>
+                      </div>
+
                     </div>
-                    <div class="">
-                      <span id="edit-wish-price-warning" class="is-size-7 has-text-danger form-input-warning"></span>
-                    </div>
+
+
+
                   </div>
                 </div>
 
@@ -246,12 +321,24 @@
                   <div class="field-label is-normal">
                     <label for="add-idea-price" class="label">Price</label>
                   </div>
-                  <div class="field-body is-flex-direction-column">
-                    <div class="field control">
-                      <input id="add-idea-price" name="add-idea-price" class="input" type="text" placeholder="e.g. 1.23 $">
-                    </div>
-                    <div class="">
-                      <span id="add-idea-price-warning" class="is-size-7 has-text-danger form-input-warning"></span>
+                  <div class="field-body">
+                    <div class="field has-addons is-flex-direction-column">
+                      <div id="add-idea-price-currency-wrapper" class="field is-horizontal">
+                        <div class="control is-expanded">
+                          <input id="add-idea-price" name="add-idea-price" class="input" type="number" min="0" value="0">
+                        </div>
+                        <div class="control">
+                          <div class="select">
+                            <select id="add-idea-currency-id">
+                              <optgroup id="add-idea-favored-currencies" label="favored"></optgroup>
+                              <optgroup id="add-idea-non-favored-currencies" label="---"></optgroup>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="">
+                        <span id="add-idea-price-warning" class="is-size-7 has-text-danger form-input-warning"></span>
+                      </div>
                     </div>
                   </div>
                 </div>

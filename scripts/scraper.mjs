@@ -5,10 +5,10 @@ import {
 function grabImages() {
   const images = document.querySelectorAll("img");
   function hasWeirdPictureExtension(element) {
-    /\.(avif|gif|svg)$/.test(element.src);
+    return /\.(avif|gif|svg)$/.test(element.currentSrc);
   }
   function isProperPicture(element) {
-    if (element.src == null) return false;
+    if (element.currentSrc == null) return false;
     if (element.height <= 50) return false;
     if (element.naturalHeight <= 50) return false;
     if (element.offsetHeight <= 50) return false;

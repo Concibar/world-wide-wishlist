@@ -1,26 +1,82 @@
 {
-  // This file shows how the JSON safe data is structured in the extension
+  // This file is purely documentary and shows how the JSON safe data is structured in the extension
 
-  "versionNumber": "1.0.2",
+  "versionNumber": "1.1.0",
+
   "defaultWishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943",
+  "defaultCurrencyId": "EUR",
+  "conversionCurrencyId": "EUR",
+
+  "settings": {
+    "orderWishlistsBy": "alphaNumAscending"
+  },
+
+  "conversionRatesDate": "2014-07-22",
+  "conversionRates": {
+    "EUR": 1,
+    "USD": 1.0814,
+    "JPY": 174.2,
+    "BGN": 1.9558,
+    "CZK": 25.231,
+    "DKK": 7.4595,
+    "GBP": 0.84491,
+    "HUF": 395.2,
+    "PLN": 4.2643,
+    "RON": 4.9731,
+    "SEK": 11.422,
+    "CHF": 0.9712,
+    "ISK": 149.1,
+    "NOK": 11.489,
+    "TRY": 35.5984,
+    "AUD": 1.6062,
+    "BRL": 5.9075,
+    "CAD": 1.4752,
+    "CNY": 7.8639,
+    "HKD": 8.4477,
+    "IDR": 17593.46,
+    "ILS": 3.9723,
+    "INR": 90.291,
+    "KRW": 1496.01,
+    "MXN": 19.4858,
+    "MYR": 5.0907,
+    "NZD": 1.7681,
+    "PHP": 63.209,
+    "SGD": 1.4608,
+    "THB": 39.379,
+    "ZAR": 19.654
+  },
+
+  "currencies": [
+    {
+      "id": "EUR",
+      "name": "Euro",
+      "code": "EUR",
+      "sign": "€",
+      "favored": true
+    }
+  ],
 
   "wishlists": [
     {
       "id": "018f5331-cf2f-777e-b6f6-beecc5fec943",
-      "name": "your first wishlist"
+      "name": "your first wishlist",
+      "customOrder": 0,
+      "sortBy": "dateDescending"
     }
   ],
 
   "wishes": [
     {
+      "currencyId": "EUR",
+      "customOrder": 0,
       "id": "018f5951-2cd5-7db2-96ae-300d8eb6230b",
-      "wishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943",
-      "name": "foowish",
-      "url": "http://www.website.foo",
       "image": "ASCII base64 encoded string",
-      "price": "13.54 usd",
-      "quantity": 1,
+      "name": "foowish",
       "note": "this might be a good gift for my grandma :)",
+      "price": 13.54,
+      "quantity": 1,
+      "url": "http://www.website.foo",
+      "wishlistId": "018f5331-cf2f-777e-b6f6-beecc5fec943"
     }
   ]
 }

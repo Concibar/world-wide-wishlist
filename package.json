@@ -1,11 +1,10 @@
 {
   "name": "world-wide-wishlist",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A Chrome Extension that can save products from any shop website to one unified local wishlist",
   "main": "popupController.mjs",
   "scripts": {
-    "full-test": "mocha --timeout 15000 'test/**/*.test.mjs'",
-    "unit-test": "mocha --timeout 15000 'test/scripts/**/*.test.mjs'",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "css-build": "node-sass --omit-source-map-url sass/mystyles.scss css/mystyles.css",
     "css-watch": "npm run css-build -- --watch",
     "start": "npm run css-watch"
@@ -29,8 +28,7 @@
     "node-sass": "^9.0.0"
   },
   "devDependencies": {
-    "chai": "^5.1.1",
-    "mocha": "^10.4.0",
+    "jest": "^29.7.0",
     "puppeteer": "^22.10.0"
   }
 }

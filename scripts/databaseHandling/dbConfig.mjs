@@ -4,7 +4,7 @@ const maxWishNameLength = 200;
 const maxWishDisplayLength = 50;
 const maxWishlistNameLength = 30;
 const maxNoteLength = 2000;
-const maxPriceLength = 20;
+const maxPrice = 1000000000;
 const maxQuantity = 100;
 
 export {
@@ -13,6 +13,6 @@ export {
   maxWishDisplayLength,
   maxWishlistNameLength,
   maxNoteLength,
-  maxPriceLength,
+  maxPrice,
   maxQuantity
 }

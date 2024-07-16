@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Update 1.1.0</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/update.css" type="text/css">
+    <link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/fontawesome/css/solid.css">
+    <script type="module" src="/scripts/controllers/updateController.mjs"></script>
+  </head>
+
+  <body>
+    <nav class="navbar p-2 has-background-dark" role="navigation">
+      <div id="logo-and-title" class="links-to-wishlists is-flex is-clickable">
+        <img src="/images/icon324.png" alt="WorldWideWishlist Logo" class="image is-48x48 is-vcentered mr-3">
+        <div class="level-left">
+          <div class="level-item">
+            <p class="title">Updates</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="navbar-menu">
+        <div class="navbar-end">
+
+          <!-- buttons -->
+          <div class="buttons">
+            <!-- donate -->
+            <button id="donate" class="button is-warning">
+              <span class="icon">
+                <i class="fa-solid fa-mug-hot"></i>
+              </span>
+              <span>Donate to the developer</span>
+            </button>
+
+            <!-- to wishlists -->
+            <div class="level-item">
+              <button id="go-to-wishlists-button" class="button is-link links-to-wishlists">
+                <span class="icon is-small">
+                  <i class="fa-solid fa-gift"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+
+            <!-- Update 1.1.0 -->
+            <div id="import-export-box" class="box has-light-blue-background">
+
+              <div class="content">
+                <h1>Update 1.1.0</h1>
+                <p>Hello Tobi, Hello Maya! Please inform me at your earliest convenience if you can see this, so I know this shit has worked.
+                </p>
+                <h2>New Features</h2>
+                <ul>
+                  <li><strong>Wishlist Totals:</strong> You can now see the total ammount you'd have to spend for all wishes on your wishlist. This meant I had to refactor the price field, your old prices have been appended to the wish notes, if you want to re-add them you unfortunately have to do so manually, sorry :( </li>
+                  <li><strong>Wish sorting:</strong> You can now sort your wishes alphabetically, by date or price. Each wishlist remembers your sorting method. </li>
+                  <li><strong>Collapsing Popup:</strong> When your cursor moves outside the popup, the latter will temporarily collapse. This lets you better see price or other information.</li>
+                  <li><strong>Bugs:</strong> there are probably plenty new bugs to discover. Thanks a lot for helping me find them!</li>
+                </ul>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </body>
+</html>

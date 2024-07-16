@@ -107,14 +107,22 @@
               <label for="wish-price" class="label">Price</label>
             </div>
             <div class="field-body">
-              <div class="field is-expanded">
-                <div class="field has-addons is-flex-direction-column">
+              <div class="field has-addons is-flex-direction-column">
+                <div id="wish-price-currency-wrapper" class="field is-horizontal">
                   <div class="control is-expanded">
-                    <input id="wish-price" name="wish-price" class="input" type="text" placeholder="e.g. 1.23 $">
+                    <input id="wish-price" name="wish-price" class="input" type="number" min="0" value="0">
                   </div>
-                  <div class="">
-                    <span id="wish-price-warning" class="is-size-7 has-text-danger form-input-warning"></span>
+                  <div class="control">
+                    <div class="select">
+                      <select id="wish-currency-id">
+                        <optgroup id="favored-currencies" label="favored"></optgroup>
+                        <optgroup id="non-favored-currencies" label="---"></optgroup>
+                      </select>
+                    </div>
                   </div>
+                </div>
+                <div class="">
+                  <span id="wish-price-warning" class="is-size-7 has-text-danger form-input-warning"></span>
                 </div>
               </div>
             </div>

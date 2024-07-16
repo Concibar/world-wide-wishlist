@@ -54,6 +54,7 @@
         <div class="columns is-centered">
           <div class="column is-four-fifths">
 
+            <!-- EXPORT & IMPORT -->
             <div id="import-export-box" class="box has-light-blue-background">
 
               <div class="content">
@@ -104,6 +105,134 @@
 
             </div>
 
+            <!-- Currency Options -->
+            <div class="box has-light-blue-background">
+
+              <div class="content">
+                <h1>Currency Options</h1>
+                <p>
+                  Your <strong>default currency</strong> is automatically preselected when you open the popup. <br>
+                  Your <strong>conversion currency</strong> is the currency the total price calculator converts to. <br>
+                  Your <strong>favored currencies</strong> are displayed on top of the others in currency dropdowns. <br>
+                </p>
+
+
+                <!-- default Currency Dropdown Select -->
+                <div class="level">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <p class="is-5 has-text-weight-bold">default currency</p>
+                    </div>
+                    <div class="level-item">
+                      <div id="default-currency-dropdown" class="dropdown">
+                        <div class="dropdown-trigger">
+                          <button class="button">
+                            <span id="current-default-currency">Test</span>
+                            <span class="icon is-small">
+                              <i class="fas fa-angle-down"></i>
+                            </span>
+                          </button>
+                        </div>
+                        <div class="dropdown-menu">
+                          <div class="dropdown-content" id="default-currency-dropdown-content">
+                            <a class="dropdown-item" data-currency-code="EUR"> Test </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- conversion Currency Dropdown Select -->
+                <div class="level">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <p class="is-5 has-text-weight-bold">conversion currency</p>
+                    </div>
+                    <div class="level-item">
+                      <div id="conversion-currency-dropdown" class="dropdown">
+                        <div class="dropdown-trigger">
+                          <button class="button">
+                            <span id="current-conversion-currency">Test</span>
+                            <span class="icon is-small">
+                              <i class="fas fa-angle-down"></i>
+                            </span>
+                          </button>
+                        </div>
+                        <div class="dropdown-menu">
+                          <div class="dropdown-content" id="conversion-currency-dropdown-content">
+                            <a class="dropdown-item" data-currency-code="EUR"> Test </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- favored Currencies Dropdown Select -->
+                <div class="level">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <p class="is-5 has-text-weight-bold">favored currencies</p>
+                    </div>
+                    <div class="level-item">
+
+                      <div id="favored-currency-dropdown" class="dropdown is-right">
+
+                        <div class="dropdown-trigger">
+
+                          <div class="field has-addons">
+                            <!-- input field with the tags -->
+                            <div class="control">
+
+                              <div id="favored-currencies-tag-container" class="field tags is-grouped is-grouped-multiline input has-addons">
+
+                                <div class="control">
+                                  <div class="tags has-addons">
+                                    <span class="tag is-link">You shouldn't see this</span>
+                                    <span class="tag is-delete is-clickable is-danger"></span>
+                                  </div>
+                                </div>
+                                <div class="control">
+                                  <div class="tags has-addons">
+                                    <span class="tag is-link">You shouldn't see this</span>
+                                    <span class="tag is-delete is-clickable is-danger"></span>
+                                  </div>
+                                </div>
+
+                              </div>
+
+                            </div>
+                            <!-- dropdown button -->
+                            <div id="favored-currencies-dropdown-trigger" class="control">
+                              <button class="button">
+                                <span class="icon is-small">
+                                  <i class="fa-solid fa-angle-down"></i>
+                                </span>
+                              </button>
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                        <div class="dropdown-menu">
+                          <div class="dropdown-content" id="favored-currency-dropdown-content">
+                            <a class="dropdown-item" data-currency-code="EUR"> Test </a>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- PROVIDE FEEDBACK -->
             <div class="box has-light-blue-background">
 
               <div class="content">
