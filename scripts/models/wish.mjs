@@ -16,13 +16,13 @@ export default class Wish {
 
   constructor({currencyId,customOrder,id,image,name,note,price,quantity,url,wishlistId}) {
     this.#currencyId = currencyId;
-    this.#customOrder = customOrder;
+    if (customOrder != undefined) this.#customOrder = customOrder;
     this.#id = id;
-    this.#image = (image == undefined) ? "images/whoopsie.png" : image;
+    if (image != undefined) this.#image = image;
     this.#name = name;
     this.#note = note;
-    this.#price = price;
-    this.#quantity = quantity;
+    if (price != undefined) this.#price = price;
+    if (quantity != undefined) this.#quantity = quantity;
     this.#url = url;
     this.#wishlistId = wishlistId;
   }
@@ -79,13 +79,13 @@ export default class Wish {
   };
 
   async update({currencyId,customOrder,name,note,price,quantity,wishlistId}) {
-    if (currencyId != null) {this.#currencyId = currencyId};
-    if (customOrder != null) {this.#customOrder = customOrder};
-    if (name != null) {this.#name = name};
-    if (note != null) {this.#note = note};
-    if (price != null) {this.#price = price};
-    if (quantity != null) {this.#quantity = quantity};
-    if (!(wishlistId ===  undefined)) {this.#wishlistId = wishlistId};
+    if (currencyId != undefined) {this.#currencyId = currencyId};
+    if (customOrder != undefined) {this.#customOrder = customOrder};
+    if (name != undefined) {this.#name = name};
+    if (note != undefined) {this.#note = note};
+    if (price != undefined) {this.#price = price};
+    if (quantity != undefined) {this.#quantity = quantity};
+    if (wishlistId !=  undefined) {this.#wishlistId = wishlistId};
     await this.delete();
     await this.save();
     return this;

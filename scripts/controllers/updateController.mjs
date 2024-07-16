@@ -25,14 +25,4 @@ document.addEventListener('DOMContentLoaded', async function () {
   logo.addEventListener('click', () => {
     openWishlists();
   }, false);
-
-  // Testing out stuff
-let users = [
-  {name: "Bob"},
-  {name: "Anna"},
-  {name: "Cedrik"}
-  ];
-let sortedUsers = users.sort((a,b) => -1 * a.name.localeCompare(b.name));
-console.log(sortedUsers);
-
 });

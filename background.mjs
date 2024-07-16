@@ -4,8 +4,9 @@ chrome.runtime.onInstalled.addListener((details) => {
   if(details.reason == "install"){
     checkDBschema();
     chrome.tabs.create({ url: chrome.runtime.getURL('html/tutorial.html') });
-  }else if(details.reason == "update"){
+  } else if(details.reason == "update"){
     checkDBschema();
+    chrome.tabs.create({ url: chrome.runtime.getURL('html/update.html') });
   }
 });
 

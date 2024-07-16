@@ -2,7 +2,7 @@ import Wish from '../models/wish.mjs';
 import Wishlist from '../models/wishlist.mjs';
 import View from '../views/popupView.mjs';
 import Scraper from '../scraper.mjs';
-import Currency from '../models/currency.mjs'
+import Currency from '../models/currency.mjs';
 
 document.addEventListener('DOMContentLoaded', async function () {
   // Exit the Popup

@@ -19,7 +19,7 @@ export default class Wishlist {
   #sortBy = Wishlist.SORT_BY_OPTIONS.DATES_NEW_TO_OLD;
 
   constructor({customOrder, id, name, sortBy}) {
-    this.#customOrder = customOrder;
+    if (customOrder != undefined) this.#customOrder = customOrder;
     this.#id = id;
     this.#name = name;
     if (sortBy != undefined) this.#sortBy = sortBy;

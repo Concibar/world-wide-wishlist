@@ -1,10 +1,10 @@
-import Wishlist from '../models/wishlist.mjs'
+import Wishlist from '../models/wishlist.mjs';
+import Wish from '../models/wish.mjs';
 
 const manifestVersion = chrome.runtime.getManifest().version
 
 export async function checkDBschema() {
-  console.log(manifestVersion);
-  let result = await chrome.storage.local.get('versionNumber')
+  let result = await chrome.storage.local.get('versionNumber');
   let databaseVersion = result.versionNumber;
   if (databaseVersion == undefined) {
     await setupDatabase()
@@ -18,8 +18,11 @@ export async function checkDBschema() {
 async function setupDatabase() {
   // check and set VersionNumber
   console.log("setup of local storage started")
-  await chrome.storage.local.set({'versionNumber': manifestVersion})
-  console.log("versionNumber set to " + manifestVersion)
+  let versionNumberResult = await chrome.storage.local.get('versionNumber');
+  if (versionNumberResult.versionNumber == undefined) {
+    await chrome.storage.local.set({'versionNumber': manifestVersion})
+    console.log("versionNumber set to " + manifestVersion)
+  }
 
   // check and set defaultWishlistId
   let defWishlistResult = await chrome.storage.local.get('defaultWishlistId')
@@ -325,6 +328,14 @@ async function setupDatabase() {
   if (wishlistsResult.wishlists == undefined) {
     await chrome.storage.local.set({'wishlists': []})
     console.log("wishlists set to writeable")
+    // create 3 starting Wishlists and set default Wishlist
+    let defaultWishlist = new Wishlist({'name': "World Wide Wishlist"})
+    await defaultWishlist.save()
+    await defaultWishlist.setAsDefaultWishlist();
+    let secondWishlist = new Wishlist({name: "Hobby needs"})
+    await secondWishlist.save()
+    let thirdWishlist = new Wishlist({name: "Gifts for Friends"})
+    await thirdWishlist.save()
   }
 
   // check and set wishes
@@ -333,39 +344,35 @@ async function setupDatabase() {
     await chrome.storage.local.set({'wishes': []})
     console.log("wishes set to writeable")
   }
-
-  // create 3 starting Wishlists and set default Wishlist
-  let defaultWishlist = new Wishlist({'name': "World Wide Wishlist"})
-  await defaultWishlist.save()
-  await defaultWishlist.setAsDefaultWishlist();
-  let secondWishlist = new Wishlist({name: "Hobby needs"})
-  await secondWishlist.save()
-  let thirdWishlist = new Wishlist({name: "Ideas for Friends"})
-  await thirdWishlist.save()
 }
 
 export async function migrateDatabase() {
-  // should take object of storage as input and return corrected object
   let result = await chrome.storage.local.get('versionNumber');
   let databaseVersion = result.versionNumber;
   console.log("Update detected, migration started from version " + databaseVersion + " to version " + manifestVersion);
-  if (databaseVersion <= '1.0.2') {
+  if (databaseVersion <= '1.1.0') {
     let oldVersion = databaseVersion;
-    databaseVersion = '1.0.2';
+    databaseVersion = '1.1.0';
     console.log("starting migration from " + oldVersion + " to " + databaseVersion);
+    await setupDatabase()
     await chrome.storage.local.set({'versionNumber': databaseVersion});
+    let wishesResult = await chrome.storage.local.get('wishes');
+    let wishes = wishesResult.wishes;
+    for (let i = 0; i < wishes.length; i++) {
+      wish = new Wish(wishes[i]);
+      let noteWithPrice = wish.note + " old Price: " + wish.price;
+      await wish.update({
+        note: noteWithPrice,
+        price: 0,
+        currencyId: "EUR"
+      })
+    }
+    let wishlistsResult = await chrome.storage.local.get('wishlists');
+    let wishlists = wishlistsResult.wishlists;
+    for (let i = 0; i < wishlists.length; i++) {
+      wishlist = new Wishlist(wishlists[i]);
+      await wishlist.update();
+    }
     console.log("migration from " + oldVersion + " to " + databaseVersion + " finished");
   }
-
-  // run setupDatabase()
-  // settings
-  // currencies
-  // default currency
-
-  // price from string to num in every wish
-  // currency in every wish
-  // customOrder: 0 in every wish
-  // customOrder: 0 in every wishlist
-  // sortBy: dateDescending in every wishlist
-  // update version number obvsl.
 }

@@ -95,9 +95,30 @@ export default class MyWishlistView{
 
   async displayTotal(wishes) {
     let sums = await sumAndConvert(wishes);
+    let conversionCurrency = await Currency.getConversionCurrency();
     let totalPriceDropdown = document.getElementById('total-content');
     totalPriceDropdown.innerHTML = '';
-    let conversionCurrency = await Currency.getConversionCurrency();
+
+    let numberOfCurrenciesWithValues = Object.keys(sums).filter(key => key.length === 3 && sums[key] > 0).length;
+    if (numberOfCurrenciesWithValues == 0) {
+      totalPriceDropdown.insertAdjacentHTML('beforeend', `
+        <div class="dropdown-item">
+          <p>There is nothing to sum up yet</p>
+        </div>`);
+        return;
+    } else if (numberOfCurrenciesWithValues == 1) {
+      for(var key in sums) {
+        if (sums[key] > 0 && key.length == 3) {
+          let formatter = new Intl.NumberFormat(navigator.language,{style: 'currency',currency: key});
+          let formattedPrice = formatter.format(sums[key])
+          totalPriceDropdown.insertAdjacentHTML('beforeend', `
+            <div class="dropdown-item">
+              <p>${key}: ${formattedPrice}</p>
+            </div>`);
+        }
+      };
+      return;
+    }
     let formatter = new Intl.NumberFormat(navigator.language,{style: 'currency',currency: conversionCurrency.code});
     let formattedTotal = formatter.format(sums.total)
     totalPriceDropdown.insertAdjacentHTML('beforeend', `
@@ -142,11 +163,15 @@ export default class MyWishlistView{
 
     // insert the rest of the favored currencies to add idea
     for (let i = 0; i < favoredCurrencies.length; i++) {
-      addIdeaFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${favoredCurrencies[i].id}" class="currency-option">${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}</option>`);
+      if (favoredCurrencies[i].code != defaultCurrency.code) {
+        addIdeaFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${favoredCurrencies[i].id}" class="currency-option">${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}</option>`);
+      }
     };
     // insert the rest of the favored currencies to edit wish
     for (let i = 0; i < favoredCurrencies.length; i++) {
-      editWishFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${favoredCurrencies[i].id}" class="currency-option">${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}</option>`);
+      if (favoredCurrencies[i].code != defaultCurrency.code) {
+        editWishFavoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${favoredCurrencies[i].id}" class="currency-option">${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}</option>`);
+      }
     };
 
     //insert the non-favored currencies to add idea
@@ -343,11 +368,6 @@ export default class MyWishlistView{
   async undoDeleteWish(wish, wishlists) {
     var undoDeleteMessage = document.querySelector(`[data-wish-id="${wish.id}"]#undo-delete`);
     undoDeleteMessage.outerHTML = await this.#makeHtmlElementFromWish(wish, wishlists);
-  }
-
-  async updateWish(wish, wishlists) {
-    var wishHtmlElement = document.querySelector(`[data-wish-id="${wish.id}"].wish`)
-    wishHtmlElement.outerHTML = await this.#makeHtmlElementFromWish(wish, wishlists);
   }
 
   editWishlist(wishlist) {

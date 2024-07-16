@@ -9,7 +9,7 @@ export async function fetchAndUpdateCurrencyRatesOnceDaily() {
   var ratesObject = {};
   ratesObject["EUR"] = 1;
   try {
-    const response = await fetch("https://www.ecb.int/stats/eurofxref/eurofxref-daily.xml");
+    const response = await fetch("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const str = await response.text();
 

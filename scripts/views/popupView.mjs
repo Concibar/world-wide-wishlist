@@ -136,7 +136,12 @@ export default class PopupView {
     `);
     // insert the rest of the favored currencies
     for (let i = 0; i < favoredCurrencies.length; i++) {
-      favoredCurrenciesSelector.insertAdjacentHTML("beforeend", `<option value="${favoredCurrencies[i].id}" class="currency-option">${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}</option>`);
+      if (favoredCurrencies[i].code != defaultCurrency.code) {
+        favoredCurrenciesSelector.insertAdjacentHTML("beforeend", `
+          <option value="${favoredCurrencies[i].id}" class="currency-option">
+            ${favoredCurrencies[i].code}${favoredCurrencies[i].sign ? " " + favoredCurrencies[i].sign : ""}
+          </option>`);
+      }
     };
     //insert the non-favored currencies
     for (let i = 0; i < nonFavoredCurrencies.length; i++) {

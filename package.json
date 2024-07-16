@@ -1,6 +1,6 @@
 {
   "name": "world-wide-wishlist",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A Chrome Extension that can save products from any shop website to one unified local wishlist",
   "main": "popupController.mjs",
   "scripts": {

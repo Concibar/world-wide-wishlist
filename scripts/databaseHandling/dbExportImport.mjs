@@ -1,6 +1,5 @@
 import Wish from '../models/wish.mjs'
 import Wishlist from '../models/wishlist.mjs'
-import Currency from '../models/currency.mjs'
 
 export async function exportDatabase() {
   const jsonString = await generateJsonData();
@@ -37,26 +36,27 @@ function downloadJsonFile(jsonString, filename) {
 export async function importDatabase(file) {
   const fileContent = await readFile(file);
   const data = JSON.parse(fileContent);
-  if (chrome.runtime.getManifest().version != data.versionNumber) {
-    console.log("The versions are different, migration needs to happen here");
-  } else {
-    const newWishes = await filterDuplicates(data.wishes, 'wishes')
-    for (let i = 0; i < newWishes.length; i++) {
-      let wish = new Wish(newWishes[i]);
-      await wish.save();
-    };
-
-    const newWishlists = await filterDuplicates(data.wishlists, 'wishlists')
-    for (let i = 0; i < newWishlists.length; i++) {
-      let wishlist = new Wishlist(newWishlists[i]);
-      await wishlist.save();
-    };
-
-    // const newCurrencies = await filterDuplicates(data.currencies, 'currencies')
-    // for (let i = 0; i < newCurrencies.length; i++) {
-    //   let currency = new Currency(newCurrencies[i]);
-    //   await currency.save();
-    // };
+  const newWishes = await filterDuplicates(data.wishes, 'wishes')
+  const newWishlists = await filterDuplicates(data.wishlists, 'wishlists')
+  switch (true) { // migration in case of importing old Exports
+    case (data.versionNumber < "1.1.0"):
+      console.log("migrating to 1.1.0 before import");
+      for (let i = 0; i < newWishes.length; i++) {
+        newWishes[i].note = newWishes[i].note + " old Price: " + newWishes[i].price;
+        newWishes[i].price = 0;
+        newWishes[i].currencyId = "EUR";
+      };
+    default:
+      console.log("no migration necessary, continuing");
+      break;
+  }
+  for (let i = 0; i < newWishes.length; i++) {
+    let wish = new Wish(newWishes[i]);
+    await wish.save();
+  };
+  for (let i = 0; i < newWishlists.length; i++) {
+    let wishlist = new Wishlist(newWishlists[i]);
+    await wishlist.save();
   };
 };
 
