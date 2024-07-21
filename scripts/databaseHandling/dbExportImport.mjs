@@ -39,8 +39,8 @@ export async function importDatabase(file) {
   const newWishes = await filterDuplicates(data.wishes, 'wishes')
   const newWishlists = await filterDuplicates(data.wishlists, 'wishlists')
   switch (true) { // migration in case of importing old Exports
-    case (data.versionNumber < "1.1.0"):
-      console.log("migrating to 1.1.0 before import");
+    case (data.versionNumber < "1.1.2"):
+      console.log("migrating to 1.1.2 before import");
       for (let i = 0; i < newWishes.length; i++) {
         newWishes[i].note = newWishes[i].note + " old Price: " + newWishes[i].price;
         newWishes[i].price = 0;

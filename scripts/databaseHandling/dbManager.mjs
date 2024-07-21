@@ -350,16 +350,16 @@ export async function migrateDatabase() {
   let result = await chrome.storage.local.get('versionNumber');
   let databaseVersion = result.versionNumber;
   console.log("Update detected, migration started from version " + databaseVersion + " to version " + manifestVersion);
-  if (databaseVersion <= '1.1.0') {
+  if (databaseVersion <= '1.1.2') {
     let oldVersion = databaseVersion;
-    databaseVersion = '1.1.0';
+    databaseVersion = '1.1.2';
     console.log("starting migration from " + oldVersion + " to " + databaseVersion);
     await setupDatabase()
     await chrome.storage.local.set({'versionNumber': databaseVersion});
     let wishesResult = await chrome.storage.local.get('wishes');
     let wishes = wishesResult.wishes;
     for (let i = 0; i < wishes.length; i++) {
-      wish = new Wish(wishes[i]);
+      let wish = new Wish(wishes[i]);
       let noteWithPrice = wish.note + " old Price: " + wish.price;
       await wish.update({
         note: noteWithPrice,
@@ -370,7 +370,7 @@ export async function migrateDatabase() {
     let wishlistsResult = await chrome.storage.local.get('wishlists');
     let wishlists = wishlistsResult.wishlists;
     for (let i = 0; i < wishlists.length; i++) {
-      wishlist = new Wishlist(wishlists[i]);
+      let wishlist = new Wishlist(wishlists[i]);
       await wishlist.update();
     }
     console.log("migration from " + oldVersion + " to " + databaseVersion + " finished");
