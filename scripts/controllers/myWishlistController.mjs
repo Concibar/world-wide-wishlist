@@ -25,18 +25,17 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (document.visibilityState === "visible") {
       let scroll = wishesContainer.scrollTop;
       let scrollHeight = wishesContainer.scrollHeight;
-      loadPage().then(() => {
-        Wishlist.readAll().then(wishlists => {
-          Wishlist.read(view.currentWishlistId).then(wishlist => {
-            Wish.readWishesOnWishlist(wishlist).then(wishes => {
-              view.displayWishes(wishes, wishlist, wishlists).then( () => {
-                // if the wishes container is unchanged, scroll down to previous position, otherwise scroll to top
+      Wishlist.readAll().then(wishlists => {
+        Wishlist.read(view.currentWishlistId).then(wishlist => {
+          Wish.readWishesOnWishlist(wishlist).then(wishes => {
+            loadPage().then(() => {
+              view.displayWishes(wishes, wishlist, wishlists).then(() => {
                 wishesContainer.scrollTop = (scrollHeight == wishesContainer.scrollHeight) ? scroll : 0;
-              });
-            });
+              })
+            })
           })
-        });
-      });
+        })
+      })
     }
   });
 
@@ -264,7 +263,16 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (formData) {
       Wishlist.readAll().then(wishlists => {
         wishToBeEdited.update(formData).then(() => {
-          loadPage();
+          let scroll = wishesContainer.scrollTop;
+          Wishlist.read(view.currentWishlistId).then(wishlist => {
+            loadPage().then(() => {
+              Wish.readWishesOnWishlist(wishlist).then(wishes => {
+                view.displayWishes(wishes, wishlist, wishlists).then(() => {
+                  wishesContainer.scrollTop = scroll;
+                })
+              })
+            })
+          })
         });
       });
       view.closeModal(document.getElementById('edit-wish-modal'));

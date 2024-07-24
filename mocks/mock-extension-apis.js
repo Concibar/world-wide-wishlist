@@ -6,7 +6,7 @@ global.chrome = {
     getManifest: () => {
       return {
         "name": "Mock Mide Midlist",
-        "version": "1.1.2",
+        "version": "1.1.3",
         "manifest_version": 3,
         "description": "Mock any product from any website to one unified midlist.",
         "author": "Mock Mewa",
