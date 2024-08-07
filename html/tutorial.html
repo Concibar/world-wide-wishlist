@@ -6,15 +6,19 @@
     <link rel="stylesheet" href="/css/tutorial.css" type="text/css">
     <link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/fontawesome/css/solid.css">
+    <script type="module" src="/scripts/controllers/tutorialController.mjs"></script>
   </head>
 
   <body>
     <nav class="navbar p-2 has-background-dark" role="navigation">
-      <img src="/images/icon324.png" alt="WorldWideWishlist Logo" class="image is-48x48 is-vcentered mr-3">
-      <div class="level-left">
-        <div class="level-item">
-          <p class="title">Tutorial</p>
+      <div id="logo-and-title" class="links-to-wishlists is-flex is-clickable">
+        <img src="/images/icon324.png" alt="WorldWideWishlist Logo" class="image is-48x48 is-vcentered mr-3">
+        <div class="level-left">
+          <div class="level-item">
+            <p class="title">Tutorial</p>
+          </div>
         </div>
+
       </div>
     </nav>
 
@@ -23,10 +27,10 @@
         <div class="columns is-centered">
           <div class="column is-three-fifths">
 
-            <!-- Step 1: Pin the Icon to your Browser -->
+            <!-- Pin the Icon to your Browser -->
             <div class="card mb-3">
               <header class="card-header">
-                <p class="card-header-title is-size-3">Step 1: Pin World Wide Wishlist to your Browser</p>
+                <p class="card-header-title is-size-3">Pin World Wide Wishlist to your Browser</p>
               </header>
               <div class="card-image">
                 <figure class="image is-5by4">
@@ -37,73 +41,42 @@
                 </figure>
               </div>
               <div class="card-content is-size-5">
-                In order to quickly save a wish from any website you need to pin this extension to your chrome, meaning it will be displayed at the top right.
+                In order to quickly save a wish from any website you need to pin this extension to your chrome, so it will always be displayed at the top right.
                 To do that click on the little puzzle piece in the top right corner of your browser.
                 Then click the pin needle so it's colour changes.
               </div>
             </div>
 
-            <!-- Step 2: Click on the Icon -->
+            <!-- How to save wishes? -->
             <div class="card mb-3">
               <header class="card-header">
-                <p class="card-header-title is-size-3">Step 2: Click on the Icon</p>
+                <p class="card-header-title is-size-3">How to save wishes?</p>
               </header>
-              <div class="card-image">
-                <figure class="image is-5by4">
-                  <img
-                    src="../images/tutorial/open_extension.png"
-                    alt="Click on extension icon"
-                  />
-                </figure>
-              </div>
+              <figure class="image is-16by9">
+                <iframe
+                  class="has-ratio"
+                  width="560"
+                  height="315"
+                  src="https://www.youtube.com/embed/lZNQJIpPKWo?si=-C5Gq4sVkbz7X8tg"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen>
+                </iframe>
+              </figure>
+
               <div class="card-content is-size-5">
-                Once you are on the product page of an item you want to save, just click the extension icon. A popup will open up.
+                Click the extension icon on the product website you want to save. Select the correct image as a product image.
+                You can move the mouse cursor outside of the popup to see more info from the page underneath.
+                Select the wishlist you want the wish to save to and hit save.
               </div>
             </div>
 
-            <!-- Step 3: Choose the Product Image -->
+            <!-- Where are my Wishes saved? -->
             <div class="card mb-3">
               <header class="card-header">
-                <p class="card-header-title is-size-3">Step 3: Choose the Product Image</p>
-              </header>
-              <div class="card-image">
-                <figure class="image is-5by4">
-                  <img
-                    src="../images/tutorial/select_image.png"
-                    alt="Select an image"
-                  />
-                </figure>
-              </div>
-              <div class="card-content is-size-5">
-                Here you can select which image you want to save.
-              </div>
-            </div>
-
-            <!-- Step 4: Save your Wish -->
-            <div class="card mb-3">
-              <header class="card-header">
-                <p class="card-header-title is-size-3">Step 4: Save your Wish</p>
-              </header>
-              <div class="card-image">
-                <figure class="image is-5by4">
-                  <img
-                    src="../images/tutorial/save_wish.png"
-                    alt="Save your wish"
-                  />
-                </figure>
-              </div>
-              <div class="card-content is-size-5">
-                Once you are happy with the entered information you can save your wish.
-                By default it saves to the wishlist you set as your default wishlist.
-                If you select another wishlist from the dropdown menu it will save to that list instead.
-                You can move the wish to another wishlist later.
-              </div>
-            </div>
-
-            <!-- Step 5: Where are my Wishes saved? -->
-            <div class="card mb-3">
-              <header class="card-header">
-                <p class="card-header-title is-size-3">Step 5: Where are my Wishes saved?</p>
+                <p class="card-header-title is-size-3">Where are my Wishes saved?</p>
               </header>
               <div class="card-image">
                 <figure class="image is-5by4">
@@ -116,6 +89,25 @@
               <div class="card-content is-size-5">
                 You can go to your wishlists either via opening the popup
                 (the little gift icon in the top left) or by right-clicking the icon and selecting "Open Wishlists".
+              </div>
+            </div>
+
+            <!-- There's more! -->
+            <div class="card mb-3">
+              <header class="card-header">
+                <p class="card-header-title is-size-3">There's more!</p>
+              </header>
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img
+                    src="../images/tutorial/more_features.png"
+                    alt="Open wishlists"
+                  />
+                </figure>
+              </div>
+              <div class="card-content is-size-5">
+                In the settings you can select which currencies the price converter should convert to and which currency should be selected by default.
+                You can also Export your Wishes for backups and migration to a new PC.
               </div>
             </div>
 
