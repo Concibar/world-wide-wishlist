@@ -2,6 +2,7 @@
 - remove package-lock.json and package.json
 - remove README.md
 - remove .gitignore
+- remove .git folder
 - remove jest config file
 - remove sass folder
 - remove tests folder
