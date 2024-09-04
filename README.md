@@ -5,7 +5,7 @@ WWWishlist is a chrome extension that is able to save wishes from any website on
 
 The Extension is currently released unlisted and will go completely public once my friend tested it for 1-2 months.
 
-For a more detailed description see the [Chrome Storepage Soon](https://www.google.com "Soon").
+For a more detailed description see the [Chrome Storepage](https://chromewebstore.google.com/detail/world-wide-wishlist/eoijldehoihkjigbpanilhjkobhhgkab).
 
 Below you'll find a brief overview on the inner workings, what's planned and if you want to become a contributor, some Docs and License stuff.
 
